@@ -2,6 +2,7 @@ package org.spectrum3847.robot;
 
 import org.spectrum3847.lib.drivers.Gamepad;
 import org.spectrum3847.robot.commands.CANRunAtSetpoint;
+import org.spectrum3847.robot.commands.Collect;
 import org.spectrum3847.robot.commands.SolenoidCommand;
 
 
@@ -49,6 +50,8 @@ public class OI {
     								true));
     	*/
     	
+    	//Operator
+    	HW.Operator_Gamepad.getButton(Gamepad.RIGHT_BUMPER).whileActive(new Collect());
     	
     }
 }

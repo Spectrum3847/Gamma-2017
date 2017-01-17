@@ -1,6 +1,7 @@
 
 package org.spectrum3847.robot;
 
+
 import org.spectrum3847.lib.drivers.Gamepad;
 import org.spectrum3847.lib.drivers.SpectrumEncoder;
 import org.spectrum3847.lib.drivers.SpectrumSpeedController;
@@ -8,6 +9,7 @@ import org.spectrum3847.lib.util.Debugger;
 import org.spectrum3847.lib.util.Logger;
 import org.spectrum3847.robot.commands.CANManualControl;
 import org.spectrum3847.robot.subsystems.Drive;
+import org.spectrum3847.robot.subsystems.FuelCollector;
 import org.spectrum3847.robot.subsystems.MotorWithLimits;
 import org.spectrum3847.robot.subsystems.SolenoidSubsystem;
 import org.spectrum3847.robot.subsystems.SpeedCANSubsystem;
@@ -49,6 +51,9 @@ public class Robot extends IterativeRobot {
 	public static SpectrumSpeedController leftDrive;
 	public static SpectrumSpeedController rightDrive;
 	
+	public static FuelCollector collector;
+	public static SpectrumSpeedController collectorMotor;
+	
 	//public static Compressor compressor;
 	
     public static void setupSubsystems(){
@@ -73,8 +78,15 @@ public class Robot extends IterativeRobot {
     	
     	drive = new Drive("defaultDrive", leftDrive, rightDrive);
     	
+    	//COLLECTOR
+    	Victor collector_victor = new Victor(HW.COLLECTOR_MOTOR);
     	
+    	collectorMotor = new SpectrumSpeedController(
+    					new SpeedController[] {collector_victor},
+    					new int[] {HW.COLLECTOR_MOTOR_PDP}
+    					);
     	
+    	collector = new FuelCollector("Mecanum Collector", collectorMotor);
     }
     
     //Used to keep track of the robot current state easily
