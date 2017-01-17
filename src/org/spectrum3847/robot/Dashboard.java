@@ -28,6 +28,8 @@ public class Dashboard {
     		SmartDashboard.putBoolean("Drive Squared Inputs", false);
     		
     		SmartDashboard.putNumber("Collector Speed", .5);
+    		
+    		SmartDashboard.putNumber("Belt Intake Speed", .5);
     	}
     }
 

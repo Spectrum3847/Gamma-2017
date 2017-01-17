@@ -8,6 +8,7 @@ import org.spectrum3847.lib.drivers.SpectrumSpeedController;
 import org.spectrum3847.lib.util.Debugger;
 import org.spectrum3847.lib.util.Logger;
 import org.spectrum3847.robot.commands.CANManualControl;
+import org.spectrum3847.robot.subsystems.BeltIntake;
 import org.spectrum3847.robot.subsystems.Drive;
 import org.spectrum3847.robot.subsystems.FuelCollector;
 import org.spectrum3847.robot.subsystems.MotorWithLimits;
@@ -54,6 +55,9 @@ public class Robot extends IterativeRobot {
 	public static FuelCollector collector;
 	public static SpectrumSpeedController collectorMotor;
 	
+	public static BeltIntake beltIntake;
+	public static SpectrumSpeedController intakeMotor;
+	
 	//public static Compressor compressor;
 	
     public static void setupSubsystems(){
@@ -87,6 +91,16 @@ public class Robot extends IterativeRobot {
     					);
     	
     	collector = new FuelCollector("Mecanum Collector", collectorMotor);
+    	
+    	//BELT INTAKE
+    	Victor belt_intake_victor = new Victor(HW.BELT_INTAKE_MOTOR);
+    	
+    	intakeMotor = new SpectrumSpeedController(
+    					new SpeedController[] {belt_intake_victor},
+    					new int[] {HW.BELT_INTAKE_MOTOR_PDP}
+    					);
+    	
+    	beltIntake = new BeltIntake("Belt Intake", intakeMotor);
     }
     
     //Used to keep track of the robot current state easily
