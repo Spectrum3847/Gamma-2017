@@ -26,31 +26,35 @@ public class HW {
 	public static PowerDistributionPanel PDP = new PowerDistributionPanel();
 	
     /**PDP Slots**/
-	public static final int LEFT_DRIVE_MOTOR_0_PDP = 0;
-	public static final int LEFT_DRIVE_MOTOR_1_PDP = 1;
-	public static final int PWM_2_PDP = 2;
-	public static final int PWM_3_PDP = 3;
-	public static final int PWM_4_PDP = 4;
-	public static final int PWM_5_PDP = 5;
-	public static final int PWM_6_PDP = 6;
-	public static final int PWM_7_PDP = 7;
-	public static final int RIGHT_DRIVE_MOTOR_8_PDP = 8;
-	public static final int RIGHT_DRIVE_MOTOR_9_PDP = 9;
-	public static final int SHOOTER_CAN_1_PDP = 1;
-	public static final int CAN_2_PDP = 11;
+	public static final int RIGHT_DRIVE_MOTOR_2_PDP = 0;
+	public static final int RIGHT_DRIVE_MOTOR_1_PDP = 1;
+	public static final int LEFT_DRIVE_MOTOR_1_PDP = 2;
+	public static final int LEFT_DRIVE_MOTOR_2_PDP = 3;
+	public static final int PDP_4 = 4;
+	public static final int PDP_5 = 5;
+	public static final int PDP_6 = 6;
+	public static final int PDP_7 = 7;
+	public static final int PDP_8 = 8;
+	public static final int PDP_9 = 9;
+	public static final int PDP_10 = 1;
+	public static final int PDP_11 = 11;
+	public static final int VICTOR_PWM_7_PDP = 12;
+	public static final int TALON_PWM_6_PDP = 13;
+	public static final int TALON_PWM_2_PDP = 14;
+	public static final int VICTOR_PWM_3_PDP = 15;
 	
 	
 	/**MOTOR ASSIGNMENTS (PWM)**/
-    public static final int LEFT_DRIVE_MOTOR_0 = 0;
-    public static final int LEFT_DRIVE_MOTOR_1 = 1;
-    public static final int PWM_2 = 2;
-    public static final int PWM_3 = 3;
+    public static final int RIGHT_DRIVE_MOTOR_1 = 0;
+    public static final int RIGHT_DRIVE_MOTOR_2 = 1;
+    public static final int TALON_PWM_2 = 2;
+    public static final int VICTOR_PWM_3 = 3;
     public static final int PWM_4 = 4;
     public static final int PWM_5 = 5;
-    public static final int PWM_6 = 6;
-    public static final int PWM_7 = 7;
-    public static final int RIGHT_DRIVE_MOTOR_8 = 8;
-    public static final int RIGHT_DRIVE_MOTOR_9 = 9;
+    public static final int TALON_PWM_6 = 6;
+    public static final int VICTOR_PWM_7 = 7;
+    public static final int LEFT_DRIVE_MOTOR_2 = 8;
+    public static final int LEFT_DRIVE_MOTOR_1 = 9;
     public static final int PWM_10 = 10;
     public static final int PWM_11 = 11;
     public static final int PWM_12 = 12;

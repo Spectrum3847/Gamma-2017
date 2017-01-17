@@ -5,6 +5,7 @@ import org.spectrum3847.lib.drivers.SpectrumSpeedController;
 import org.spectrum3847.lib.trajectory.Path;
 import org.spectrum3847.lib.util.Pose;
 import org.spectrum3847.lib.util.StateHolder;
+import org.spectrum3847.lib.util.Util;
 import org.spectrum3847.robot.Constants;
 import org.spectrum3847.robot.subsystems.controllers.DriveFinishLineController;
 import org.spectrum3847.robot.subsystems.controllers.DrivePathController;
@@ -57,12 +58,73 @@ public class Drive extends Subsystem {
     			new SpectrumSpeedController(new Talon(right_drive), right_drive_PDP), 
     			left_encoder, right_encoder);
     }
+    
+    public Drive(String name, SpectrumSpeedController left_drive, SpectrumSpeedController right_drive){
+    	this.m_left_motor = left_drive;
+    	this.m_right_motor = right_drive;
+
+    }
 
     public void setOpenLoop(DriveSignal signal) {
         m_controller = null;
         setDriveOutputs(signal);
     }
 
+    public void arcadeDrive(double throttle, double turnPower, double deadband, boolean squaredInputs){
+    	double leftMotorSpeed;
+        double rightMotorSpeed;
+        
+        throttle = Util.limit(throttle, 1);
+        turnPower = Util.limit(turnPower, 1);
+        
+        if (Math.abs(throttle) < deadband){
+      	  throttle = 0;
+        }
+        
+        if (Math.abs(turnPower) < deadband){
+      	  turnPower = 0;
+        }
+
+        if (squaredInputs) {
+          // square the inputs (while preserving the sign) to increase fine control
+          // while permitting full power
+          if (throttle >= 0.0) {
+            throttle = (throttle * throttle);
+          } else {
+            throttle = -(throttle * throttle);
+          }
+          if (turnPower >= 0.0) {
+            turnPower = (turnPower * turnPower);
+          } else {
+            turnPower = -(turnPower * turnPower);
+          }
+        }
+        
+        if (throttle > 0.0) {
+            if (turnPower > 0.0) {
+              leftMotorSpeed = throttle - turnPower;
+              rightMotorSpeed = Math.max(throttle, turnPower);
+            } else {
+              leftMotorSpeed = Math.max(throttle, -turnPower);
+              rightMotorSpeed = throttle + turnPower;
+            }
+          } else {
+            if (turnPower > 0.0) {
+              leftMotorSpeed = -Math.max(-throttle, turnPower);
+              rightMotorSpeed = throttle + turnPower;
+            } else {
+              leftMotorSpeed = throttle - turnPower;
+              rightMotorSpeed = -Math.max(-throttle, -turnPower);
+            }
+          }
+        
+        
+          this.setOpenLoop(new DriveSignal(leftMotorSpeed, rightMotorSpeed));
+    	
+          //System.out.println("THIS IS THE TURBODRIVE METHOD IN DRIVE.JAVA. I HAVE PUSHED MOTOR SPEEDS");
+          
+    }
+    
     public void setDistanceSetpoint(double distance) {
         setDistanceSetpoint(distance, Constants.kDriveMaxSpeedInchesPerSec);
     }

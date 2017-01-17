@@ -1,5 +1,7 @@
 package org.spectrum3847.robot;
 
+import org.spectrum3847.robot.commands.ArcadeDrive;
+
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
@@ -12,13 +14,16 @@ public class Teleop {
     public static void init() {
         Scheduler.getInstance().removeAll();
 	
-	Robot.logger.openFile();
+        ArcadeDrive arcadeDrive = new ArcadeDrive();
+        arcadeDrive.start();
+        
+        Robot.logger.openFile();
     }
 
     public static void periodic() {
     	Dashboard.updateDashboard();
         Scheduler.getInstance().run();
-        Robot.compressor.stop();
+        //Robot.compressor.stop();
         
         //Tank Drive
         //Robot.drive.setOpenLoop(new DriveSignal(HW.Driver_Gamepad.getLeftY(), HW.Driver_Gamepad.getRightY()));

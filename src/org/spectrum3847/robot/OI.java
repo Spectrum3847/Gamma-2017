@@ -48,9 +48,7 @@ public class OI {
     								Robot.sol_0_1,
     								true));
     	*/
-    	HW.Operator_Gamepad.getButton(Gamepad.A_BUTTON).toggleWhenPressed(
-    								new CANRunAtSetpoint("Shooter at Setpoint PID",
-    								Robot.shooter));	
+    	
     	
     }
 }

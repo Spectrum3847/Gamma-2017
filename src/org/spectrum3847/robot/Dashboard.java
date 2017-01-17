@@ -22,13 +22,16 @@ public class Dashboard {
     	if(ENABLE_DASHBOARD){
     		//SmartDashboard.putBoolean("Relay", false);
     		//SmartDashboard.putNumber("Motor 1", 0);
-        	Robot.shooter.putCompleteOnDashboard();
+        	//Robot.shooter.putCompleteOnDashboard();
+    		
+    		SmartDashboard.putNumber("Drive Deadband", .1);
+    		SmartDashboard.putBoolean("Drive Squared Inputs", false);
     	}
     }
 
     private static void updatePutShort() {
     	//SmartDashboard.putNumber("Motor 1", Motor_1.get());
-    	Robot.shooter.updateValuesToDashboard();;
+    	//Robot.shooter.updateValuesToDashboard();;
     }
     
     private static void updatePutLong(){

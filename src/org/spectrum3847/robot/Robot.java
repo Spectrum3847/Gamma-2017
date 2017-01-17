@@ -3,6 +3,7 @@ package org.spectrum3847.robot;
 
 import org.spectrum3847.lib.drivers.Gamepad;
 import org.spectrum3847.lib.drivers.SpectrumEncoder;
+import org.spectrum3847.lib.drivers.SpectrumSpeedController;
 import org.spectrum3847.lib.util.Debugger;
 import org.spectrum3847.lib.util.Logger;
 import org.spectrum3847.robot.commands.CANManualControl;
@@ -13,6 +14,9 @@ import org.spectrum3847.robot.subsystems.SpeedCANSubsystem;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 /**
@@ -42,27 +46,35 @@ public class Robot extends IterativeRobot {
     // news. Don't move it.
 	
 	public static Drive drive; 
-	public static MotorWithLimits motor3;
-	public static SolenoidSubsystem sol_0_1;
-	public static SpeedCANSubsystem shooter;
-	public static Compressor compressor;
+	public static SpectrumSpeedController leftDrive;
+	public static SpectrumSpeedController rightDrive;
+	
+	//public static Compressor compressor;
 	
     public static void setupSubsystems(){
-    	compressor = new Compressor(0);
-    	drive = new Drive("defaultDrive", 
-    						HW.LEFT_DRIVE_MOTOR_0, HW.LEFT_DRIVE_MOTOR_0_PDP, 
-    						HW.RIGHT_DRIVE_MOTOR_9, HW.RIGHT_DRIVE_MOTOR_9_PDP, 
-    						new SpectrumEncoder(0, 1, 240), new SpectrumEncoder(8,9, 240)
-    						);
+    	//compressor = new Compressor(0);
     	
-    	//If used the HW elements should be refactor-renamed to avoid them being used in another part of the code.
-    	motor3 = new MotorWithLimits("Motor 3", HW.PWM_3, HW.PWM_3_PDP, HW.DIGITAL_IO_4, HW.DIGITAL_IO_5);
+    	//DRIVETRAIN
+    	Victor left_drive_victor_1 = new Victor(HW.LEFT_DRIVE_MOTOR_1);
+    	Talon left_drive_talon_2 = new Talon(HW.LEFT_DRIVE_MOTOR_2);
     	
-    	//Setup a Solenoid Subsystem and give it an initial state
-    	sol_0_1 = new SolenoidSubsystem("Solenoid - 0 & 1", HW.SOL_0, HW.SOL_1);
-    	sol_0_1.retract();
-    	shooter = new SpeedCANSubsystem("Shooter", HW.SHOTOR_MOTOR_2, HW.SHOOTER_CAN_1_PDP);
-    	shooter.defaultCommand(new CANManualControl(shooter, HW.Operator_Gamepad, Gamepad.LeftY)); //This established a manual control default mode for the shooter wheel
+    	Victor right_drive_victor_1 = new Victor(HW.RIGHT_DRIVE_MOTOR_1);
+    	Victor right_drive_victor_2 = new Victor(HW.RIGHT_DRIVE_MOTOR_2);
+    	
+    	leftDrive = new SpectrumSpeedController(
+    				new SpeedController[] {left_drive_victor_1, left_drive_talon_2},
+    				new int[] {HW.LEFT_DRIVE_MOTOR_1_PDP, HW.LEFT_DRIVE_MOTOR_2_PDP}
+    			);
+    	
+    	rightDrive = new SpectrumSpeedController(
+    				new SpeedController[] {right_drive_victor_1, right_drive_victor_2},
+    				new int[] {HW.RIGHT_DRIVE_MOTOR_1, HW.RIGHT_DRIVE_MOTOR_2}
+    			);
+    	
+    	drive = new Drive("defaultDrive", leftDrive, rightDrive);
+    	
+    	
+    	
     }
     
     //Used to keep track of the robot current state easily
@@ -109,8 +121,8 @@ public class Robot extends IterativeRobot {
      * the robot enters test mode.
      */
     public void testInit() {
-    	compressor.startLiveWindowMode();
-    	compressor.setClosedLoopControl(false);
+    	//compressor.startLiveWindowMode();
+    	//compressor.setClosedLoopControl(false);
     }
     
     /**
