@@ -117,7 +117,7 @@ public class Robot extends IterativeRobot {
     	//Shooter
     	CANTalon shooter_talon_front_right = new CANTalon(HW.SHOOTER_MOTOR_FRONT_RIGHT);
     	CANTalon shooter_talon_front_left = new CANTalon(HW.SHOOTER_MOTOR_FRONT_LEFT);
-    	
+
     	CANTalon shooter_talon_back_right = new CANTalon(HW.SHOOTER_MOTOR_BACK_RIGHT);
     	CANTalon shooter_talon_back_left = new CANTalon(HW.SHOOTER_MOTOR_BACK_LEFT);
     	
@@ -133,7 +133,13 @@ public class Robot extends IterativeRobot {
     	
     	shooterFront = new ShooterWheel("Front Drum", shooterFrontMotors);
     	
+    	shooter_talon_front_right.changeControlMode(CANTalon.TalonControlMode.Follower);
+    	shooter_talon_front_right.set(shooter_talon_front_left.getDeviceID());
+    	
     	shooterBack = new ShooterWheel("Back Drum", shooterBackMotors);
+    	
+    	shooter_talon_back_right.changeControlMode(CANTalon.TalonControlMode.Follower);
+    	shooter_talon_back_right.set(shooter_talon_back_left.getDeviceID());
     	
     	//TOWER
     	Victor tower_back_motor = new Victor(HW.TOWER_BACK_MOTOR);
