@@ -4,6 +4,8 @@ import org.spectrum3847.lib.drivers.Gamepad;
 import org.spectrum3847.robot.commands.CANRunAtSetpoint;
 import org.spectrum3847.robot.commands.Collect;
 import org.spectrum3847.robot.commands.IntakeON;
+import org.spectrum3847.robot.commands.LoadShooter;
+import org.spectrum3847.robot.commands.ShooterOn;
 import org.spectrum3847.robot.commands.SolenoidCommand;
 
 
@@ -55,6 +57,10 @@ public class OI {
     	HW.Operator_Gamepad.getButton(Gamepad.RIGHT_BUMPER).whileActive(new Collect());
     	
     	HW.Operator_Gamepad.getButton(Gamepad.B_BUTTON).toggleWhenPressed(new IntakeON());
+    	
+    	HW.Operator_Gamepad.getButton(Gamepad.A_BUTTON).toggleWhenPressed(new ShooterOn());
+    	
+    	HW.Operator_Gamepad.getButton(Gamepad.X_BUTTON).toggleWhenPressed(new LoadShooter());
     	
     }
 }

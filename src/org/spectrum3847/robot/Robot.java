@@ -5,6 +5,7 @@ package org.spectrum3847.robot;
 import org.spectrum3847.lib.drivers.Gamepad;
 import org.spectrum3847.lib.drivers.SpectrumEncoder;
 import org.spectrum3847.lib.drivers.SpectrumSpeedController;
+import org.spectrum3847.lib.drivers.SpectrumSpeedControllerCAN;
 import org.spectrum3847.lib.util.Debugger;
 import org.spectrum3847.lib.util.Logger;
 import org.spectrum3847.robot.commands.CANManualControl;
@@ -12,9 +13,12 @@ import org.spectrum3847.robot.subsystems.BeltIntake;
 import org.spectrum3847.robot.subsystems.Drive;
 import org.spectrum3847.robot.subsystems.FuelCollector;
 import org.spectrum3847.robot.subsystems.MotorWithLimits;
+import org.spectrum3847.robot.subsystems.ShooterWheel;
 import org.spectrum3847.robot.subsystems.SolenoidSubsystem;
 import org.spectrum3847.robot.subsystems.SpeedCANSubsystem;
+import org.spectrum3847.robot.subsystems.Tower;
 
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -57,6 +61,14 @@ public class Robot extends IterativeRobot {
 	
 	public static BeltIntake beltIntake;
 	public static SpectrumSpeedController intakeMotor;
+	
+	public static ShooterWheel shooterFront;
+	public static ShooterWheel shooterBack;
+	public static SpectrumSpeedControllerCAN shooterFrontMotors;
+	public static SpectrumSpeedControllerCAN shooterBackMotors;
+	
+	public static Tower tower;
+	public static SpectrumSpeedController towerMotors;
 	
 	//public static Compressor compressor;
 	
@@ -101,6 +113,39 @@ public class Robot extends IterativeRobot {
     					);
     	
     	beltIntake = new BeltIntake("Belt Intake", intakeMotor);
+    	
+    	//Shooter
+    	CANTalon shooter_talon_front_right = new CANTalon(HW.SHOOTER_MOTOR_FRONT_RIGHT);
+    	CANTalon shooter_talon_front_left = new CANTalon(HW.SHOOTER_MOTOR_FRONT_LEFT);
+    	
+    	CANTalon shooter_talon_back_right = new CANTalon(HW.SHOOTER_MOTOR_BACK_RIGHT);
+    	CANTalon shooter_talon_back_left = new CANTalon(HW.SHOOTER_MOTOR_BACK_LEFT);
+    	
+    	shooterFrontMotors = new SpectrumSpeedControllerCAN(
+    						new CANTalon[] {shooter_talon_front_right, shooter_talon_front_left},
+    						new int[] {HW.SHOOTER_MOTOR_FRONT_RIGHT_PDP, HW.SHOOTER_MOTOR_FRONT_LEFT_PDP}
+    						);
+    	
+    	shooterBackMotors = new SpectrumSpeedControllerCAN(
+				new CANTalon[] {shooter_talon_back_right, shooter_talon_back_left},
+				new int[] {HW.SHOOTER_MOTOR_BACK_RIGHT_PDP, HW.SHOOTER_MOTOR_BACK_LEFT_PDP}
+				);
+    	
+    	shooterFront = new ShooterWheel("Front Drum", shooterFrontMotors);
+    	
+    	shooterBack = new ShooterWheel("Back Drum", shooterBackMotors);
+    	
+    	//TOWER
+    	Victor tower_back_motor = new Victor(HW.TOWER_BACK_MOTOR);
+    	Victor tower_front_motor = new Victtor(HW.TOWER_FRONT_MOTOR);
+    	
+    	towerMotors = new SpectrumSpeedController(
+    					new SpeedController[] {tower_back_motor, tower_front_motor},
+    					new int[] {HW.TOWER_BACK_MOTOR_PDP, HW_TOWER_FRONT_MOTOR_PDP}
+    					);
+    	
+    	tower = new Tower("Tower", towerMotors);
+    	
     }
     
     //Used to keep track of the robot current state easily

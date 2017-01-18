@@ -30,12 +30,43 @@ public class Dashboard {
     		SmartDashboard.putNumber("Collector Speed", .5);
     		
     		SmartDashboard.putNumber("Belt Intake Speed", .5);
+    		
+    		SmartDashboard.putNumber("Tower Belt Speed", .5);
+    		
+    		SmartDashboard.putNumber("Shooter PID Front Speed", 1000);
+    		SmartDashboard.putNumber("Shooter PID Back Speed",  1000);
+    		
+    		SmartDashboard.putNumber("Shooter P_front", 0.0);
+    		SmartDashboard.putNumber("Shooter I_front", 0.0);
+    		SmartDashboard.putNumber("Shooter D_front", 0.0);
+    		SmartDashboard.putNumber("Shooter F_front", 0.0);
+    		SmartDashboard.putNumber("Shooter P_back",  0.0);
+    		SmartDashboard.putNumber("Shooter I_back",  0.0);
+    		SmartDashboard.putNumber("Shooter D_back",  0.0);
+    		SmartDashboard.putNumber("Shooter F_back",  0.0);
     	}
     }
 
     private static void updatePutShort() {
     	//SmartDashboard.putNumber("Motor 1", Motor_1.get());
-    	//Robot.shooter.updateValuesToDashboard();;
+    	//Robot.shooter.updateValuesToDashboard();
+    	
+    	SmartDashboard.putNumber("Drive LeftY: ", HW.Driver_Gamepad.getLeftY());
+    	SmartDashboard.putNumber("Drive RightX: ", HW.Driver_Gamepad.getRightX());
+    	SmartDashboard.putNumber("Drive Trigger Left: ", HW.Driver_Gamepad.getLeftTrigger());
+    	SmartDashboard.putNumber("Drive Trigger Right: ", HW.Driver_Gamepad.getRightTrigger());
+    	SmartDashboard.putNumber("Drive Left:", Robot.leftDrive.get());
+    	SmartDashboard.putNumber("Drive Right:", Robot.rightDrive.get());
+
+    	SmartDashboard.putNumber("Front Speed", Robot.shooterFront.getSpeed());
+    	SmartDashboard.putNumber("Front Current Setpoint", Robot.shooterFront.getTalon().getSetpoint());
+        SmartDashboard.putNumber("Front Error", Robot.shooterFront.getTalon().getError());
+    	SmartDashboard.putBoolean("Front on Target", Robot.shooterFront.onTarget());
+    	
+        SmartDashboard.putNumber("Back Speed", Robot.shooterBack.getSpeed());
+    	SmartDashboard.putNumber("Back Current Setpoint", Robot.shooterBack.getTalon().getSetpoint());
+    	SmartDashboard.putNumber("Back Error", Robot.shooterBack.getTalon().getError());
+    	SmartDashboard.putBoolean("Back on Target", Robot.shooterBack.onTarget());
     }
     
     private static void updatePutLong(){
