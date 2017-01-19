@@ -142,12 +142,12 @@ public class Robot extends IterativeRobot {
     	shooter_talon_back_right.set(shooter_talon_back_left.getDeviceID());
     	
     	//TOWER
-    	Victor tower_back_motor = new Victor(HW.TOWER_BACK_MOTOR);
-    	Victor tower_front_motor = new Victtor(HW.TOWER_FRONT_MOTOR);
+    	Talon tower_back_motor = new Talon(HW.TOWER_BACK_MOTOR);
+    	Victor tower_front_motor = new Victor(HW.TOWER_FRONT_MOTOR);
     	
     	towerMotors = new SpectrumSpeedController(
     					new SpeedController[] {tower_back_motor, tower_front_motor},
-    					new int[] {HW.TOWER_BACK_MOTOR_PDP, HW_TOWER_FRONT_MOTOR_PDP}
+    					new int[] {HW.TOWER_BACK_MOTOR_PDP, HW.TOWER_FRONT_MOTOR_PDP}
     					);
     	
     	tower = new Tower("Tower", towerMotors);

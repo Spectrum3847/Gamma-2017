@@ -34,12 +34,12 @@ public class HW {
 	public static final int PDP_5 = 5;
 	public static final int PDP_6 = 6;
 	public static final int PDP_7 = 7;
-	public static final int PDP_8 = 8;
-	public static final int PDP_9 = 9;
-	public static final int PDP_10 = 1;
-	public static final int PDP_11 = 11;
-	public static final int VICTOR_PWM_7_PDP = 12;
-	public static final int TALON_PWM_6_PDP = 13;
+	public static final int SHOOTER_MOTOR_FRONT_RIGHT_PDP= 8;
+	public static final int SHOOTER_MOTOR_FRONT_LEFT_PDP= 9;
+	public static final int SHOOTER_MOTOR_BACK_RIGHT_PDP = 1;
+	public static final int SHOOTER_MOTOR_BACK_LEFT_PDP = 11;
+	public static final int TOWER_FRONT_MOTOR_PDP = 12;
+	public static final int TOWER_BACK_MOTOR_PDP = 13;
 	public static final int TALON_PWM_2_PDP = 14;
 	public static final int VICTOR_PWM_3_PDP = 15;
 	
@@ -51,8 +51,8 @@ public class HW {
     public static final int VICTOR_PWM_3 = 3;
     public static final int PWM_4 = 4;
     public static final int PWM_5 = 5;
-    public static final int TALON_PWM_6 = 6;
-    public static final int VICTOR_PWM_7 = 7;
+    public static final int TOWER_BACK_MOTOR = 6;
+    public static final int TOWER_FRONT_MOTOR = 7;
     public static final int LEFT_DRIVE_MOTOR_2 = 8;
     public static final int LEFT_DRIVE_MOTOR_1 = 9;
     public static final int PWM_10 = 10;
