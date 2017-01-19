@@ -5,11 +5,11 @@ import org.spectrum3847.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Collect extends Command{
+public class MecanumCollect extends Command{
 	
 	private double collectSpeed;
 	
-	public void Collect(){
+	public MecanumCollect(){
 		
 	}
 	

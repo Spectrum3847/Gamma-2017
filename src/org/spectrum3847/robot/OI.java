@@ -2,7 +2,7 @@ package org.spectrum3847.robot;
 
 import org.spectrum3847.lib.drivers.Gamepad;
 import org.spectrum3847.robot.commands.CANRunAtSetpoint;
-import org.spectrum3847.robot.commands.Collect;
+import org.spectrum3847.robot.commands.MecanumCollect;
 import org.spectrum3847.robot.commands.IntakeON;
 import org.spectrum3847.robot.commands.LoadShooter;
 import org.spectrum3847.robot.commands.ShooterOn;
@@ -54,7 +54,7 @@ public class OI {
     	*/
     	
     	//Operator
-    	HW.Operator_Gamepad.getButton(Gamepad.RIGHT_BUMPER).whileActive(new Collect());
+    	HW.Operator_Gamepad.getButton(Gamepad.RIGHT_BUMPER).whileActive(new MecanumCollect());
     	
     	HW.Operator_Gamepad.getButton(Gamepad.B_BUTTON).toggleWhenPressed(new IntakeON());
     	
