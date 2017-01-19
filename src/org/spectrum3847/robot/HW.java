@@ -68,10 +68,10 @@ public class HW {
 
 
     /**NON-DRIVEBASE MOTOR ASSIGNMENTS (CAN)**/
-    public static final int SHOOTER_MOTOR_FRONT_RIGHT = 10;
-    public static final int SHOOTER_MOTOR_FRONT_LEFT  = 11;
-    public static final int SHOOTER_MOTOR_BACK_RIGHT  = 12;
-    public static final int SHOOTER_MOTOR_BACK_LEFT   = 13;
+    public static final int SHOOTER_MOTOR_FRONT_RIGHT = 11;
+    public static final int SHOOTER_MOTOR_FRONT_LEFT  = 12;
+    public static final int SHOOTER_MOTOR_BACK_RIGHT  = 13;
+    public static final int SHOOTER_MOTOR_BACK_LEFT   = 14;
     
     /**DIGITAL SENSOR ALLOCATIONS**/
     public static final int DIGITAL_IO_1 = 1; 
