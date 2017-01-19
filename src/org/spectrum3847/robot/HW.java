@@ -40,15 +40,15 @@ public class HW {
 	public static final int SHOOTER_MOTOR_BACK_LEFT_PDP = 11;
 	public static final int TOWER_FRONT_MOTOR_PDP = 12;
 	public static final int TOWER_BACK_MOTOR_PDP = 13;
-	public static final int TALON_PWM_2_PDP = 14;
-	public static final int VICTOR_PWM_3_PDP = 15;
+	public static final int MECANUM_COLLECTOR_MOTOR_PDP = 14;
+	public static final int BELT_INTAKE_MOTOR_PDP = 15;
 	
 	
 	/**MOTOR ASSIGNMENTS (PWM)**/
     public static final int RIGHT_DRIVE_MOTOR_1 = 0;
     public static final int RIGHT_DRIVE_MOTOR_2 = 1;
-    public static final int TALON_PWM_2 = 2;
-    public static final int VICTOR_PWM_3 = 3;
+    public static final int MECANUM_COLLECTOR_MOTOR = 2;
+    public static final int BELT_INTAKE_MOTOR = 3;
     public static final int PWM_4 = 4;
     public static final int PWM_5 = 5;
     public static final int TOWER_BACK_MOTOR = 6;

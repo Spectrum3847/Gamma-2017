@@ -11,7 +11,7 @@ import org.spectrum3847.lib.util.Logger;
 import org.spectrum3847.robot.commands.CANManualControl;
 import org.spectrum3847.robot.subsystems.BeltIntake;
 import org.spectrum3847.robot.subsystems.Drive;
-import org.spectrum3847.robot.subsystems.FuelCollector;
+import org.spectrum3847.robot.subsystems.MecanumCollector;
 import org.spectrum3847.robot.subsystems.MotorWithLimits;
 import org.spectrum3847.robot.subsystems.ShooterWheel;
 import org.spectrum3847.robot.subsystems.SolenoidSubsystem;
@@ -56,7 +56,7 @@ public class Robot extends IterativeRobot {
 	public static SpectrumSpeedController leftDrive;
 	public static SpectrumSpeedController rightDrive;
 	
-	public static FuelCollector collector;
+	public static MecanumCollector collector;
 	public static SpectrumSpeedController collectorMotor;
 	
 	public static BeltIntake beltIntake;
@@ -95,14 +95,14 @@ public class Robot extends IterativeRobot {
     	drive = new Drive("defaultDrive", leftDrive, rightDrive);
     	
     	//COLLECTOR
-    	Victor collector_victor = new Victor(HW.COLLECTOR_MOTOR);
+    	Victor collector_victor = new Victor(HW.MECANUM_COLLECTOR_MOTOR);
     	
     	collectorMotor = new SpectrumSpeedController(
     					new SpeedController[] {collector_victor},
-    					new int[] {HW.COLLECTOR_MOTOR_PDP}
+    					new int[] {HW.MECANUM_COLLECTOR_MOTOR_PDP}
     					);
     	
-    	collector = new FuelCollector("Mecanum Collector", collectorMotor);
+    	collector = new MecanumCollector("Mecanum Collector", collectorMotor);
     	
     	//BELT INTAKE
     	Victor belt_intake_victor = new Victor(HW.BELT_INTAKE_MOTOR);

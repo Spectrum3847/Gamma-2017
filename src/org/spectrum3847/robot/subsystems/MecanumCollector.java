@@ -4,11 +4,11 @@ import org.spectrum3847.lib.drivers.SpectrumSpeedController;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class FuelCollector extends Subsystem{
+public class MecanumCollector extends Subsystem{
 
 	private SpectrumSpeedController collectorMotor;
 	
-	public FuelCollector(String n, SpectrumSpeedController motor){
+	public MecanumCollector(String n, SpectrumSpeedController motor){
 		super(n);
 		collectorMotor = motor;
 	}
