@@ -36,20 +36,20 @@ public class ShooterOn extends Command{
 		back_speed = SmartDashboard.getNumber("Shooter PID Back Speed");
 
 	
-		p_front =   SmartDashboard.getNumber("Shooter P_tilt",0);  
-		i_front =   SmartDashboard.getNumber("Shooter I_tilt",0);  
-		d_front =   SmartDashboard.getNumber("Shooter D_tilt",0);  
-		f_front =   SmartDashboard.getNumber("Shooter F_tilt",0);  
-		p_back =   SmartDashboard.getNumber("Shooter P_flat",0);  
-		i_back =   SmartDashboard.getNumber("Shooter I_flat",0);  
-		d_back =   SmartDashboard.getNumber("Shooter D_flat",0);  
-		f_back =   SmartDashboard.getNumber("Shooter F_flat",0);
+		p_front =   SmartDashboard.getNumber("Shooter P_front",0);  
+		i_front =   SmartDashboard.getNumber("Shooter I_front",0);  
+		d_front =   SmartDashboard.getNumber("Shooter D_front",0);  
+		f_front =   SmartDashboard.getNumber("Shooter F_front",0);  
+		p_back =   SmartDashboard.getNumber("Shooter P_back",0);  
+		i_back =   SmartDashboard.getNumber("Shooter I_back",0);  
+		d_back =   SmartDashboard.getNumber("Shooter D_back",0);  
+		f_back =   SmartDashboard.getNumber("Shooter F_back",0);
 		
-		Robot.shooterBack.setPID(p_front, i_front, d_front, f_front, 0, 100, 0);
+		Robot.shooterFront.setPID(p_front, i_front, d_front, f_front, 0, 100, 0);
 		//Robot.shooterBack.getTalon().setInverted(true);
 		//Robot.shooterBack.getTalon().reverseOutput(true);
 		//Robot.shooterback.getTalon().reverseSensor(true);
-		Robot.shooterBack.set(front_speed);
+		Robot.shooterFront.set(front_speed);
 		
 		Robot.shooterBack.setPID(p_back, i_back, d_back, f_back, 0, 100, 0);
 		//Robot.shooterFrontFlat.setInverted(true);
@@ -59,8 +59,8 @@ public class ShooterOn extends Command{
 		
 		Debugger.println("Front PID Setpoint: " +Robot.shooterFront.getSpeed() +
 							"Back PID Setpoint: " + Robot.shooterBack.getSpeed() +
-							" P_tilt: " + p_front + " D_tilt: " + d_front + " F_tilt: " + f_front + " \n"+
-							" P_flat: " + p_back + " D_flat: " + d_back + " F_flat: " + f_back + " \n",
+							" P_front: " + p_front + " D_front: " + d_front + " F_front: " + f_front + " \n"+
+							" P_back: " + p_back + " D_back: " + d_back + " F_back: " + f_back + " \n",
 							Robot.commands, Debugger.warning4);
 		
 	}

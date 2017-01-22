@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 /**
@@ -117,17 +118,23 @@ public class Robot extends IterativeRobot {
     	//Shooter
     	CANTalon shooter_talon_front_right = new CANTalon(HW.SHOOTER_MOTOR_FRONT_RIGHT);
     	CANTalon shooter_talon_front_left = new CANTalon(HW.SHOOTER_MOTOR_FRONT_LEFT);
+    	shooter_talon_front_left.changeControlMode(CANTalon.TalonControlMode.Speed);
+    	shooter_talon_front_left.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
+    	shooter_talon_front_left.reverseOutput(true);
+    	shooter_talon_front_left.reverseSensor(true);
 
     	CANTalon shooter_talon_back_right = new CANTalon(HW.SHOOTER_MOTOR_BACK_RIGHT);
     	CANTalon shooter_talon_back_left = new CANTalon(HW.SHOOTER_MOTOR_BACK_LEFT);
+    	shooter_talon_back_left.changeControlMode(CANTalon.TalonControlMode.Speed);
+    	shooter_talon_back_left.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
     	
     	shooterFrontMotors = new SpectrumSpeedControllerCAN(
-    						new CANTalon[] {shooter_talon_front_right, shooter_talon_front_left},
+    						new CANTalon[] {shooter_talon_front_left, shooter_talon_front_right},
     						new int[] {HW.SHOOTER_MOTOR_FRONT_RIGHT_PDP, HW.SHOOTER_MOTOR_FRONT_LEFT_PDP}
     						);
     	
     	shooterBackMotors = new SpectrumSpeedControllerCAN(
-				new CANTalon[] {shooter_talon_back_right, shooter_talon_back_left},
+				new CANTalon[] {shooter_talon_back_left, shooter_talon_back_right},
 				new int[] {HW.SHOOTER_MOTOR_BACK_RIGHT_PDP, HW.SHOOTER_MOTOR_BACK_LEFT_PDP}
 				);
     	
@@ -135,11 +142,13 @@ public class Robot extends IterativeRobot {
     	
     	shooter_talon_front_right.changeControlMode(CANTalon.TalonControlMode.Follower);
     	shooter_talon_front_right.set(shooter_talon_front_left.getDeviceID());
+    	shooter_talon_front_right.reverseOutput(true);
     	
     	shooterBack = new ShooterWheel("Back Drum", shooterBackMotors);
     	
     	shooter_talon_back_right.changeControlMode(CANTalon.TalonControlMode.Follower);
     	shooter_talon_back_right.set(shooter_talon_back_left.getDeviceID());
+    	shooter_talon_back_right.reverseOutput(true);
     	
     	//TOWER
     	Talon tower_back_motor = new Talon(HW.TOWER_BACK_MOTOR);

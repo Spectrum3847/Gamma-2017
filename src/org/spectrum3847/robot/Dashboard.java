@@ -33,17 +33,17 @@ public class Dashboard {
     		
     		SmartDashboard.putNumber("Tower Belt Speed", .5);
     		
-    		SmartDashboard.putNumber("Shooter PID Front Speed", 1000);
-    		SmartDashboard.putNumber("Shooter PID Back Speed",  1000);
+    		SmartDashboard.putNumber("Shooter PID Front Speed", 6000);
+    		SmartDashboard.putNumber("Shooter PID Back Speed",  6000);
     		
-    		SmartDashboard.putNumber("Shooter P_front", 0.0);
+    		SmartDashboard.putNumber("Shooter P_front", 0.042);
     		SmartDashboard.putNumber("Shooter I_front", 0.0);
-    		SmartDashboard.putNumber("Shooter D_front", 0.0);
-    		SmartDashboard.putNumber("Shooter F_front", 0.0);
-    		SmartDashboard.putNumber("Shooter P_back",  0.0);
+    		SmartDashboard.putNumber("Shooter D_front", 0.015);
+    		SmartDashboard.putNumber("Shooter F_front", 0.142);
+    		SmartDashboard.putNumber("Shooter P_back",  0.042);
     		SmartDashboard.putNumber("Shooter I_back",  0.0);
-    		SmartDashboard.putNumber("Shooter D_back",  0.0);
-    		SmartDashboard.putNumber("Shooter F_back",  0.0);
+    		SmartDashboard.putNumber("Shooter D_back",  0.015);
+    		SmartDashboard.putNumber("Shooter F_back",  0.142);
     	}
     }
 

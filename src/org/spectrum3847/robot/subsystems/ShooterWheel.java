@@ -9,6 +9,7 @@ import org.spectrum3847.lib.drivers.SpectrumSolenoid;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -23,7 +24,7 @@ public class ShooterWheel extends Subsystem{
 	public ShooterWheel(String name, SpectrumSpeedControllerCAN motor){
 		this.m_motor = motor;
 		m_name = name;
-		this.getTalon().configEncoderCodesPerRev(1024);
+		this.getTalon().configEncoderCodesPerRev(120);
 	}
 	
 	@Override
@@ -37,7 +38,7 @@ public class ShooterWheel extends Subsystem{
 	}
 	
 	public void set(double speed){
-		System.out.println("Setting " + m_name + "to " + speed + "RPM");
+		System.out.println("Setting " + m_name + " to " + speed + " RPM");
 		m_motor.getTalon().set(speed);
 	}
 	
