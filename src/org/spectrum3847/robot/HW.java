@@ -28,33 +28,37 @@ public class HW {
     /**PDP Slots**/
 	public static final int RIGHT_DRIVE_MOTOR_2_PDP = 0;
 	public static final int RIGHT_DRIVE_MOTOR_1_PDP = 1;
-	public static final int LEFT_DRIVE_MOTOR_1_PDP = 2;
-	public static final int LEFT_DRIVE_MOTOR_2_PDP = 3;
+	public static final int LEFT_DRIVE_MOTOR_1_PDP = 14;
+	public static final int LEFT_DRIVE_MOTOR_2_PDP = 15;
+	
+	//these don't actually exist yet on current test chassis
+	public static final int MECANUM_COLLECTOR_MOTOR_PDP = 2;
+	public static final int BELT_INTAKE_MOTOR_PDP = 3;
 	public static final int PDP_4 = 4;
 	public static final int PDP_5 = 5;
 	public static final int PDP_6 = 6;
 	public static final int PDP_7 = 7;
 	public static final int SHOOTER_MOTOR_FRONT_RIGHT_PDP= 8;
 	public static final int SHOOTER_MOTOR_FRONT_LEFT_PDP= 9;
-	public static final int SHOOTER_MOTOR_BACK_RIGHT_PDP = 1;
+	public static final int SHOOTER_MOTOR_BACK_RIGHT_PDP = 10;
 	public static final int SHOOTER_MOTOR_BACK_LEFT_PDP = 11;
 	public static final int TOWER_FRONT_MOTOR_PDP = 12;
 	public static final int TOWER_BACK_MOTOR_PDP = 13;
-	public static final int MECANUM_COLLECTOR_MOTOR_PDP = 14;
-	public static final int BELT_INTAKE_MOTOR_PDP = 15;
 	
 	
 	/**MOTOR ASSIGNMENTS (PWM)**/
     public static final int RIGHT_DRIVE_MOTOR_1 = 0;
     public static final int RIGHT_DRIVE_MOTOR_2 = 1;
-    public static final int MECANUM_COLLECTOR_MOTOR = 2;
-    public static final int BELT_INTAKE_MOTOR = 3;
-    public static final int PWM_4 = 4;
-    public static final int PWM_5 = 5;
+    public static final int LEFT_DRIVE_MOTOR_1 = 2;
+    public static final int LEFT_DRIVE_MOTOR_2 = 3;
+    
+    //Don't really exist yet on current test chassis
+    public static final int MECANUM_COLLECTOR_MOTOR = 4;
+    public static final int BELT_INTAKE_MOTOR = 5;
     public static final int TOWER_BACK_MOTOR = 6;
     public static final int TOWER_FRONT_MOTOR = 7;
-    public static final int LEFT_DRIVE_MOTOR_2 = 8;
-    public static final int LEFT_DRIVE_MOTOR_1 = 9;
+    public static final int PWM_8 = 8;
+    public static final int PWM_9 = 9;
     public static final int PWM_10 = 10;
     public static final int PWM_11 = 11;
     public static final int PWM_12 = 12;
