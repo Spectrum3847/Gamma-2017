@@ -26,6 +26,7 @@ public class Dashboard {
     		
     		SmartDashboard.putNumber("Drive Deadband", .1);
     		SmartDashboard.putBoolean("Drive Squared Inputs", false);
+    		SmartDashboard.putString("Drive Equation", "x^2");
     		
     		SmartDashboard.putNumber("Collector Speed", .5);
     		
