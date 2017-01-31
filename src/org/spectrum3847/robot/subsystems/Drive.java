@@ -1,11 +1,15 @@
 package org.spectrum3847.robot.subsystems;
 
+
+import java.math.BigDecimal;
+
 import org.spectrum3847.lib.drivers.DriveSignal;
 import org.spectrum3847.lib.drivers.SpectrumSpeedController;
 import org.spectrum3847.lib.trajectory.Path;
 import org.spectrum3847.lib.util.Pose;
 import org.spectrum3847.lib.util.StateHolder;
 import org.spectrum3847.lib.util.Util;
+import org.spectrum3847.lib.util.Expression;
 import org.spectrum3847.robot.Constants;
 import org.spectrum3847.robot.subsystems.controllers.DriveFinishLineController;
 import org.spectrum3847.robot.subsystems.controllers.DrivePathController;
@@ -15,6 +19,7 @@ import org.spectrum3847.robot.subsystems.controllers.TurnInPlaceController;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drive extends Subsystem {
 
@@ -84,7 +89,11 @@ public class Drive extends Subsystem {
         if (Math.abs(turnPower) < deadband){
       	  turnPower = 0;
         }
-
+        
+        throttle = ( new Expression(SmartDashboard.getString("Drive Equation")).with("x",new BigDecimal(throttle)).eval() ).doubleValue();
+        turnPower = ( new Expression(SmartDashboard.getString("Drive Equation")).with("x",new BigDecimal(turnPower)).eval() ).doubleValue();
+        
+        
         if (squaredInputs) {
           // square the inputs (while preserving the sign) to increase fine control
           // while permitting full power
