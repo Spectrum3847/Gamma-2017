@@ -26,37 +26,36 @@ public class HW {
 	public static PowerDistributionPanel PDP = new PowerDistributionPanel();
 	
     /**PDP Slots**/
-	public static final int RIGHT_DRIVE_MOTOR_2_PDP = 0;
-	public static final int RIGHT_DRIVE_MOTOR_1_PDP = 1;
-	public static final int LEFT_DRIVE_MOTOR_1_PDP = 14;
-	public static final int LEFT_DRIVE_MOTOR_2_PDP = 15;
+	
+	public static final int RIGHT_DRIVE_FRONT_MOTOR_PDP = 0;
+	public static final int RIGHT_DRIVE_MIDDLE_MOTOR_PDP = 1;
+	public static final int RIGHT_DRIVE_BACK_MOTOR_PDP = 2;
+	public static final int LEFT_DRIVE_FRONT_MOTOR_PDP = 15;
+	public static final int LEFT_DRIVE_MIDDLE_MOTOR_PDP = 14;
+	public static final int LEFT_DRIVE_BACK_MOTOR_PDP = 13;
+	
+	public static final int SHOOTER_MOTOR_FRONT_RIGHT_PDP= 5;
+	public static final int SHOOTER_MOTOR_FRONT_LEFT_PDP= 10;
+	public static final int SHOOTER_MOTOR_BACK_RIGHT_PDP = 4;
+	public static final int SHOOTER_MOTOR_BACK_LEFT_PDP = 23;
+	
+	public static final int TOWER_MOTOR_PDP = 12;
+	
+	public static final int MECANUM_COLLECTOR_MOTOR_PDP = 9;
+	
+	public static final int BELT_INTAKE_MOTOR_PDP = 3;
+	
 	
 	//these don't actually exist yet on current test chassis
-	public static final int MECANUM_COLLECTOR_MOTOR_PDP = 2;
-	public static final int BELT_INTAKE_MOTOR_PDP = 3;
 	public static final int PDP_4 = 4;
 	public static final int PDP_5 = 5;
 	public static final int PDP_6 = 6;
 	public static final int PDP_7 = 7;
-	public static final int SHOOTER_MOTOR_FRONT_RIGHT_PDP= 8;
-	public static final int SHOOTER_MOTOR_FRONT_LEFT_PDP= 9;
-	public static final int SHOOTER_MOTOR_BACK_RIGHT_PDP = 10;
-	public static final int SHOOTER_MOTOR_BACK_LEFT_PDP = 11;
-	public static final int TOWER_FRONT_MOTOR_PDP = 12;
-	public static final int TOWER_BACK_MOTOR_PDP = 13;
-	
 	
 	/**MOTOR ASSIGNMENTS (PWM)**/
-    public static final int RIGHT_DRIVE_MOTOR_1 = 0;
-    public static final int RIGHT_DRIVE_MOTOR_2 = 1;
-    public static final int LEFT_DRIVE_MOTOR_1 = 2;
-    public static final int LEFT_DRIVE_MOTOR_2 = 3;
+
     
     //Don't really exist yet on current test chassis
-    public static final int MECANUM_COLLECTOR_MOTOR = 4;
-    public static final int BELT_INTAKE_MOTOR = 5;
-    public static final int TOWER_BACK_MOTOR = 6;
-    public static final int TOWER_FRONT_MOTOR = 7;
     public static final int PWM_8 = 8;
     public static final int PWM_9 = 9;
     public static final int PWM_10 = 10;
@@ -72,10 +71,35 @@ public class HW {
 
 
     /**NON-DRIVEBASE MOTOR ASSIGNMENTS (CAN)**/
-    public static final int SHOOTER_MOTOR_FRONT_RIGHT = 11;
-    public static final int SHOOTER_MOTOR_FRONT_LEFT  = 12;
-    public static final int SHOOTER_MOTOR_BACK_RIGHT  = 13;
-    public static final int SHOOTER_MOTOR_BACK_LEFT   = 14;
+    /*
+     * drive - 1
+     * Shooter - 2
+     * Tower/Elevetor/etc - 3
+     * Intake - 4
+     * Mecanum Intake - 5
+     * Gear - 6
+     */
+
+    public static final int RIGHT_DRIVE_FRONT_MOTOR = 11;
+    public static final int RIGHT_DRIVE_MIDDLE_MOTOR = 12;
+    public static final int RIGHT_DRIVE_BACK_MOTOR = 13;
+    public static final int LEFT_DRIVE_FRONT_MOTOR = 14;
+    public static final int LEFT_DRIVE_MIDDLE_MOTOR = 15;
+    public static final int LEFT_DRIVE_BACK_MOTOR = 16;
+    
+    public static final int SHOOTER_MOTOR_FRONT_LEFT  = 21;
+    public static final int SHOOTER_MOTOR_FRONT_RIGHT = 22;
+    public static final int SHOOTER_MOTOR_BACK_LEFT   = 23;
+    public static final int SHOOTER_MOTOR_BACK_RIGHT  = 24;
+    
+    public static final int TOWER_MOTOR = 31;
+    
+    public static final int BELT_INTAKE_MOTOR = 41;
+    
+    public static final int MECANUM_COLLECTOR_MOTOR = 51;
+    
+    public static final int GEAR_ARM_MOTOR = 61;
+    public static final int GEAR_INTAKE_MOTOR = 62;
     
     /**DIGITAL SENSOR ALLOCATIONS**/
     public static final int DIGITAL_IO_1 = 1; 

@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 
 import org.spectrum3847.lib.drivers.DriveSignal;
 import org.spectrum3847.lib.drivers.SpectrumSpeedController;
+import org.spectrum3847.lib.drivers.SpectrumSpeedControllerCAN;
 import org.spectrum3847.lib.trajectory.Path;
 import org.spectrum3847.lib.util.Pose;
 import org.spectrum3847.lib.util.StateHolder;
@@ -30,8 +31,8 @@ public class Drive extends Subsystem {
 
     }
 
-    public SpectrumSpeedController m_left_motor;
-    public SpectrumSpeedController m_right_motor;
+    public SpectrumSpeedControllerCAN m_left_motor;
+    public SpectrumSpeedControllerCAN m_right_motor;
     public Encoder m_left_encoder;
     public Encoder m_right_encoder;
     //public GyroThread m_gyro; Will Replace with NavX
@@ -43,6 +44,9 @@ public class Drive extends Subsystem {
     protected final double m_turn_slip_factor = 1.2; // Measure empirically
     private Pose m_cached_pose = new Pose(0, 0, 0, 0, 0, 0); // Don't allocate poses at 200Hz!
 
+    
+    //Unused methods - would need to be updated to use CANTalon, but not needed for current state of the practice robot.
+    /*
     public Drive(String name, SpectrumSpeedController left_drive,
     			SpectrumSpeedController right_drive, Encoder left_encoder,
                  Encoder right_encoder) {
@@ -63,8 +67,8 @@ public class Drive extends Subsystem {
     			new SpectrumSpeedController(new Talon(right_drive), right_drive_PDP), 
     			left_encoder, right_encoder);
     }
-    
-    public Drive(String name, SpectrumSpeedController left_drive, SpectrumSpeedController right_drive){
+    */
+    public Drive(String name, SpectrumSpeedControllerCAN left_drive, SpectrumSpeedControllerCAN right_drive){
     	this.m_left_motor = left_drive;
     	this.m_right_motor = right_drive;
 

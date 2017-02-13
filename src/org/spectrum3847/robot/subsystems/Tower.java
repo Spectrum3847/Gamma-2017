@@ -1,14 +1,14 @@
 package org.spectrum3847.robot.subsystems;
 
-import org.spectrum3847.lib.drivers.SpectrumSpeedController;
+import org.spectrum3847.lib.drivers.SpectrumSpeedControllerCAN;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Tower extends Subsystem{
 
-	private SpectrumSpeedController towerMotor;
+	private SpectrumSpeedControllerCAN towerMotor;
 	
-	public Tower(String name, SpectrumSpeedController motor){
+	public Tower(String name, SpectrumSpeedControllerCAN motor){
 		super(name);
 		towerMotor = motor;
 	}

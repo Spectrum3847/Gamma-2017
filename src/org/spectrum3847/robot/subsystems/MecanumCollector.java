@@ -1,14 +1,14 @@
 package org.spectrum3847.robot.subsystems;
 
-import org.spectrum3847.lib.drivers.SpectrumSpeedController;
+import org.spectrum3847.lib.drivers.SpectrumSpeedControllerCAN;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class MecanumCollector extends Subsystem{
 
-	private SpectrumSpeedController collectorMotor;
+	private SpectrumSpeedControllerCAN collectorMotor;
 	
-	public MecanumCollector(String n, SpectrumSpeedController motor){
+	public MecanumCollector(String n, SpectrumSpeedControllerCAN motor){
 		super(n);
 		collectorMotor = motor;
 	}

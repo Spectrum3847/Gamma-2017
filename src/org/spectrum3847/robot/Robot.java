@@ -54,14 +54,14 @@ public class Robot extends IterativeRobot {
     // news. Don't move it.
 	
 	public static Drive drive; 
-	public static SpectrumSpeedController leftDrive;
-	public static SpectrumSpeedController rightDrive;
+	public static SpectrumSpeedControllerCAN leftDrive;
+	public static SpectrumSpeedControllerCAN rightDrive;
 	
 	public static MecanumCollector collector;
-	public static SpectrumSpeedController collectorMotor;
+	public static SpectrumSpeedControllerCAN collectorMotor;
 	
 	public static BeltIntake beltIntake;
-	public static SpectrumSpeedController intakeMotor;
+	public static SpectrumSpeedControllerCAN intakeMotor;
 	
 	public static ShooterWheel shooterFront;
 	public static ShooterWheel shooterBack;
@@ -69,7 +69,7 @@ public class Robot extends IterativeRobot {
 	public static SpectrumSpeedControllerCAN shooterBackMotors;
 	
 	public static Tower tower;
-	public static SpectrumSpeedController towerMotors;
+	public static SpectrumSpeedControllerCAN towerMotors;
 	
 	//public static Compressor compressor;
 	
@@ -77,39 +77,39 @@ public class Robot extends IterativeRobot {
     	//compressor = new Compressor(0);
     	
     	//DRIVETRAIN
-    	Victor left_drive_victor_1 = new Victor(HW.LEFT_DRIVE_MOTOR_1);
-    	Talon left_drive_talon_2 = new Talon(HW.LEFT_DRIVE_MOTOR_2);
+    	CANTalon left_drive_talon_1 = new CANTalon(HW.LEFT_DRIVE_FRONT_MOTOR);
+    	CANTalon left_drive_talon_2 = new CANTalon(HW.LEFT_DRIVE_MIDDLE_MOTOR);
     	
-    	Victor right_drive_victor_1 = new Victor(HW.RIGHT_DRIVE_MOTOR_1);
-    	Victor right_drive_victor_2 = new Victor(HW.RIGHT_DRIVE_MOTOR_2);
+    	CANTalon right_drive_talon_1 = new CANTalon(HW.RIGHT_DRIVE_FRONT_MOTOR);
+    	CANTalon right_drive_talon_2 = new CANTalon(HW.RIGHT_DRIVE_MIDDLE_MOTOR);
     	
-    	leftDrive = new SpectrumSpeedController(
-    				new SpeedController[] {left_drive_victor_1, left_drive_talon_2},
-    				new int[] {HW.LEFT_DRIVE_MOTOR_1_PDP, HW.LEFT_DRIVE_MOTOR_2_PDP}
+    	leftDrive = new SpectrumSpeedControllerCAN(
+    				new CANTalon[] {left_drive_talon_1, left_drive_talon_2},
+    				new int[] {HW.LEFT_DRIVE_FRONT_MOTOR_PDP, HW.LEFT_DRIVE_MIDDLE_MOTOR_PDP}
     			);
     	
-    	rightDrive = new SpectrumSpeedController(
-    				new SpeedController[] {right_drive_victor_1, right_drive_victor_2},
-    				new int[] {HW.RIGHT_DRIVE_MOTOR_1, HW.RIGHT_DRIVE_MOTOR_2}
+    	rightDrive = new SpectrumSpeedControllerCAN(
+    				new CANTalon[] {right_drive_talon_1, right_drive_talon_2},
+    				new int[] {HW.RIGHT_DRIVE_FRONT_MOTOR, HW.RIGHT_DRIVE_MIDDLE_MOTOR}
     			);
     	
     	drive = new Drive("defaultDrive", leftDrive, rightDrive);
     	
     	//COLLECTOR
-    	Victor collector_victor = new Victor(HW.MECANUM_COLLECTOR_MOTOR);
+    	CANTalon collector_talon = new CANTalon(HW.MECANUM_COLLECTOR_MOTOR);
     	
-    	collectorMotor = new SpectrumSpeedController(
-    					new SpeedController[] {collector_victor},
+    	collectorMotor = new SpectrumSpeedControllerCAN(
+    					new CANTalon[] {collector_talon},
     					new int[] {HW.MECANUM_COLLECTOR_MOTOR_PDP}
     					);
     	
     	collector = new MecanumCollector("Mecanum Collector", collectorMotor);
     	
     	//BELT INTAKE
-    	Victor belt_intake_victor = new Victor(HW.BELT_INTAKE_MOTOR);
+    	CANTalon belt_intake_talon = new CANTalon(HW.BELT_INTAKE_MOTOR);
     	
-    	intakeMotor = new SpectrumSpeedController(
-    					new SpeedController[] {belt_intake_victor},
+    	intakeMotor = new SpectrumSpeedControllerCAN(
+    					new CANTalon[] {belt_intake_talon},
     					new int[] {HW.BELT_INTAKE_MOTOR_PDP}
     					);
     	
@@ -134,7 +134,7 @@ public class Robot extends IterativeRobot {
     						);
     	
     	shooterBackMotors = new SpectrumSpeedControllerCAN(
-				new CANTalon[] {shooter_talon_back_left, shooter_talon_back_right},
+				new CANTalon[] {shooter_talon_back_right, shooter_talon_back_left},
 				new int[] {HW.SHOOTER_MOTOR_BACK_RIGHT_PDP, HW.SHOOTER_MOTOR_BACK_LEFT_PDP}
 				);
     	
@@ -151,12 +151,11 @@ public class Robot extends IterativeRobot {
     	shooter_talon_back_right.reverseOutput(true);
     	
     	//TOWER
-    	Talon tower_back_motor = new Talon(HW.TOWER_BACK_MOTOR);
-    	Victor tower_front_motor = new Victor(HW.TOWER_FRONT_MOTOR);
+    	CANTalon tower_motor = new CANTalon(HW.TOWER_MOTOR);
     	
-    	towerMotors = new SpectrumSpeedController(
-    					new SpeedController[] {tower_back_motor, tower_front_motor},
-    					new int[] {HW.TOWER_BACK_MOTOR_PDP, HW.TOWER_FRONT_MOTOR_PDP}
+    	towerMotors = new SpectrumSpeedControllerCAN(
+    					new CANTalon[] {tower_motor},
+    					new int[] {HW.TOWER_MOTOR_PDP}
     					);
     	
     	tower = new Tower("Tower", towerMotors);

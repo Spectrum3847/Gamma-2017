@@ -1,14 +1,14 @@
 package org.spectrum3847.robot.subsystems;
 
-import org.spectrum3847.lib.drivers.SpectrumSpeedController;
+import org.spectrum3847.lib.drivers.SpectrumSpeedControllerCAN;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class BeltIntake extends Subsystem{
 
-	private SpectrumSpeedController beltMotor;
+	private SpectrumSpeedControllerCAN beltMotor;
 	
-	public BeltIntake(String n, SpectrumSpeedController motor){
+	public BeltIntake(String n, SpectrumSpeedControllerCAN motor){
 		super(n);
 		beltMotor = motor;
 	}
