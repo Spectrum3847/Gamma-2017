@@ -28,11 +28,11 @@ public class Dashboard {
     		SmartDashboard.putBoolean("Drive Squared Inputs", false);
     		SmartDashboard.putString("Drive Equation", "x^2");
     		
-    		SmartDashboard.putNumber("Collector Speed", .5);
+    		SmartDashboard.putNumber("Collector Speed", .75);
     		
-    		SmartDashboard.putNumber("Belt Intake Speed", .5);
+    		SmartDashboard.putNumber("Belt Intake Speed", .75);
     		
-    		SmartDashboard.putNumber("Tower Belt Speed", .5);
+    		SmartDashboard.putNumber("Tower Belt Speed", .75);
     		
     		SmartDashboard.putNumber("Shooter PID Front Speed", 6000);
     		SmartDashboard.putNumber("Shooter PID Back Speed",  6000);
@@ -45,6 +45,11 @@ public class Dashboard {
     		SmartDashboard.putNumber("Shooter I_back",  0.0);
     		SmartDashboard.putNumber("Shooter D_back",  0.015);
     		SmartDashboard.putNumber("Shooter F_back",  0.142);
+    		
+    		SmartDashboard.putNumber("Gear Arm Current Limit", 30);
+    		SmartDashboard.putNumber("Gear Arm Current Limit Low Bound", 25);
+    		SmartDashboard.putNumber("Gear Arm Deadband", .1);
+    		SmartDashboard.putNumber("Gear Intake Speed", .75);
     	}
     }
 

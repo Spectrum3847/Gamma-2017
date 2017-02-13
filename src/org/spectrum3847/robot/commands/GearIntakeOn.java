@@ -1,23 +1,28 @@
 package org.spectrum3847.robot.commands;
 
-import org.spectrum3847.robot.HW;
 import org.spectrum3847.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class ArcadeDrive extends Command{
+public class GearIntakeOn extends Command{
 
+	private double wheelSpeed;
+	
+	public GearIntakeOn(){}
+	
+	
 	@Override
 	protected void initialize() {
 		// TODO Auto-generated method stub
-		
+		wheelSpeed = SmartDashboard.getNumber("Gear Intake Speed");
+		Robot.gearIntake.setIntake(wheelSpeed);
 	}
 
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-		Robot.drive.arcadeDrive(-1*HW.Driver_Gamepad.getLeftY(), HW.Driver_Gamepad.getRightX(), SmartDashboard.getNumber("Drive Deadband"), SmartDashboard.getBoolean("Drive Squared Inputs"));
+		
 	}
 
 	@Override
@@ -29,7 +34,7 @@ public class ArcadeDrive extends Command{
 	@Override
 	protected void end() {
 		// TODO Auto-generated method stub
-		Robot.drive.stopDrive();
+		Robot.gearIntake.setIntake(0);
 	}
 
 	@Override
@@ -37,4 +42,5 @@ public class ArcadeDrive extends Command{
 		// TODO Auto-generated method stub
 		this.end();
 	}
+
 }

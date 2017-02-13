@@ -11,6 +11,7 @@ import org.spectrum3847.lib.util.Logger;
 import org.spectrum3847.robot.commands.CANManualControl;
 import org.spectrum3847.robot.subsystems.BeltIntake;
 import org.spectrum3847.robot.subsystems.Drive;
+import org.spectrum3847.robot.subsystems.GearIntake;
 import org.spectrum3847.robot.subsystems.MecanumCollector;
 import org.spectrum3847.robot.subsystems.MotorWithLimits;
 import org.spectrum3847.robot.subsystems.ShooterWheel;
@@ -57,12 +58,6 @@ public class Robot extends IterativeRobot {
 	public static SpectrumSpeedControllerCAN leftDrive;
 	public static SpectrumSpeedControllerCAN rightDrive;
 	
-	public static MecanumCollector collector;
-	public static SpectrumSpeedControllerCAN collectorMotor;
-	
-	public static BeltIntake beltIntake;
-	public static SpectrumSpeedControllerCAN intakeMotor;
-	
 	public static ShooterWheel shooterFront;
 	public static ShooterWheel shooterBack;
 	public static SpectrumSpeedControllerCAN shooterFrontMotors;
@@ -70,6 +65,17 @@ public class Robot extends IterativeRobot {
 	
 	public static Tower tower;
 	public static SpectrumSpeedControllerCAN towerMotors;
+		
+	public static BeltIntake beltIntake;
+	public static SpectrumSpeedControllerCAN intakeMotor;
+
+	public static MecanumCollector collector;
+	public static SpectrumSpeedControllerCAN collectorMotor;
+	
+	public static GearIntake gearIntake;
+	public static SpectrumSpeedControllerCAN gearIntakeMotor;
+	public static SpectrumSpeedControllerCAN gearArmMotor;
+	
 	
 	//public static Compressor compressor;
 	
@@ -159,6 +165,20 @@ public class Robot extends IterativeRobot {
     					);
     	
     	tower = new Tower("Tower", towerMotors);
+    	
+    	CANTalon gear_intake_talon = new CANTalon(HW.GEAR_INTAKE_MOTOR);
+    	
+    	gearIntakeMotor = new SpectrumSpeedControllerCAN(
+    			new CANTalon[] {gear_intake_talon},
+    			new int[] {HW.GEAR_INTAKE_MOTOR_PDP});
+    	
+    	CANTalon gear_arm_talon = new CANTalon(HW.GEAR_ARM_MOTOR);
+    	
+    	gearArmMotor = new SpectrumSpeedControllerCAN(
+    			new CANTalon[] {gear_arm_talon},
+    			new int[] {HW.GEAR_ARM_MOTOR_PDP});
+    	
+    	gearIntake = new GearIntake(gearIntakeMotor, gearArmMotor);
     	
     }
     

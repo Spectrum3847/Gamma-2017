@@ -5,11 +5,11 @@ import org.spectrum3847.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class IntakeON extends Command{
+public class IntakeOn extends Command{
 
 	private double beltSpeed;
 	
-	public IntakeON(){}
+	public IntakeOn(){}
 	
 	
 	@Override

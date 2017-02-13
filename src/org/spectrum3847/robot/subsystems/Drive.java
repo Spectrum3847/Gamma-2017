@@ -138,6 +138,10 @@ public class Drive extends Subsystem {
           
     }
     
+    public void stopDrive(){
+    	this.setOpenLoop(new DriveSignal(0,0));
+    }
+    
     public void setDistanceSetpoint(double distance) {
         setDistanceSetpoint(distance, Constants.kDriveMaxSpeedInchesPerSec);
     }

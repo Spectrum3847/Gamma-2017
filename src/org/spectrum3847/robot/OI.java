@@ -2,8 +2,9 @@ package org.spectrum3847.robot;
 
 import org.spectrum3847.lib.drivers.Gamepad;
 import org.spectrum3847.robot.commands.CANRunAtSetpoint;
+import org.spectrum3847.robot.commands.GearIntakeOn;
 import org.spectrum3847.robot.commands.MecanumCollect;
-import org.spectrum3847.robot.commands.IntakeON;
+import org.spectrum3847.robot.commands.IntakeOn;
 import org.spectrum3847.robot.commands.LoadShooter;
 import org.spectrum3847.robot.commands.ShooterOn;
 import org.spectrum3847.robot.commands.SolenoidCommand;
@@ -54,14 +55,15 @@ public class OI {
     	*/
     	
     	//Operator
-    	HW.Operator_Gamepad.getButton(Gamepad.RIGHT_BUMPER).whileActive(new MecanumCollect());
+    	HW.Driver_Gamepad.getButton(Gamepad.RIGHT_BUMPER).whileActive(new MecanumCollect());
     	
-    	HW.Operator_Gamepad.getButton(Gamepad.LEFT_BUMPER).toggleWhenPressed(new IntakeON());
+    	HW.Driver_Gamepad.getButton(Gamepad.LEFT_BUMPER ).toggleWhenPressed(new IntakeOn());
     	
-    	HW.Operator_Gamepad.getButton(Gamepad.A_BUTTON).toggleWhenPressed(new ShooterOn());
+    	HW.Driver_Gamepad.getButton(Gamepad.A_BUTTON).toggleWhenPressed(new ShooterOn());
     	
-    	HW.Operator_Gamepad.getButton(Gamepad.X_BUTTON).toggleWhenPressed(new LoadShooter());
+    	HW.Driver_Gamepad.getButton(Gamepad.X_BUTTON).toggleWhenPressed(new LoadShooter());
     	
+    	HW.Driver_Gamepad.getButton(Gamepad.B_BUTTON).toggleWhenPressed(new GearIntakeOn());
     }
 }
 

@@ -1,6 +1,7 @@
 package org.spectrum3847.robot;
 
 import org.spectrum3847.robot.commands.ArcadeDrive;
+import org.spectrum3847.robot.commands.GearArmDrive;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -16,6 +17,9 @@ public class Teleop {
 	
         ArcadeDrive arcadeDrive = new ArcadeDrive();
         arcadeDrive.start();
+        
+        GearArmDrive gearArmDrive = new GearArmDrive();
+        gearArmDrive.start();
         
         Robot.logger.openFile();
     }

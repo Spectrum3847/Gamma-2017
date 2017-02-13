@@ -45,6 +45,9 @@ public class HW {
 	
 	public static final int BELT_INTAKE_MOTOR_PDP = 3;
 	
+	public static final int GEAR_INTAKE_MOTOR_PDP = 7;
+	public static final int GEAR_ARM_MOTOR_PDP = 6;
+	
 	
 	//these don't actually exist yet on current test chassis
 	public static final int PDP_4 = 4;
