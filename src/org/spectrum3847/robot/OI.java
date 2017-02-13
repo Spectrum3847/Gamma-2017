@@ -55,15 +55,15 @@ public class OI {
     	*/
     	
     	//Operator
-    	HW.Driver_Gamepad.getButton(Gamepad.RIGHT_BUMPER).whileActive(new MecanumCollect());
+    	HW.Driver_Gamepad.getButton(Gamepad.RIGHT_BUMPER).whileHeld(new MecanumCollect());
     	
-    	HW.Driver_Gamepad.getButton(Gamepad.LEFT_BUMPER ).toggleWhenPressed(new IntakeOn());
+    	HW.Driver_Gamepad.getButton(Gamepad.LEFT_BUMPER ).whileHeld(new IntakeOn());
     	
     	HW.Driver_Gamepad.getButton(Gamepad.A_BUTTON).toggleWhenPressed(new ShooterOn());
     	
-    	HW.Driver_Gamepad.getButton(Gamepad.X_BUTTON).toggleWhenPressed(new LoadShooter());
+    	HW.Driver_Gamepad.getButton(Gamepad.X_BUTTON).whileHeld(new LoadShooter());
     	
-    	HW.Driver_Gamepad.getButton(Gamepad.B_BUTTON).toggleWhenPressed(new GearIntakeOn());
+    	HW.Driver_Gamepad.getButton(Gamepad.B_BUTTON).whileHeld(new GearIntakeOn());
     }
 }
 
