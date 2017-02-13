@@ -37,15 +37,15 @@ public class HW {
 	public static final int SHOOTER_MOTOR_FRONT_RIGHT_PDP= 5;
 	public static final int SHOOTER_MOTOR_FRONT_LEFT_PDP= 10;
 	public static final int SHOOTER_MOTOR_BACK_RIGHT_PDP = 4;
-	public static final int SHOOTER_MOTOR_BACK_LEFT_PDP = 23;
+	public static final int SHOOTER_MOTOR_BACK_LEFT_PDP = 11;
 	
-	public static final int TOWER_MOTOR_PDP = 12;
+	public static final int TOWER_MOTOR_PDP = 7;
 	
-	public static final int MECANUM_COLLECTOR_MOTOR_PDP = 9;
+	public static final int MECANUM_COLLECTOR_MOTOR_PDP = 12;
 	
 	public static final int BELT_INTAKE_MOTOR_PDP = 3;
 	
-	public static final int GEAR_INTAKE_MOTOR_PDP = 7;
+	public static final int GEAR_INTAKE_MOTOR_PDP = 9;
 	public static final int GEAR_ARM_MOTOR_PDP = 6;
 	
 	
