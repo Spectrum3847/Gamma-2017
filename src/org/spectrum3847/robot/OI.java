@@ -56,7 +56,7 @@ public class OI {
     	//Operator
     	HW.Operator_Gamepad.getButton(Gamepad.RIGHT_BUMPER).whileActive(new MecanumCollect());
     	
-    	HW.Operator_Gamepad.getButton(Gamepad.B_BUTTON).toggleWhenPressed(new IntakeON());
+    	HW.Operator_Gamepad.getButton(Gamepad.LEFT_BUMPER).toggleWhenPressed(new IntakeON());
     	
     	HW.Operator_Gamepad.getButton(Gamepad.A_BUTTON).toggleWhenPressed(new ShooterOn());
     	
