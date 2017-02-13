@@ -94,9 +94,6 @@ public class Drive extends Subsystem {
       	  turnPower = 0;
         }
         
-        throttle = ( new Expression(SmartDashboard.getString("Drive Equation")).with("x",new BigDecimal(throttle)).eval() ).doubleValue();
-        turnPower = ( new Expression(SmartDashboard.getString("Drive Equation")).with("x",new BigDecimal(turnPower)).eval() ).doubleValue();
-        
         
         if (squaredInputs) {
           // square the inputs (while preserving the sign) to increase fine control
@@ -134,7 +131,7 @@ public class Drive extends Subsystem {
         
           this.setOpenLoop(new DriveSignal(leftMotorSpeed, rightMotorSpeed));
     	
-          //System.out.println("THIS IS THE TURBODRIVE METHOD IN DRIVE.JAVA. I HAVE PUSHED MOTOR SPEEDS");
+          //System.out.println("ARCADE DRIVE");
           
     }
     
@@ -206,8 +203,32 @@ public class Drive extends Subsystem {
     }
 
     private void setDriveOutputs(DriveSignal signal) {
-        m_left_motor.set(signal.leftMotor);
-        m_right_motor.set(-signal.rightMotor);
+    	
+    	boolean leftNegativeFlag;
+        boolean rightNegativeFlag;
+        
+        if (signal.leftMotor < 0)
+        	leftNegativeFlag = true;
+        else
+        	leftNegativeFlag = false;
+        
+        if (signal.rightMotor < 0)
+        	rightNegativeFlag = true;
+        else
+        	rightNegativeFlag = false;
+        
+        signal.leftMotor =  ( new Expression(SmartDashboard.getString("Drive Equation")).with("x",new BigDecimal(signal.leftMotor)).eval() ).doubleValue();
+        signal.rightMotor = ( new Expression(SmartDashboard.getString("Drive Equation")).with("x",new BigDecimal(signal.rightMotor)).eval() ).doubleValue();
+        
+        if(! (leftNegativeFlag ^ (signal.leftMotor < 0)))
+        	signal.leftMotor *= -1;
+        
+        if(! (rightNegativeFlag ^ (signal.rightMotor < 0)))
+        	signal.rightMotor *= -1;
+        
+    	
+    	m_left_motor.set(-signal.leftMotor);
+        m_right_motor.set(signal.rightMotor);
     }
 
     private Pose getPoseToContinueFrom(boolean for_turn_controller) {

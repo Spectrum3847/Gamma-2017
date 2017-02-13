@@ -16,8 +16,8 @@ public class GearArmDrive extends Command{
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-		double throttle = HW.Driver_Gamepad.getRightTrigger() - HW.Driver_Gamepad.getLeftTrigger();
-		Robot.gearIntake.setArmMotor(throttle);
+		double throttle = HW.Driver_Gamepad.getRightTrigger() + HW.Driver_Gamepad.getLeftTrigger();
+		Robot.gearIntake.setArmMotor(throttle/4);
 	}
 
 	@Override

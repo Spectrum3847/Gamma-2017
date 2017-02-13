@@ -8,14 +8,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class GearIntakeOn extends Command{
 
 	private double wheelSpeed;
-	
-	public GearIntakeOn(){}
+	private boolean intakeDir;
+	public GearIntakeOn(boolean in){
+		intakeDir = in;
+	}
 	
 	
 	@Override
 	protected void initialize() {
 		// TODO Auto-generated method stub
-		wheelSpeed = SmartDashboard.getNumber("Gear Intake Speed");
+		if(intakeDir)
+			wheelSpeed = SmartDashboard.getNumber("Gear Intake Speed");
+		else
+			wheelSpeed = -1 * SmartDashboard.getNumber("Gear Outtake Speed");
+		
 		Robot.gearIntake.setIntake(wheelSpeed);
 	}
 

@@ -63,7 +63,8 @@ public class OI {
     	
     	HW.Driver_Gamepad.getButton(Gamepad.X_BUTTON).whileHeld(new LoadShooter());
     	
-    	HW.Driver_Gamepad.getButton(Gamepad.B_BUTTON).whileHeld(new GearIntakeOn());
+    	HW.Driver_Gamepad.getButton(Gamepad.B_BUTTON).whileHeld(new GearIntakeOn(true));
+    	HW.Driver_Gamepad.getButton(Gamepad.Y_BUTTON).whileHeld(new GearIntakeOn(false));
     }
 }
 

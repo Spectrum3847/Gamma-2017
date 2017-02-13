@@ -50,6 +50,7 @@ public class Dashboard {
     		SmartDashboard.putNumber("Gear Arm Current Limit Low Bound", 25);
     		SmartDashboard.putNumber("Gear Arm Deadband", .1);
     		SmartDashboard.putNumber("Gear Intake Speed", .75);
+    		SmartDashboard.putNumber("Gear Outtake Speed", .5);
     	}
     }
 
