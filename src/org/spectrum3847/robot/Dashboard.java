@@ -1,6 +1,7 @@
 package org.spectrum3847.robot;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /*
@@ -34,23 +35,25 @@ public class Dashboard {
     		
     		SmartDashboard.putNumber("Tower Belt Speed", .75);
     		
-    		SmartDashboard.putNumber("Shooter PID Front Speed", 6000);
-    		SmartDashboard.putNumber("Shooter PID Back Speed",  6000);
+    		SmartDashboard.putNumber("Shooter PID Front Speed", 7000);
+    		SmartDashboard.putNumber("Shooter PID Back Speed",  7000);
     		
-    		SmartDashboard.putNumber("Shooter P_front", 0.042);
-    		SmartDashboard.putNumber("Shooter I_front", 0.0);
-    		SmartDashboard.putNumber("Shooter D_front", 0.015);
-    		SmartDashboard.putNumber("Shooter F_front", 0.142);
-    		SmartDashboard.putNumber("Shooter P_back",  0.042);
-    		SmartDashboard.putNumber("Shooter I_back",  0.0);
-    		SmartDashboard.putNumber("Shooter D_back",  0.015);
-    		SmartDashboard.putNumber("Shooter F_back",  0.142);
+    		SmartDashboard.putNumber("Shooter P_front", 2.000);
+    		SmartDashboard.putNumber("Shooter I_front", 0.000);
+    		SmartDashboard.putNumber("Shooter D_front", 0.750);
+    		SmartDashboard.putNumber("Shooter F_front", 3.000);
+    		SmartDashboard.putNumber("Shooter P_back",  2.000);
+    		SmartDashboard.putNumber("Shooter I_back",  0.000);
+    		SmartDashboard.putNumber("Shooter D_back",  0.750);
+    		SmartDashboard.putNumber("Shooter F_back",  3.000);
+    		;
     		
     		SmartDashboard.putNumber("Gear Arm Current Limit", 30);
     		SmartDashboard.putNumber("Gear Arm Current Limit Low Bound", 25);
     		SmartDashboard.putNumber("Gear Arm Deadband", .1);
     		SmartDashboard.putNumber("Gear Intake Speed", .75);
     		SmartDashboard.putNumber("Gear Outtake Speed", .5);
+    		SmartDashboard.putNumber("Gear Arm Ramp Factor", .25);
     	}
     }
 
@@ -58,10 +61,10 @@ public class Dashboard {
     	//SmartDashboard.putNumber("Motor 1", Motor_1.get());
     	//Robot.shooter.updateValuesToDashboard();
     	
-    	SmartDashboard.putNumber("Drive LeftY: ", HW.Driver_Gamepad.getLeftY());
-    	SmartDashboard.putNumber("Drive RightX: ", HW.Driver_Gamepad.getRightX());
-    	SmartDashboard.putNumber("Drive Trigger Left: ", HW.Driver_Gamepad.getLeftTrigger());
-    	SmartDashboard.putNumber("Drive Trigger Right: ", HW.Driver_Gamepad.getRightTrigger());
+    	SmartDashboard.putNumber("Drive LeftY: ", HW.Driver_Gamepad.getY(Hand.kLeft));
+    	SmartDashboard.putNumber("Drive RightX: ", HW.Driver_Gamepad.getX(Hand.kRight));
+    	SmartDashboard.putNumber("Drive Trigger Left: ", HW.Driver_Gamepad.getTriggerAxis(Hand.kLeft));
+    	SmartDashboard.putNumber("Drive Trigger Right: ", HW.Driver_Gamepad.getTriggerAxis(Hand.kRight));
     	SmartDashboard.putNumber("Drive Left:", Robot.leftDrive.get());
     	SmartDashboard.putNumber("Drive Right:", Robot.rightDrive.get());
 
@@ -69,11 +72,23 @@ public class Dashboard {
     	SmartDashboard.putNumber("Front Current Setpoint", Robot.shooterFront.getTalon().getSetpoint());
         SmartDashboard.putNumber("Front Error", Robot.shooterFront.getTalon().getError());
     	SmartDashboard.putBoolean("Front on Target", Robot.shooterFront.onTarget());
+    	SmartDashboard.putNumber("Front Applied Voltage", Robot.shooterFront.getTalon().getOutputVoltage());
+    	SmartDashboard.putNumber("Front Bus Voltage", Robot.shooterFront.getTalon().getBusVoltage());
+    	SmartDashboard.putNumber("Front Left Shooter Current", HW.PDP.getCurrent(HW.SHOOTER_MOTOR_FRONT_LEFT_PDP));
+    	SmartDashboard.putNumber("Front Right Shooter Current", HW.PDP.getCurrent(HW.SHOOTER_MOTOR_FRONT_RIGHT_PDP));
+    	
     	
         SmartDashboard.putNumber("Back Speed", Robot.shooterBack.getSpeed());
     	SmartDashboard.putNumber("Back Current Setpoint", Robot.shooterBack.getTalon().getSetpoint());
     	SmartDashboard.putNumber("Back Error", Robot.shooterBack.getTalon().getError());
     	SmartDashboard.putBoolean("Back on Target", Robot.shooterBack.onTarget());
+    	SmartDashboard.putNumber("Back Applied Voltage", Robot.shooterBack.getTalon().getOutputVoltage());
+    	SmartDashboard.putNumber("Back Bus Voltage", Robot.shooterBack.getTalon().getBusVoltage());
+    	SmartDashboard.putNumber("Back Left Shooter Current", HW.PDP.getCurrent(HW.SHOOTER_MOTOR_BACK_LEFT_PDP));
+    	SmartDashboard.putNumber("Back Right Shooter Current", HW.PDP.getCurrent(HW.SHOOTER_MOTOR_BACK_RIGHT_PDP));
+    	
+    	
+
     }
     
     private static void updatePutLong(){

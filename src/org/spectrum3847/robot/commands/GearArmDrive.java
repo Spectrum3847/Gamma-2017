@@ -3,7 +3,9 @@ package org.spectrum3847.robot.commands;
 import org.spectrum3847.robot.HW;
 import org.spectrum3847.robot.Robot;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class GearArmDrive extends Command{
 
@@ -16,8 +18,13 @@ public class GearArmDrive extends Command{
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-		double throttle = HW.Driver_Gamepad.getRightTrigger() + HW.Driver_Gamepad.getLeftTrigger();
-		Robot.gearIntake.setArmMotor(throttle/4);
+		double throttle;
+		if ( Math.abs(HW.Driver_Gamepad.getTriggerAxis(Hand.kRight) - HW.Driver_Gamepad.getTriggerAxis(Hand.kLeft)) > SmartDashboard.getNumber("Gear Arm Deadband", .1) ){
+			throttle = HW.Driver_Gamepad.getTriggerAxis(Hand.kRight) - HW.Driver_Gamepad.getTriggerAxis(Hand.kLeft);
+		}
+		else 
+			throttle = HW.Operator_Gamepad.getTriggerAxis(Hand.kRight) - HW.Operator_Gamepad.getTriggerAxis(Hand.kLeft);
+		Robot.gearIntake.setArmMotor(throttle * SmartDashboard.getNumber("Gear Arm Ramp Factor", .25));
 	}
 
 	@Override

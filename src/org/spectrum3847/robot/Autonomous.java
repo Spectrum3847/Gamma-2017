@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 public class Autonomous {
 
     public static void init() {
+    	Robot.mecanumCollector.extend();
     }
 
     //Periodic method called roughly once every 20ms

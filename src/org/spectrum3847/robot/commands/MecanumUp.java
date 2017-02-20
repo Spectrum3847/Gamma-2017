@@ -3,31 +3,27 @@ package org.spectrum3847.robot.commands;
 import org.spectrum3847.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class GearIntakeOn extends Command{
+public class MecanumUp extends Command{
 
-	private double wheelSpeed;
-	private boolean intakeDir;
-	public GearIntakeOn(boolean in){
-		intakeDir = in;
+	public MecanumUp() {
+		// TODO Auto-generated constructor stub
+		requires(Robot.mecanumCollector);
 	}
-	
+
 	@Override
 	protected void initialize() {
 		// TODO Auto-generated method stub
-		if(intakeDir)
-			wheelSpeed = SmartDashboard.getNumber("Gear Intake Speed");
-		else
-			wheelSpeed = -1 * SmartDashboard.getNumber("Gear Outtake Speed");
+		System.out.println("MECANUM UP" + " is not extended: " + !Robot.mecanumCollector.isExtended() + " is not collecting: " + !Robot.mecanumCollector.isCollecting());
+		if(!Robot.mecanumCollector.isExtended() && !Robot.mecanumCollector.isCollecting())
+			Robot.mecanumCollector.extend();
 		
-		Robot.gearIntake.setIntake(wheelSpeed);
+		
 	}
 
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -39,13 +35,13 @@ public class GearIntakeOn extends Command{
 	@Override
 	protected void end() {
 		// TODO Auto-generated method stub
-		Robot.gearIntake.setIntake(0);
+		
 	}
 
 	@Override
 	protected void interrupted() {
 		// TODO Auto-generated method stub
-		this.end();
+		//Robot.mecanumCollector.retract();
 	}
 
 }

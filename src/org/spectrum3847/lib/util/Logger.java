@@ -74,7 +74,7 @@ public class Logger {
 	        try{
 	            path = this.getPath();
 	            this.writer = new BufferedWriter(new FileWriter(path));
-	            this.writer.write("Time, Battery Voltage, Left Motor 1 Current, Left Motor 2 Current, Left Motor 3 Current, Left Motor 4 Current, Right Motor 1 Current, Right Motor 2 Current,  Right Motor 3 Current,  Right Motor 4 Current,  Brownout Stage 1,  Brownout Stage 2,  Left CIMs Speed Setting,  Left 775pro Speed Setting,  Right CIMs Speed Setting,  Right 775pro Speed Setting,  775pro State");
+	            this.writer.write("Time, Battery Voltage, Brownout Stage 1, Brownout Stage 2, Shooter Front Speed, Shooter Front Output Voltage, Shooter Front Bus Voltage, Shooter Front Left Current, Shooter Front Right Current, Shooter Back Speed, Shooter Back Output Voltage, Shooter Back Bus Voltage, Shooter Back Left Current, Shooter Back Right Current, ");
 	            this.writer.newLine();
 	        } catch (IOException e) {
 	            e.printStackTrace();
@@ -104,10 +104,21 @@ public class Logger {
 	        	this.writer.write(String.format("%f", HW.PDP.getVoltage()));
 	        	
 	        	//Brownout States
-	        	this.writer.write(String.format("%f,", ControllerPower.getEnabled6V()));
-	        	this.writer.write(String.format("%f,", ControllerPower.getEnabled5V()));
+	        	this.writer.write(String.format("%.3f,", ControllerPower.getEnabled6V()));
+	        	this.writer.write(String.format("%.3f,", ControllerPower.getEnabled5V()));
 	        	
+	        	//Shooter Stuff
+	        	this.writer.write(String.format("%.3f", Robot.shooterFront.getSpeed()));
+	        	this.writer.write(String.format("%.3f", Robot.shooterFront.getTalon().getOutputVoltage()));
+	        	this.writer.write(String.format("%.3", Robot.shooterFront.getTalon().getBusVoltage()));
+	        	this.writer.write(String.format("%.3f", HW.PDP.getCurrent(HW.SHOOTER_MOTOR_FRONT_LEFT)));
+	        	this.writer.write(String.format("%.3f", HW.PDP.getCurrent(HW.SHOOTER_MOTOR_FRONT_RIGHT)));
 	        	
+	        	this.writer.write(String.format("%.3f", Robot.shooterBack.getSpeed()));
+	        	this.writer.write(String.format("%.3f", Robot.shooterBack.getTalon().getOutputVoltage()));
+	        	this.writer.write(String.format("%.3f", Robot.shooterBack.getTalon().getBusVoltage()));
+	        	this.writer.write(String.format("%.3f", HW.PDP.getCurrent(HW.SHOOTER_MOTOR_BACK_LEFT)));
+	        	this.writer.write(String.format("%.3f", HW.PDP.getCurrent(HW.SHOOTER_MOTOR_BACK_RIGHT)));
 	        	/*
 	            this.writer.write(String.format("%d", new java.util.Date().getTime()));
 	            this.writer.write(String.format(",%.3f", this.robotOut.getDriveLeft()));

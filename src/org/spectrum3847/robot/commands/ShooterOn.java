@@ -4,7 +4,6 @@ import org.spectrum3847.lib.util.Debugger;
 import org.spectrum3847.robot.Robot;
 import org.spectrum3847.robot.subsystems.ShooterWheel;
 
-import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -32,8 +31,8 @@ public class ShooterOn extends Command{
 		Robot.shooterFront.enable();
 		Robot.shooterBack.enable();
 		
-		front_speed = SmartDashboard.getNumber("Shooter PID Front Speed");
-		back_speed = SmartDashboard.getNumber("Shooter PID Back Speed");
+		front_speed = SmartDashboard.getNumber("Shooter PID Front Speed", 0);
+		back_speed = SmartDashboard.getNumber("Shooter PID Back Speed", 0);
 
 	
 		p_front =   SmartDashboard.getNumber("Shooter P_front",0);  

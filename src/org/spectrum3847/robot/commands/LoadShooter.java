@@ -33,12 +33,14 @@ public class LoadShooter extends Command{
 	@Override
 	protected void end() {
 		// TODO Auto-generated method stub
+		Robot.tower.set(0);
 		
 	}
 
 	@Override
 	protected void interrupted() {
 		// TODO Auto-generated method stub
+		this.end();
 		
 	}
 

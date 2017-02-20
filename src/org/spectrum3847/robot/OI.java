@@ -1,11 +1,15 @@
 package org.spectrum3847.robot;
 
 import org.spectrum3847.lib.drivers.Gamepad;
+import org.spectrum3847.lib.drivers.SpectrumButton;
+import org.spectrum3847.lib.drivers.SpectrumButton.XboxButton;
 import org.spectrum3847.robot.commands.CANRunAtSetpoint;
 import org.spectrum3847.robot.commands.GearIntakeOn;
 import org.spectrum3847.robot.commands.MecanumCollect;
+import org.spectrum3847.robot.commands.MecanumDown;
 import org.spectrum3847.robot.commands.IntakeOn;
 import org.spectrum3847.robot.commands.LoadShooter;
+import org.spectrum3847.robot.commands.MecanumUp;
 import org.spectrum3847.robot.commands.ShooterOn;
 import org.spectrum3847.robot.commands.SolenoidCommand;
 
@@ -54,17 +58,23 @@ public class OI {
     								true));
     	*/
     	
+    	
     	//Operator
-    	HW.Driver_Gamepad.getButton(Gamepad.RIGHT_BUMPER).whileHeld(new MecanumCollect());
+    	new SpectrumButton(HW.Operator_Gamepad, XboxButton.X).toggleWhenPressed(new MecanumCollect());
+    	new SpectrumButton(HW.Operator_Gamepad, XboxButton.B).toggleWhenPressed(new MecanumDown());
+    	//HW.Driver_Gamepad.getButton(Gamepad.RIGHT_BUMPER).whenReleased(new MecanumUp());
     	
-    	HW.Driver_Gamepad.getButton(Gamepad.LEFT_BUMPER ).whileHeld(new IntakeOn());
+    	//new SpectrumButton(HW.Operator_Gamepad, XboxButton.BumperLeft).whileHeld(new IntakeOn(true));
     	
-    	HW.Driver_Gamepad.getButton(Gamepad.A_BUTTON).toggleWhenPressed(new ShooterOn());
+    	new SpectrumButton(HW.Operator_Gamepad, XboxButton.A).toggleWhenPressed(new ShooterOn());
+    	new SpectrumButton(HW.Operator_Gamepad, XboxButton.Y).whileHeld(new LoadShooter());
     	
-    	HW.Driver_Gamepad.getButton(Gamepad.X_BUTTON).whileHeld(new LoadShooter());
+    	new SpectrumButton(HW.Operator_Gamepad, XboxButton.BumperLeft).whileHeld(new GearIntakeOn(true));
+    	new SpectrumButton(HW.Operator_Gamepad, XboxButton.BumperRight).whileHeld(new GearIntakeOn(false));
     	
-    	HW.Driver_Gamepad.getButton(Gamepad.B_BUTTON).whileHeld(new GearIntakeOn(true));
-    	HW.Driver_Gamepad.getButton(Gamepad.Y_BUTTON).whileHeld(new GearIntakeOn(false));
+    	//Driver
+    	new SpectrumButton(HW.Driver_Gamepad, XboxButton.BumperLeft).whileHeld(new GearIntakeOn(true));
+    	new SpectrumButton(HW.Driver_Gamepad, XboxButton.BumperRight).whileHeld(new GearIntakeOn(false));
     }
 }
 

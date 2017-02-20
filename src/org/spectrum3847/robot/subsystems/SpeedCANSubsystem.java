@@ -1,6 +1,7 @@
 package org.spectrum3847.robot.subsystems;
 
-import edu.wpi.first.wpilibj.CANTalon;
+import com.ctre.CANTalon;
+
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 

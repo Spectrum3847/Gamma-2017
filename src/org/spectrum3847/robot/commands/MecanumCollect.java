@@ -17,7 +17,7 @@ public class MecanumCollect extends Command{
 	protected void initialize() {
 		// TODO Auto-generated method stub
 		collectSpeed = SmartDashboard.getNumber("Collector Speed");
-		Robot.collector.set(collectSpeed);
+		Robot.mecanumCollector.set(collectSpeed);
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class MecanumCollect extends Command{
 	@Override
 	protected void end() {
 		// TODO Auto-generated method stub
-		Robot.collector.set(0);
+		Robot.mecanumCollector.set(0);
 		
 	}
 

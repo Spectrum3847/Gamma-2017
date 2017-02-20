@@ -3,6 +3,7 @@ package org.spectrum3847.robot;
 import org.spectrum3847.lib.drivers.Gamepad;
 
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.XboxController;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -19,20 +20,23 @@ public class HW {
 	
 	//OI
 	public static OI oi;
+	public static final XboxController Driver_Gamepad = new XboxController(0);
+	public static final XboxController Operator_Gamepad = new XboxController(1);
+	/*
 	public static final Gamepad Driver_Gamepad = new Gamepad("Driver", HW.USBPORT_0);
     public static final Gamepad Operator_Gamepad = new Gamepad("Operator", HW.USBPORT_1);
-	
+	*/
 	//PDP Panel
 	public static PowerDistributionPanel PDP = new PowerDistributionPanel();
 	
     /**PDP Slots**/
 	
-	public static final int RIGHT_DRIVE_FRONT_MOTOR_PDP = 0;
+	public static final int RIGHT_DRIVE_FRONT_MOTOR_PDP = 2;
 	public static final int RIGHT_DRIVE_MIDDLE_MOTOR_PDP = 1;
-	public static final int RIGHT_DRIVE_BACK_MOTOR_PDP = 2;
-	public static final int LEFT_DRIVE_FRONT_MOTOR_PDP = 15;
+	public static final int RIGHT_DRIVE_BACK_MOTOR_PDP = 0;
+	public static final int LEFT_DRIVE_FRONT_MOTOR_PDP = 13;
 	public static final int LEFT_DRIVE_MIDDLE_MOTOR_PDP = 14;
-	public static final int LEFT_DRIVE_BACK_MOTOR_PDP = 13;
+	public static final int LEFT_DRIVE_BACK_MOTOR_PDP = 15;
 	
 	public static final int SHOOTER_MOTOR_FRONT_RIGHT_PDP= 5;
 	public static final int SHOOTER_MOTOR_FRONT_LEFT_PDP= 10;
@@ -83,12 +87,12 @@ public class HW {
      * Gear - 6
      */
 
-    public static final int RIGHT_DRIVE_FRONT_MOTOR = 11;
+    public static final int RIGHT_DRIVE_FRONT_MOTOR = 13;
     public static final int RIGHT_DRIVE_MIDDLE_MOTOR = 12;
-    public static final int RIGHT_DRIVE_BACK_MOTOR = 13;
-    public static final int LEFT_DRIVE_FRONT_MOTOR = 14;
+    public static final int RIGHT_DRIVE_BACK_MOTOR = 11;
+    public static final int LEFT_DRIVE_FRONT_MOTOR = 16;
     public static final int LEFT_DRIVE_MIDDLE_MOTOR = 15;
-    public static final int LEFT_DRIVE_BACK_MOTOR = 16;
+    public static final int LEFT_DRIVE_BACK_MOTOR = 14;
     
     public static final int SHOOTER_MOTOR_FRONT_LEFT  = 21;
     public static final int SHOOTER_MOTOR_FRONT_RIGHT = 22;
@@ -116,10 +120,9 @@ public class HW {
     public static final int DIGITAL_IO_9 = 9;  
     
     /**Pneumatics**/
-    public static final int SOL_0 = 0;
-    public static final int SOL_1 = 1;
-    public static final int SOL_2 = 2;
-    public static final int SOL_3 = 3;
+    public static final int BRAKE_SOL = 0;
+    public static final int MECANUM_EXTEND_SOL = 2;
+    public static final int MECANUM_RETRACT_SOL = 3;
     public static final int SOL_4 = 4;
     public static final int SOL_5 = 5;
     public static final int SOL_6 = 6;

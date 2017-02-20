@@ -5,11 +5,12 @@ import org.spectrum3847.lib.drivers.SpectrumSpeedControllerCAN;
 import org.spectrum3847.lib.util.Debugger;
 import org.spectrum3847.lib.util.Util;
 import org.spectrum3847.robot.Robot;
+
+import com.ctre.CANTalon;
+
 import org.spectrum3847.lib.drivers.SpectrumSolenoid;
 
-import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -24,7 +25,7 @@ public class ShooterWheel extends Subsystem{
 	public ShooterWheel(String name, SpectrumSpeedControllerCAN motor){
 		this.m_motor = motor;
 		m_name = name;
-		this.getTalon().configEncoderCodesPerRev(120);
+		this.getTalon().configEncoderCodesPerRev(6);
 	}
 	
 	@Override
@@ -35,6 +36,7 @@ public class ShooterWheel extends Subsystem{
 	
 	public void setPID(double p, double i, double d, double f, int izone, double closeLoopRampRate, int profile){
 		m_motor.getTalon().setPID(p, i, d, f, izone, closeLoopRampRate, profile);
+		m_motor.getTalon().configMaxOutputVoltage(12);
 	}
 	
 	public void set(double speed){
