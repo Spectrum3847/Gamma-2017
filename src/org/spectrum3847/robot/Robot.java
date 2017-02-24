@@ -23,6 +23,7 @@ import org.spectrum3847.robot.subsystems.Tower;
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
@@ -47,6 +48,9 @@ public class Robot extends IterativeRobot {
 	public static final String general = "GENERAL";
 	public static final String auton = "AUTON";
 	public static final String commands = "COMMAND";
+	public static final String gear = "GEAR";
+	public static final String shooter = "SHOOTER";
+	public static final String intake = "INTAKE";
 	
 	// Create a single static instance of all of your subsystems
     // This MUST be here. If the OI creates Commands (which it very likely
@@ -76,7 +80,7 @@ public class Robot extends IterativeRobot {
 	public static GearIntake gearIntake;
 	public static SpectrumSpeedControllerCAN gearIntakeMotor;
 	public static SpectrumSpeedControllerCAN gearArmMotor;
-	
+	public static DigitalInput gearInput;
 	
 	public static Compressor compressor;
 	
@@ -201,7 +205,9 @@ public class Robot extends IterativeRobot {
     			new CANTalon[] {gear_arm_talon},
     			new int[] {HW.GEAR_ARM_MOTOR_PDP});
     	
-    	gearIntake = new GearIntake(gearIntakeMotor, gearArmMotor);
+    	gearInput = new DigitalInput(HW.GEAR_SENSOR);
+    	gearIntake = new GearIntake(gearIntakeMotor, gearArmMotor,gearInput);
+    	
     	
     }
     
@@ -234,13 +240,16 @@ public class Robot extends IterativeRobot {
     }
     
     private static void initDebugger(){
-    	Debugger.setLevel(Debugger.info3); //Set the initial Debugger Level
+    	Debugger.setLevel(Debugger.debug2); //Set the initial Debugger Level
     	Debugger.flagOn(general); //Set all the flags on, comment out ones you want off
     	Debugger.flagOn(controls);
     	Debugger.flagOn(input);
     	Debugger.flagOn(output);
     	Debugger.flagOn(auton);
     	Debugger.flagOn(commands);
+    	Debugger.flagOn(intake);
+    	Debugger.flagOn(shooter);
+    	Debugger.flagOn(gear);
     }
     /**
      * Initialization code for test mode should go here.
@@ -267,7 +276,6 @@ public class Robot extends IterativeRobot {
      * This function is called while in disabled mode.
      */    
     public void disabledPeriodic(){
-    	System.out.println("Disabled BLAST");
     	Disabled.periodic();
     }
 
@@ -297,7 +305,6 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    	System.out.println("Teleop BLAST");
         Teleop.periodic();
     }
     

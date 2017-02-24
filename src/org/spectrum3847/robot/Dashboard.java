@@ -46,14 +46,21 @@ public class Dashboard {
     		SmartDashboard.putNumber("Shooter I_back",  0.000);
     		SmartDashboard.putNumber("Shooter D_back",  0.750);
     		SmartDashboard.putNumber("Shooter F_back",  3.000);
-    		;
+    		SmartDashboard.putBoolean("Gear Sensor", false);
     		
     		SmartDashboard.putNumber("Gear Arm Current Limit", 30);
     		SmartDashboard.putNumber("Gear Arm Current Limit Low Bound", 25);
     		SmartDashboard.putNumber("Gear Arm Deadband", .1);
-    		SmartDashboard.putNumber("Gear Intake Speed", .75);
-    		SmartDashboard.putNumber("Gear Outtake Speed", .5);
+    		SmartDashboard.putNumber("Gear Intake Speed", 1);
+    		SmartDashboard.putNumber("Gear Outtake Speed", 1);
     		SmartDashboard.putNumber("Gear Arm Ramp Factor", .25);
+    		SmartDashboard.putNumber("Gear Arm Down Angle", .71);
+    		SmartDashboard.putNumber("Gear Arm Score Angle", 0.2);
+    		SmartDashboard.putNumber("Gear Arm ScoreDown Angle", .5);
+    		SmartDashboard.putNumber("Gear Arm Up Angle", .03);
+  		
+    		SmartDashboard.putNumber("Gear Arm kP",  1.8);
+    		SmartDashboard.putNumber("Gear Arm kD", 16);
     	}
     }
 
@@ -87,7 +94,15 @@ public class Dashboard {
     	SmartDashboard.putNumber("Back Left Shooter Current", HW.PDP.getCurrent(HW.SHOOTER_MOTOR_BACK_LEFT_PDP));
     	SmartDashboard.putNumber("Back Right Shooter Current", HW.PDP.getCurrent(HW.SHOOTER_MOTOR_BACK_RIGHT_PDP));
     	
-    	
+    	SmartDashboard.putNumber("Gear Arm Encoder Value", Robot.gearIntake.getArmTalon().getPosition());
+		SmartDashboard.putBoolean("Gear Sensor", Robot.gearIntake.getSensorOutput());
+		SmartDashboard.putNumber("Gear Arm Motor Voltage", Robot.gearArmMotor.getTalon().getOutputVoltage());
+		SmartDashboard.putNumber("Gear Setpoint", Robot.gearIntake.getArmTalon().getSetpoint());
+		SmartDashboard.putNumber("Gear Error", Robot.gearIntake.getArmTalon().getError()/4096);
+		SmartDashboard.putNumber("Gear Arm Current",  Robot.gearIntake.getArmTalon().getOutputCurrent());
+		SmartDashboard.putNumber("Gear Intake Current",  Robot.gearIntake.getIntakeTalon().getOutputCurrent());
+		SmartDashboard.putNumber("Gear Intake Current Limit", 12);
+
 
     }
     

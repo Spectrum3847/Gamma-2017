@@ -1,4 +1,4 @@
-package org.spectrum3847.robot.commands;
+package org.spectrum3847.robot.commands.gear;
 
 import org.spectrum3847.robot.HW;
 import org.spectrum3847.robot.Robot;
@@ -9,10 +9,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class GearArmDrive extends Command{
 
+	public GearArmDrive(){
+		requires(Robot.gearIntake);
+	}
+	
 	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

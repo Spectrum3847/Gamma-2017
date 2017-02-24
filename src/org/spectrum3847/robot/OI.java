@@ -3,8 +3,6 @@ package org.spectrum3847.robot;
 import org.spectrum3847.lib.drivers.Gamepad;
 import org.spectrum3847.lib.drivers.SpectrumButton;
 import org.spectrum3847.lib.drivers.SpectrumButton.XboxButton;
-import org.spectrum3847.robot.commands.CANRunAtSetpoint;
-import org.spectrum3847.robot.commands.GearIntakeOn;
 import org.spectrum3847.robot.commands.MecanumCollect;
 import org.spectrum3847.robot.commands.MecanumDown;
 import org.spectrum3847.robot.commands.IntakeOn;
@@ -12,6 +10,15 @@ import org.spectrum3847.robot.commands.LoadShooter;
 import org.spectrum3847.robot.commands.MecanumUp;
 import org.spectrum3847.robot.commands.ShooterOn;
 import org.spectrum3847.robot.commands.SolenoidCommand;
+import org.spectrum3847.robot.commands.gear.GearArmPIDDown;
+import org.spectrum3847.robot.commands.gear.GearArmPIDScore;
+import org.spectrum3847.robot.commands.gear.GearArmPIDUp;
+import org.spectrum3847.robot.commands.gear.GearIntakeOn;
+import org.spectrum3847.robot.commands.gear.IntakeGear;
+import org.spectrum3847.robot.commands.gear.ScoreGear;
+import org.spectrum3847.robot.commands.gear.ZeroGearArmCurrent;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -75,6 +82,12 @@ public class OI {
     	//Driver
     	new SpectrumButton(HW.Driver_Gamepad, XboxButton.BumperLeft).whileHeld(new GearIntakeOn(true));
     	new SpectrumButton(HW.Driver_Gamepad, XboxButton.BumperRight).whileHeld(new GearIntakeOn(false));
+    	//Temp stuff while Phillip Figures this out
+    	new SpectrumButton(HW.Driver_Gamepad, XboxButton.A).whenPressed(new IntakeGear());
+    	new SpectrumButton(HW.Driver_Gamepad, XboxButton.B).whenPressed(new GearArmPIDScore());
+    	new SpectrumButton(HW.Driver_Gamepad, XboxButton.X).whenPressed(new ScoreGear());
+    	new SpectrumButton(HW.Driver_Gamepad, XboxButton.Y).toggleWhenPressed(new GearArmPIDUp());
+    	new SpectrumButton(HW.Driver_Gamepad, XboxButton.Start).toggleWhenPressed(new ZeroGearArmCurrent());
     }
 }
 

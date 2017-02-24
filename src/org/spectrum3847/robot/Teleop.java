@@ -2,8 +2,10 @@ package org.spectrum3847.robot;
 
 import org.spectrum3847.lib.drivers.SpectrumSolenoid;
 import org.spectrum3847.robot.commands.ArcadeDrive;
-import org.spectrum3847.robot.commands.GearArmDrive;
+//import org.spectrum3847.robot.commands.GearArmDrive;
 import org.spectrum3847.robot.commands.IntakeOn;
+import org.spectrum3847.robot.commands.gear.GearArmDrive;
+import org.spectrum3847.robot.subsystems.GearIntake;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -22,11 +24,9 @@ public class Teleop {
         ArcadeDrive arcadeDrive = new ArcadeDrive();
         arcadeDrive.start();
         
-        GearArmDrive gearArmDrive = new GearArmDrive();
-        gearArmDrive.start();
-        
         IntakeOn beltIntakeOn = new IntakeOn(false);
         beltIntakeOn.start();
+        Robot.gearIntake.getArmTalon().setPosition(0);
         
         //Robot.mecanumCollector.extend();
         
@@ -37,7 +37,6 @@ public class Teleop {
     }
 
     public static void periodic() {
-    	System.out.println("Telop Peripdic Function");
     	Dashboard.updateDashboard();
         Scheduler.getInstance().run();
         

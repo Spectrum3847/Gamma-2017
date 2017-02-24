@@ -2,6 +2,9 @@ package org.spectrum3847.robot;
 
 public class Constants {
     public static final double kCenter_Calibration = 0;
+
+	public static final double TPR = 480;
+	public static final double GearArmTPR = 4096;
     
 	public static double kDriveSensitivity = .75;
     public static double kNegativeInertiaScalar = 5.0;
