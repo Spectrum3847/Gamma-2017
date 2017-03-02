@@ -10,7 +10,7 @@ public class MecanumCollect extends Command{
 	private double collectSpeed;
 	
 	public MecanumCollect(){
-		
+		requires(Robot.mecanumCollector);
 	}
 	
 	@Override

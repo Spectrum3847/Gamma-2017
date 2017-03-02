@@ -2,6 +2,7 @@ package org.spectrum3847.robot.subsystems;
 
 import org.spectrum3847.lib.drivers.SpectrumSolenoid;
 import org.spectrum3847.lib.drivers.SpectrumSpeedControllerCAN;
+import org.spectrum3847.robot.commands.ManualIntake;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -62,7 +63,7 @@ public class MecanumCollector extends Subsystem{
 	
 	@Override
 	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
+		setDefaultCommand(new ManualIntake());
 		
 	}
 

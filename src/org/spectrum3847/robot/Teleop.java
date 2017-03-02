@@ -8,7 +8,9 @@ import org.spectrum3847.robot.commands.gear.GearArmDrive;
 import org.spectrum3847.robot.subsystems.GearIntake;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -28,6 +30,9 @@ public class Teleop {
         beltIntakeOn.start();
         Robot.gearIntake.getArmTalon().setPosition(0);
         
+       //GearArmDrive gearDrive = new GearArmDrive();
+       //gearDrive.start();
+        
         //Robot.mecanumCollector.extend();
         
         //SpectrumSolenoid mecanum_sol = new SpectrumSolenoid(HW.MECANUM_RETRACT_SOL);
@@ -39,6 +44,9 @@ public class Teleop {
     public static void periodic() {
     	Dashboard.updateDashboard();
         Scheduler.getInstance().run();
+        
+        
+        
         
         //Tank Drive
         //Robot.drive.setOpenLoop(new DriveSignal(HW.Driver_Gamepad.getLeftY(), HW.Driver_Gamepad.getRightY()));

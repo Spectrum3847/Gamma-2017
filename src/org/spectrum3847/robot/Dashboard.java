@@ -47,6 +47,7 @@ public class Dashboard {
     		SmartDashboard.putNumber("Shooter D_back",  0.750);
     		SmartDashboard.putNumber("Shooter F_back",  3.000);
     		SmartDashboard.putBoolean("Gear Sensor", false);
+    		SmartDashboard.putNumber("Climber Speed", .75);
     		
     		SmartDashboard.putNumber("Gear Arm Current Limit", 30);
     		SmartDashboard.putNumber("Gear Arm Current Limit Low Bound", 25);
@@ -61,6 +62,19 @@ public class Dashboard {
   		
     		SmartDashboard.putNumber("Gear Arm kP",  1.8);
     		SmartDashboard.putNumber("Gear Arm kD", 16);
+    		
+    		SmartDashboard.putNumber("TurnPID kP", 0.014);
+    		SmartDashboard.putNumber("TurnPID kD", 0.003);
+    		
+    		SmartDashboard.putNumber("Operator Intake Deadpan", .1);
+    		SmartDashboard.putNumber("Operator Elevator Deadpan", .1);
+    		SmartDashboard.putNumber("Elevator Ramp Rate", 0.25);
+    		SmartDashboard.putNumber("Intake Ramp Rate",  0.25);
+    		
+    		SmartDashboard.putNumber("MoveFeet kP", 0.0004);
+    		SmartDashboard.putNumber("MoveFeet kD", 0.0006);
+    		
+    		SmartDashboard.putNumber("Gear Cam USB ID", 2);
     	}
     }
 
@@ -102,6 +116,8 @@ public class Dashboard {
 		SmartDashboard.putNumber("Gear Arm Current",  Robot.gearIntake.getArmTalon().getOutputCurrent());
 		SmartDashboard.putNumber("Gear Intake Current",  Robot.gearIntake.getIntakeTalon().getOutputCurrent());
 		SmartDashboard.putNumber("Gear Intake Current Limit", 12);
+		
+		SmartDashboard.putNumber("NavX Reading", Robot.navX.getYaw());
 
 
     }

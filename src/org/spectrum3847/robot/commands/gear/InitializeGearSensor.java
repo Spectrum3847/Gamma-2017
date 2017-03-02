@@ -11,7 +11,6 @@ public class InitializeGearSensor extends Command {
 	
 	public InitializeGearSensor() {
 		requires(Robot.gearIntake);
-		requires(Robot.gearIntake);
 		reached = false;
 	}
 	

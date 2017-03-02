@@ -3,6 +3,7 @@ package org.spectrum3847.robot;
 
 
 import org.spectrum3847.lib.drivers.Gamepad;
+import org.spectrum3847.lib.drivers.SpecAHRS;
 import org.spectrum3847.lib.drivers.SpectrumEncoder;
 import org.spectrum3847.lib.drivers.SpectrumSolenoid;
 import org.spectrum3847.lib.drivers.SpectrumSpeedController;
@@ -21,14 +22,18 @@ import org.spectrum3847.robot.subsystems.SpeedCANSubsystem;
 import org.spectrum3847.robot.subsystems.Tower;
 
 import com.ctre.CANTalon;
+import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -62,6 +67,8 @@ public class Robot extends IterativeRobot {
 	public static Drive drive; 
 	public static SpectrumSpeedControllerCAN leftDrive;
 	public static SpectrumSpeedControllerCAN rightDrive;
+	public static SpectrumSolenoid brakes;
+	public static SpectrumSpeedControllerCAN climber;
 	
 	public static ShooterWheel shooterFront;
 	public static ShooterWheel shooterBack;
@@ -84,8 +91,12 @@ public class Robot extends IterativeRobot {
 	
 	public static Compressor compressor;
 	
+	public static SpecAHRS navX;
+	
     public static void setupSubsystems(){
     	compressor = new Compressor(0);
+    	
+    	CameraServer.getInstance().startAutomaticCapture("Gear Cam", (int) SmartDashboard.getNumber("Gear Cam USB ID", 2));
     	
     	//DRIVETRAIN
     	CANTalon left_drive_talon_1 = new CANTalon(HW.LEFT_DRIVE_BACK_MOTOR);
@@ -114,8 +125,11 @@ public class Robot extends IterativeRobot {
     				new CANTalon[] {right_drive_talon_1, right_drive_talon_2, right_drive_talon_3},
     				new int[] {HW.RIGHT_DRIVE_BACK_MOTOR, HW.RIGHT_DRIVE_MIDDLE_MOTOR, HW.RIGHT_DRIVE_FRONT_MOTOR}
     			);
+    	brakes = new SpectrumSolenoid(HW.BRAKE_SOL);
+    	climber = new SpectrumSpeedControllerCAN(HW.CLIMBER_PDP, HW.CLIMBER);
     	
-    	drive = new Drive("defaultDrive", leftDrive, rightDrive);
+    	//I DONT KNOW THE ACTUAL HW SLOTS FOR CLIMBER     			
+    	drive = new Drive("defaultDrive", leftDrive, rightDrive, climber, brakes);
     	
     	//COLLECTOR
     	CANTalon collector_talon = new CANTalon(HW.MECANUM_COLLECTOR_MOTOR);
@@ -208,6 +222,9 @@ public class Robot extends IterativeRobot {
     	gearInput = new DigitalInput(HW.GEAR_SENSOR);
     	gearIntake = new GearIntake(gearIntakeMotor, gearArmMotor,gearInput);
     	
+    	navX = new SpecAHRS(SPI.Port.kMXP);
+
+    	
     	
     }
     
@@ -240,7 +257,7 @@ public class Robot extends IterativeRobot {
     }
     
     private static void initDebugger(){
-    	Debugger.setLevel(Debugger.debug2); //Set the initial Debugger Level
+    	Debugger.setLevel(Debugger.info3); //Set the initial Debugger Level
     	Debugger.flagOn(general); //Set all the flags on, comment out ones you want off
     	Debugger.flagOn(controls);
     	Debugger.flagOn(input);

@@ -54,7 +54,7 @@ public class HW {
 	
 	
 	//these don't actually exist yet on current test chassis
-	public static final int PDP_4 = 4;
+	public static final int CLIMBER_PDP = 4;
 	public static final int PDP_5 = 5;
 	public static final int PDP_6 = 6;
 	public static final int PDP_7 = 7;
@@ -107,6 +107,8 @@ public class HW {
     
     public static final int GEAR_ARM_MOTOR = 61;
     public static final int GEAR_INTAKE_MOTOR = 62;
+    
+    public static final int CLIMBER = 0; //I DONT KNOW WHAT THIS IS SET IT LATER
     
     /**DIGITAL SENSOR ALLOCATIONS**/
     public static final int GEAR_SENSOR = 1; 

@@ -1,6 +1,7 @@
 package org.spectrum3847.robot.subsystems;
 
 import org.spectrum3847.lib.drivers.SpectrumSpeedControllerCAN;
+import org.spectrum3847.robot.commands.ManualLoadTower;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -31,8 +32,7 @@ public class Tower extends Subsystem{
 	
 	@Override
 	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
-		
+		setDefaultCommand(new ManualLoadTower());
 	}
 
 }

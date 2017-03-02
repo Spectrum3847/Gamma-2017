@@ -4,14 +4,17 @@ package org.spectrum3847.robot.subsystems;
 import java.math.BigDecimal;
 
 import org.spectrum3847.lib.drivers.DriveSignal;
+import org.spectrum3847.lib.drivers.SpectrumSolenoid;
 import org.spectrum3847.lib.drivers.SpectrumSpeedController;
 import org.spectrum3847.lib.drivers.SpectrumSpeedControllerCAN;
 import org.spectrum3847.lib.trajectory.Path;
 import org.spectrum3847.lib.util.Pose;
 import org.spectrum3847.lib.util.StateHolder;
 import org.spectrum3847.lib.util.Util;
+import org.spectrum3847.lib.util.Debugger;
 import org.spectrum3847.lib.util.Expression;
 import org.spectrum3847.robot.Constants;
+import org.spectrum3847.robot.Robot;
 import org.spectrum3847.robot.subsystems.controllers.DriveFinishLineController;
 import org.spectrum3847.robot.subsystems.controllers.DrivePathController;
 import org.spectrum3847.robot.subsystems.controllers.DriveStraightController;
@@ -30,13 +33,15 @@ public class Drive extends Subsystem {
         public boolean onTarget();
 
     }
-
+    
+    public SpectrumSpeedControllerCAN climber;
     public SpectrumSpeedControllerCAN m_left_motor;
     public SpectrumSpeedControllerCAN m_right_motor;
     public Encoder m_left_encoder;
     public Encoder m_right_encoder;
     //public GyroThread m_gyro; Will Replace with NavX
     private DriveController m_controller = null;
+    private SpectrumSolenoid brakes;
 
     protected final double m_inches_per_tick = Constants.kDriveWheelSizeInches
             * Math.PI / Constants.kDriveEncoderCountsPerRev;
@@ -68,9 +73,10 @@ public class Drive extends Subsystem {
     			left_encoder, right_encoder);
     }
     */
-    public Drive(String name, SpectrumSpeedControllerCAN left_drive, SpectrumSpeedControllerCAN right_drive){
+    public Drive(String name, SpectrumSpeedControllerCAN left_drive, SpectrumSpeedControllerCAN right_drive, SpectrumSpeedControllerCAN climber, SpectrumSolenoid breakSol){
     	this.m_left_motor = left_drive;
     	this.m_right_motor = right_drive;
+    	brakes= breakSol;
 
     }
 
@@ -264,6 +270,18 @@ public class Drive extends Subsystem {
 
     public Drive.DriveController getController() {
         return m_controller;
+    }
+    
+    public void extendBrakes(){
+    	brakes.set(true);
+    }
+    
+    public void retractBrakes(){
+    	brakes.set(false);
+    }
+
+    public void setClimber(double speed){
+    	climber.set(speed);
     }
 
     public void reloadConstants() {
