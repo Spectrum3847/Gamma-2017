@@ -223,8 +223,8 @@ public class Drive extends Subsystem {
         else
         	rightNegativeFlag = false;
         
-        signal.leftMotor =  ( new Expression(SmartDashboard.getString("Drive Equation")).with("x",new BigDecimal(signal.leftMotor)).eval() ).doubleValue();
-        signal.rightMotor = ( new Expression(SmartDashboard.getString("Drive Equation")).with("x",new BigDecimal(signal.rightMotor)).eval() ).doubleValue();
+        signal.leftMotor =  ( new Expression(SmartDashboard.getString("Drive Equation", "x")).with("x",new BigDecimal(signal.leftMotor)).eval() ).doubleValue();
+        signal.rightMotor = ( new Expression(SmartDashboard.getString("Drive Equation", "x")).with("x",new BigDecimal(signal.rightMotor)).eval() ).doubleValue();
         
         if(! (leftNegativeFlag ^ (signal.leftMotor < 0)))
         	signal.leftMotor *= -1;
@@ -274,9 +274,11 @@ public class Drive extends Subsystem {
     
     public void extendBrakes(){
     	brakes.set(true);
+    	System.out.println("EXTEND");
     }
     
     public void retractBrakes(){
+    	System.out.println("RETRACT");
     	brakes.set(false);
     }
 

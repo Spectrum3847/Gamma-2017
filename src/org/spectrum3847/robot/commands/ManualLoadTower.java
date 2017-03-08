@@ -16,7 +16,7 @@ public class ManualLoadTower extends Command{
 	}
 	
 	public void execute(){
-		if(Math.abs(HW.Operator_Gamepad.getY(Hand.kRight)) > SmartDashboard.getNumber("Operator Elevator Deadpan", 0.1)){
+		if(Math.abs(HW.Operator_Gamepad.getY(Hand.kRight)) > SmartDashboard.getNumber("Operator Elevator Deadband", 0.1)){
 			Robot.tower.set(HW.Operator_Gamepad.getY(Hand.kRight)*SmartDashboard.getNumber("Elevator Ramp Rate", 0.25));
 			Robot.beltIntake.set(HW.Operator_Gamepad.getY(Hand.kRight)*SmartDashboard.getNumber("Intake Ramp Rate", 0.25));
 		}

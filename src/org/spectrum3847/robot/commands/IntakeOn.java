@@ -28,7 +28,7 @@ public class IntakeOn extends Command{
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-		if(!buttonControl)
+		if(!buttonControl && HW.Operator_Gamepad.getY(Hand.kLeft) > .1)
 			Robot.beltIntake.set(HW.Operator_Gamepad.getY(Hand.kLeft));
 	}
 

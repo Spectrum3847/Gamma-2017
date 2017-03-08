@@ -7,6 +7,7 @@ import org.spectrum3847.robot.Robot;
 import org.spectrum3847.robot.commands.gear.GearArmDrive;
 
 import com.ctre.CANTalon;
+import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Command;
@@ -29,11 +30,12 @@ public class GearIntake extends Subsystem {
 		getArmTalon().setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Absolute);
 		getArmTalon().configPeakOutputVoltage(+6f, -6f);
 		getArmTalon().setCloseLoopRampRate(10000);
-		getIntakeTalon().setVoltageRampRate(24);
+		getIntakeTalon().setVoltageRampRate(10000);
+		getArmTalon().changeControlMode(TalonControlMode.Position);
 	}
 	
 	 public void initDefaultCommand() {
-			setDefaultCommand(new GearArmDrive());
+			//setDefaultCommand(new GearArmDrive());
 	 }
 	
 

@@ -25,9 +25,13 @@ public class Dashboard {
     		//SmartDashboard.putNumber("Motor 1", 0);
         	//Robot.shooter.putCompleteOnDashboard();
     		
-    		SmartDashboard.putNumber("Drive Deadband", .1);
+    		SmartDashboard.putBoolean("Autonomous ENABLED", true);
+    		SmartDashboard.putBoolean("Auto Score Gear Bool", true);
+    		
+    		SmartDashboard.putNumber("Drive Deadband", .15);
     		SmartDashboard.putBoolean("Drive Squared Inputs", false);
-    		SmartDashboard.putString("Drive Equation", "x^2");
+    		SmartDashboard.putString("Drive Equation", "x");
+    		SmartDashboard.putNumber("Drivetrain Voltage Ramp", 60);
     		
     		SmartDashboard.putNumber("Collector Speed", .75);
     		
@@ -53,11 +57,11 @@ public class Dashboard {
     		SmartDashboard.putNumber("Gear Arm Current Limit Low Bound", 25);
     		SmartDashboard.putNumber("Gear Arm Deadband", .1);
     		SmartDashboard.putNumber("Gear Intake Speed", 1);
-    		SmartDashboard.putNumber("Gear Outtake Speed", 1);
+    		SmartDashboard.putNumber("Gear Outtake Speed", .75);
     		SmartDashboard.putNumber("Gear Arm Ramp Factor", .25);
     		SmartDashboard.putNumber("Gear Arm Down Angle", .71);
     		SmartDashboard.putNumber("Gear Arm Score Angle", 0.2);
-    		SmartDashboard.putNumber("Gear Arm ScoreDown Angle", .5);
+    		SmartDashboard.putNumber("Gear Arm ScoreDown Angle", .3);
     		SmartDashboard.putNumber("Gear Arm Up Angle", .03);
   		
     		SmartDashboard.putNumber("Gear Arm kP",  1.8);
@@ -66,13 +70,28 @@ public class Dashboard {
     		SmartDashboard.putNumber("TurnPID kP", 0.014);
     		SmartDashboard.putNumber("TurnPID kD", 0.003);
     		
-    		SmartDashboard.putNumber("Operator Intake Deadpan", .1);
-    		SmartDashboard.putNumber("Operator Elevator Deadpan", .1);
+    		SmartDashboard.putNumber("Operator Intake Deadband", .1);
+    		SmartDashboard.putNumber("Operator Elevator Deadband", .1);
     		SmartDashboard.putNumber("Elevator Ramp Rate", 0.25);
     		SmartDashboard.putNumber("Intake Ramp Rate",  0.25);
     		
-    		SmartDashboard.putNumber("MoveFeet kP", 0.0004);
-    		SmartDashboard.putNumber("MoveFeet kD", 0.0006);
+    		//SmartDashboard.putNumber("MoveFeet kP", 0.0004);
+    		//SmartDashboard.putNumber("MoveFeet kD", 0.0006);
+    		SmartDashboard.putNumber("MoveFeet P", 1000);
+    		SmartDashboard.putNumber("MoveFeet I", 0);
+    		SmartDashboard.putNumber("MoveFeetD", 0);
+    		SmartDashboard.putNumber("MoveFeet F", 1000);
+    		SmartDashboard.putNumber("MoveFeet Setpoint", 11.5);
+    		SmartDashboard.putNumber("MoveFeet Timeout", 5);
+    		
+    		SmartDashboard.putNumber("DriveForTime Duration", 3);
+    		SmartDashboard.putNumber("DriveForTime Throttle", .5);
+    		
+    		SmartDashboard.putNumber("Current Gear Auto Reverse Time", 1);
+    		SmartDashboard.putNumber("Current Gear Auto Reverse Throttle", -.4);
+    		SmartDashboard.getNumber("Current Gear Auto Current Trigger", .1);
+    		SmartDashboard.getNumber("Current gear Auto Throttle", .5);
+    		
     		
     		SmartDashboard.putNumber("Gear Cam USB ID", 2);
     	}
@@ -88,7 +107,10 @@ public class Dashboard {
     	SmartDashboard.putNumber("Drive Trigger Right: ", HW.Driver_Gamepad.getTriggerAxis(Hand.kRight));
     	SmartDashboard.putNumber("Drive Left:", Robot.leftDrive.get());
     	SmartDashboard.putNumber("Drive Right:", Robot.rightDrive.get());
-
+    	SmartDashboard.putNumber("Drive Position", Robot.leftDrive.getTalon().getPosition());
+    	SmartDashboard.putNumber("Drive Error", Robot.leftDrive.getTalon().getError());
+    	SmartDashboard.putNumber("Drive Get Setpoint", Robot.leftDrive.getTalon().getSetpoint());
+    	
     	SmartDashboard.putNumber("Front Speed", Robot.shooterFront.getSpeed());
     	SmartDashboard.putNumber("Front Current Setpoint", Robot.shooterFront.getTalon().getSetpoint());
         SmartDashboard.putNumber("Front Error", Robot.shooterFront.getTalon().getError());
@@ -98,7 +120,7 @@ public class Dashboard {
     	SmartDashboard.putNumber("Front Left Shooter Current", HW.PDP.getCurrent(HW.SHOOTER_MOTOR_FRONT_LEFT_PDP));
     	SmartDashboard.putNumber("Front Right Shooter Current", HW.PDP.getCurrent(HW.SHOOTER_MOTOR_FRONT_RIGHT_PDP));
     	
-    	
+    	/*
         SmartDashboard.putNumber("Back Speed", Robot.shooterBack.getSpeed());
     	SmartDashboard.putNumber("Back Current Setpoint", Robot.shooterBack.getTalon().getSetpoint());
     	SmartDashboard.putNumber("Back Error", Robot.shooterBack.getTalon().getError());
@@ -107,6 +129,7 @@ public class Dashboard {
     	SmartDashboard.putNumber("Back Bus Voltage", Robot.shooterBack.getTalon().getBusVoltage());
     	SmartDashboard.putNumber("Back Left Shooter Current", HW.PDP.getCurrent(HW.SHOOTER_MOTOR_BACK_LEFT_PDP));
     	SmartDashboard.putNumber("Back Right Shooter Current", HW.PDP.getCurrent(HW.SHOOTER_MOTOR_BACK_RIGHT_PDP));
+    	*/
     	
     	SmartDashboard.putNumber("Gear Arm Encoder Value", Robot.gearIntake.getArmTalon().getPosition());
 		SmartDashboard.putBoolean("Gear Sensor", Robot.gearIntake.getSensorOutput());
@@ -118,6 +141,7 @@ public class Dashboard {
 		SmartDashboard.putNumber("Gear Intake Current Limit", 12);
 		
 		SmartDashboard.putNumber("NavX Reading", Robot.navX.getYaw());
+		SmartDashboard.putData(Robot.gearIntake);
 
 
     }

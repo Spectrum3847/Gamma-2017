@@ -19,9 +19,8 @@ public class ShooterOn extends Command{
 	private double front_speed;
 	private double back_speed;
 	
+	public ShooterOn(){
 	
-	public void ShooterON(){
-		
 	}
 	
 	//called before first run
@@ -29,7 +28,7 @@ public class ShooterOn extends Command{
 		System.out.println("initializing ShooterOn : Setting Shooter PID");
 		
 		Robot.shooterFront.enable();
-		Robot.shooterBack.enable();
+		//Robot.shooterBack.enable();
 		
 		front_speed = SmartDashboard.getNumber("Shooter PID Front Speed", 0);
 		back_speed = SmartDashboard.getNumber("Shooter PID Back Speed", 0);
@@ -50,14 +49,15 @@ public class ShooterOn extends Command{
 		//Robot.shooterback.getTalon().reverseSensor(true);
 		Robot.shooterFront.set(front_speed);
 		
+		/*
 		Robot.shooterBack.setPID(p_back, i_back, d_back, f_back, 0, 100, 0);
 		//Robot.shooterFrontFlat.setInverted(true);
 		//Robot.shooterBack.getTalon().reverseSensor(true);
 		Robot.shooterBack.set(back_speed);
-
+		*/
 		
 		Debugger.println("Front PID Setpoint: " +Robot.shooterFront.getSpeed() +
-							"Back PID Setpoint: " + Robot.shooterBack.getSpeed() +
+							//"Back PID Setpoint: " + Robot.shooterBack.getSpeed() +
 							" P_front: " + p_front + " D_front: " + d_front + " F_front: " + f_front + " \n"+
 							" P_back: " + p_back + " D_back: " + d_back + " F_back: " + f_back + " \n",
 							Robot.commands, Debugger.warning4);
@@ -81,8 +81,7 @@ public class ShooterOn extends Command{
 		// TODO Auto-generated method stub
 		System.out.println("DISABLING SHOOTER WHEELS");
 		Robot.shooterFront.disable();
-		
-		Robot.shooterBack.disable();
+		//Robot.shooterBack.disable();
 
 		
 		

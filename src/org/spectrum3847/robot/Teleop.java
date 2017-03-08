@@ -4,6 +4,8 @@ import org.spectrum3847.lib.drivers.SpectrumSolenoid;
 import org.spectrum3847.robot.commands.ArcadeDrive;
 //import org.spectrum3847.robot.commands.GearArmDrive;
 import org.spectrum3847.robot.commands.IntakeOn;
+import org.spectrum3847.robot.commands.ManualClimb;
+import org.spectrum3847.robot.commands.ManualGearIntake;
 import org.spectrum3847.robot.commands.gear.GearArmDrive;
 import org.spectrum3847.robot.subsystems.GearIntake;
 
@@ -28,7 +30,12 @@ public class Teleop {
         
         IntakeOn beltIntakeOn = new IntakeOn(false);
         beltIntakeOn.start();
-        Robot.gearIntake.getArmTalon().setPosition(0);
+        
+        ManualClimb manualClimb = new ManualClimb();
+        manualClimb.start();
+        
+        //ManualGearIntake manualGearIntake = new ManualGearIntake();
+        //manualGearIntake.start();
         
        //GearArmDrive gearDrive = new GearArmDrive();
        //gearDrive.start();

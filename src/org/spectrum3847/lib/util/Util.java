@@ -46,6 +46,7 @@ public class Util {
         return sb.toString();
     }
     
+    //In seconds
     public static double getTime(){
     	return Timer.getFPGATimestamp();
     }

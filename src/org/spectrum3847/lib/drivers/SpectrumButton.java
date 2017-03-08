@@ -14,7 +14,7 @@ public class SpectrumButton extends Button {
 	}
 	
 	public enum XboxButton{
-		A(1), B(2), X(3), Y(4), BumperLeft(5), BumperRight(6), Back(7), Start(8), StickLeft(9), StickRight(10), DUp(20), DRight(21), DDown(22), DLeft(23);
+		A(1), B(2), X(3), Y(4), BumperLeft(5), BumperRight(6), Back(7), Start(8), StickLeft(9), StickRight(10);
 	
 		public final int value;
 		
@@ -28,6 +28,7 @@ public class SpectrumButton extends Button {
 	public boolean get() {
 		// TODO Auto-generated method stub
 		return controller.getRawButton(button);	
+			
 	}
 
 }

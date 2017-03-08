@@ -15,8 +15,7 @@ public class MecanumUp extends Command{
 	protected void initialize() {
 		// TODO Auto-generated method stub
 		System.out.println("MECANUM UP" + " is not extended: " + !Robot.mecanumCollector.isExtended() + " is not collecting: " + !Robot.mecanumCollector.isCollecting());
-		if(!Robot.mecanumCollector.isExtended() && !Robot.mecanumCollector.isCollecting())
-			Robot.mecanumCollector.extend();
+		Robot.mecanumCollector.extend();
 		
 		
 	}
@@ -35,13 +34,15 @@ public class MecanumUp extends Command{
 	@Override
 	protected void end() {
 		// TODO Auto-generated method stub
+
+		Robot.mecanumCollector.retract();
 		
 	}
 
 	@Override
 	protected void interrupted() {
 		// TODO Auto-generated method stub
-		//Robot.mecanumCollector.retract();
+		end();
 	}
 
 }

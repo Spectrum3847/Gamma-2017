@@ -17,9 +17,9 @@ public class GearIntakeOn extends Command{
 	protected void initialize() {
 		// TODO Auto-generated method stub
 		if(intakeDir)
-			wheelSpeed = SmartDashboard.getNumber("Gear Intake Speed");
+			wheelSpeed = SmartDashboard.getNumber("Gear Intake Speed",1);
 		else
-			wheelSpeed = -1 * SmartDashboard.getNumber("Gear Outtake Speed");
+			wheelSpeed = -1 * SmartDashboard.getNumber("Gear Outtake Speed",1);
 		
 		Robot.gearIntake.setIntake(wheelSpeed);
 	}

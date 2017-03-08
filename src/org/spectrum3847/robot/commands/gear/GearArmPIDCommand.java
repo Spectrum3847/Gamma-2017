@@ -2,12 +2,14 @@ package org.spectrum3847.robot.commands.gear;
 
 import org.spectrum3847.lib.util.Debugger;
 import org.spectrum3847.robot.Constants;
+import org.spectrum3847.robot.HW;
 import org.spectrum3847.robot.Robot;
 import org.spectrum3847.robot.Utilities;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -56,6 +58,8 @@ public abstract class GearArmPIDCommand extends Command{
     	Robot.gearIntake.printDebug("Gear arm PID ended, switch to manual control");
     	arm.changeControlMode(TalonControlMode.PercentVbus);
     	arm.set(0);
+    	//HW.Driver_Gamepad.setRumble(RumbleType.kRightRumble, .7);
+    	//HW.Operator_Gamepad.setRumble(RumbleType.kLeftRumble, .7);
     }
 
     // Called when another command which requires one or more of the same

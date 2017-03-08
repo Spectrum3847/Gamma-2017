@@ -2,9 +2,9 @@ package org.spectrum3847.robot.commands.gear;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class GearArmPIDScore extends GearArmPIDCommand {
+public class GearArmPIDPreScore extends GearArmPIDCommand {
 
-	public GearArmPIDScore() {
+	public GearArmPIDPreScore() {
 		super();
 	}
 	

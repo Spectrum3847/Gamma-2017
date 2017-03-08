@@ -63,7 +63,6 @@ public class MecanumCollector extends Subsystem{
 	
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new ManualIntake());
 		
 	}
 

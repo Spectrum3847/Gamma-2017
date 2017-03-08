@@ -7,7 +7,7 @@ import org.spectrum3847.robot.commands.MecanumCollect;
 import org.spectrum3847.robot.commands.MecanumDown;
 import org.spectrum3847.robot.commands.Brake;
 import org.spectrum3847.robot.commands.Climb;
-import org.spectrum3847.robot.commands.Fire;
+//import org.spectrum3847.robot.commands.Fire;
 import org.spectrum3847.robot.commands.IntakeOn;
 import org.spectrum3847.robot.commands.LoadShooter;
 import org.spectrum3847.robot.commands.LoadTower;
@@ -15,7 +15,7 @@ import org.spectrum3847.robot.commands.MecanumUp;
 import org.spectrum3847.robot.commands.ShooterOn;
 import org.spectrum3847.robot.commands.SolenoidCommand;
 import org.spectrum3847.robot.commands.gear.GearArmPIDDown;
-import org.spectrum3847.robot.commands.gear.GearArmPIDScore;
+import org.spectrum3847.robot.commands.gear.GearArmPIDPreScore;
 import org.spectrum3847.robot.commands.gear.GearArmPIDUp;
 import org.spectrum3847.robot.commands.gear.GearIntakeOn;
 import org.spectrum3847.robot.commands.gear.IntakeGear;import org.spectrum3847.robot.commands.gear.ScoreGear;
@@ -68,30 +68,36 @@ public class OI {
     								true));
     	*/	
     	//Operator
-    	new SpectrumButton(HW.Operator_Gamepad, XboxButton.X).toggleWhenPressed(new MecanumCollect());
-    	new SpectrumButton(HW.Operator_Gamepad, XboxButton.B).whileHeld(new Climb()); 	
+    	//Not Mecanum Up, Budget 118 finger
+    	new SpectrumButton(HW.Operator_Gamepad, XboxButton.B).toggleWhenPressed((new MecanumUp()));
+    	//new SpectrumButton(HW.Operator_Gamepad, XboxButton.B).toggleWhenPressed(new MecanumCollect());
+    	//new SpectrumButton(HW.Operator_Gamepad, XboxButton.B).whileHeld(new Climb()); 
     	//new SpectrumButton(HW.Operator_Gamepad, XboxButton.A).toggleWhenPressed(new ShooterOn());
-    	new SpectrumButton(HW.Operator_Gamepad, XboxButton.Y).whileHeld(new LoadShooter());
-    	new SpectrumButton(HW.Operator_Gamepad, XboxButton.Y).whileHeld(new LoadTower());
-    	new SpectrumButton(HW.Operator_Gamepad, XboxButton.Y).whileHeld(new ShooterOn());
+    	//new SpectrumButton(HW.Operator_Gamepad, XboxButton.Y).whileHeld(new LoadShooter());
+    	//new SpectrumButton(HW.Operator_Gamepad, XboxButton.Y).whileHeld(new LoadTower());
+    	//new SpectrumButton(HW.Operator_Gamepad, XboxButton.Y).whileHeld(new ShooterOn());
     	new SpectrumButton(HW.Operator_Gamepad, XboxButton.Start).toggleWhenPressed(new ZeroGearArmCurrent());
-       	new SpectrumButton(HW.Operator_Gamepad, XboxButton.DDown).whenPressed(new IntakeGear());
-    	new SpectrumButton(HW.Operator_Gamepad, XboxButton.DRight).whileHeld(new GearIntakeOn(false));
-    	new SpectrumButton(HW.Operator_Gamepad, XboxButton.DLeft).whileHeld(new GearIntakeOn(true));
-    	new SpectrumButton(HW.Operator_Gamepad, XboxButton.BumperLeft).whenPressed(new GearArmPIDScore());
+        new SpectrumButton(HW.Operator_Gamepad, XboxButton.A).whenPressed(new IntakeGear());
+    	//new SpectrumButton(HW.Operator_Gamepad, XboxButton.DRight).whileHeld(new GearIntakeOn(false));
+    	//new SpectrumButton(HW.Operator_Gamepad, XboxButton.DLeft).whileHeld(new GearIntakeOn(true));
+    	new SpectrumButton(HW.Operator_Gamepad, XboxButton.BumperLeft).whenPressed(new GearArmPIDPreScore());
     	new SpectrumButton(HW.Operator_Gamepad, XboxButton.BumperRight).whenPressed(new ScoreGear());
+    	new SpectrumButton(HW.Operator_Gamepad, XboxButton.Y).whenPressed(new GearArmPIDUp());
+    	new SpectrumButton(HW.Operator_Gamepad, XboxButton.X).whileHeld(new LoadShooter());
+    	new SpectrumButton(HW.Operator_Gamepad, XboxButton.Back).toggleWhenPressed(new ShooterOn());
 
     	//Driver
-    	new SpectrumButton(HW.Driver_Gamepad, XboxButton.BumperLeft).whenPressed(new GearArmPIDScore());
+    	//Not Mecanum Up, Budget 118 finger
+    	new SpectrumButton(HW.Driver_Gamepad, XboxButton.B).toggleWhenPressed((new MecanumUp()));
+    	new SpectrumButton(HW.Driver_Gamepad, XboxButton.BumperLeft).whenPressed(new GearArmPIDPreScore());
     	new SpectrumButton(HW.Driver_Gamepad, XboxButton.BumperRight).whenPressed(new ScoreGear());
-    	new SpectrumButton(HW.Driver_Gamepad, XboxButton.DDown).whenPressed(new IntakeGear());
-    	new SpectrumButton(HW.Driver_Gamepad, XboxButton.DUp).whenPressed(new GearArmPIDUp());
-    	new SpectrumButton(HW.Driver_Gamepad, XboxButton.DRight).whileHeld(new GearIntakeOn(false));
-    	new SpectrumButton(HW.Driver_Gamepad, XboxButton.DLeft).whileHeld(new GearIntakeOn(true));
-    	new SpectrumButton(HW.Driver_Gamepad, XboxButton.B).whileHeld(new Climb());
-    	
+    	new SpectrumButton(HW.Driver_Gamepad, XboxButton.A).whenPressed(new IntakeGear());
+    	new SpectrumButton(HW.Driver_Gamepad, XboxButton.Y).whenPressed(new GearArmPIDUp());
+    	//new SpectrumButton(HW.Driver_Gamepad, XboxButton.DRight).whileHeld(new GearIntakeOn(false));
+    	//new SpectrumButton(HW.Driver_Gamepad, XboxButton.DLeft).whileHeld(new GearIntakeOn(true));
+    //	new SpectrumButton(HW.Driver_Gamepad, XboxButton.B).whileHeld(new Climb());
+    	//new SpectrumButton(HW.Driver_Gamepad, XboxButton.B).toggleWhenPressed(new MecanumCollect());
     	new SpectrumButton(HW.Driver_Gamepad, XboxButton.X).toggleWhenPressed(new Brake());
-    	//new SpectrumButton(HW.Driver_Gamepad, XboxButton.Y).toggleWhenPressed(new GearArmPIDUp());
     	new SpectrumButton(HW.Driver_Gamepad, XboxButton.Start).toggleWhenPressed(new ZeroGearArmCurrent());
     }
 }

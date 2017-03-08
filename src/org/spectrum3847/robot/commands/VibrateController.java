@@ -1,7 +1,12 @@
 package org.spectrum3847.robot.commands;
 
 import org.spectrum3847.lib.drivers.Gamepad;
+import org.spectrum3847.lib.util.Debugger;
 import org.spectrum3847.lib.util.Util;
+import org.spectrum3847.robot.Robot;
+
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.XboxController;
 
 
 /**
@@ -9,9 +14,9 @@ import org.spectrum3847.lib.util.Util;
  */
 public class VibrateController extends CommandBase {
 
-	private Gamepad gp;
+	private XboxController gp;
 	private double duration;
-	private float intensity;
+	private double intensity;
 	private double startTime;
 	
 	/**
@@ -21,17 +26,20 @@ public class VibrateController extends CommandBase {
 	 * @param d
 	 * @param i
 	 */
-    public VibrateController(String name, Gamepad g, double d, float i) {
+    public VibrateController(String name, XboxController g, double d, double i) {
     	super(name);
     	gp = g;
-    	duration = d;
+    	duration = d; //In seconds
     	intensity = i;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	gp.rumble(intensity);
+    	gp.setRumble(RumbleType.kRightRumble, intensity);
+    	gp.setRumble(RumbleType.kLeftRumble, intensity);
     	startTime = Util.getTime();
+    	Debugger.println("Vibrating!", Robot.general, Debugger.debug2);
+    	System.out.println("Vibrating");
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -50,7 +58,8 @@ public class VibrateController extends CommandBase {
 
     // Called once after isFinished returns true
     protected void end() {
-    	gp.rumble(0);
+    	gp.setRumble(RumbleType.kRightRumble, 0);
+    	gp.setRumble(RumbleType.kLeftRumble, 0);
     }
 
     // Called when another command which requires one or more of the same

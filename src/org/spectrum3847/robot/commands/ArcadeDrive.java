@@ -18,7 +18,7 @@ public class ArcadeDrive extends Command{
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-		Robot.drive.arcadeDrive(HW.Driver_Gamepad.getY(Hand.kLeft), HW.Driver_Gamepad.getX(Hand.kRight), SmartDashboard.getNumber("Drive Deadband", .1), SmartDashboard.getBoolean("Drive Squared Inputs", false));
+		Robot.drive.arcadeDrive(HW.Driver_Gamepad.getY(Hand.kLeft), HW.Driver_Gamepad.getX(Hand.kRight), SmartDashboard.getNumber("Drive Deadband", .15), SmartDashboard.getBoolean("Drive Squared Inputs", false));
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import org.spectrum3847.robot.HW;
 import org.spectrum3847.robot.Robot;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -35,6 +36,8 @@ public class IntakeGearUntilCurrent extends Command{
 	@Override
 	protected void end() {
 		Robot.gearIntake.setIntake(0);
+    	//HW.Driver_Gamepad.setRumble(RumbleType.kRightRumble, .7);
+    	//HW.Operator_Gamepad.setRumble(RumbleType.kLeftRumble, .7);
 	}
 
 	@Override

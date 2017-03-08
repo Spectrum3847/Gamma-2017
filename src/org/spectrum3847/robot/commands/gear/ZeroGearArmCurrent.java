@@ -18,12 +18,16 @@ public class ZeroGearArmCurrent extends Command{
 	@Override
 	protected void initialize() {
 		Robot.gearIntake.getArmTalon().changeControlMode(TalonControlMode.Voltage);
+		Robot.gearIntake.printDebug("Arm Talon Zero gear Arm command Intialized");
 	}
 
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
 		Robot.gearIntake.setArmMotor(-2.5);
+		Robot.gearIntake.printDebug("Current motor: " + Robot.gearIntake.getArmTalon().get());
+		Robot.gearIntake.printDebug("Arm Talon Zero gear Arm command running");
+		
 	}
 
 	@Override

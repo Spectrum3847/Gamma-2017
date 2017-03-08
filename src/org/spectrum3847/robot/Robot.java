@@ -2,36 +2,25 @@
 package org.spectrum3847.robot;
 
 
-import org.spectrum3847.lib.drivers.Gamepad;
 import org.spectrum3847.lib.drivers.SpecAHRS;
-import org.spectrum3847.lib.drivers.SpectrumEncoder;
 import org.spectrum3847.lib.drivers.SpectrumSolenoid;
-import org.spectrum3847.lib.drivers.SpectrumSpeedController;
 import org.spectrum3847.lib.drivers.SpectrumSpeedControllerCAN;
 import org.spectrum3847.lib.util.Debugger;
 import org.spectrum3847.lib.util.Logger;
-import org.spectrum3847.robot.commands.CANManualControl;
 import org.spectrum3847.robot.subsystems.BeltIntake;
 import org.spectrum3847.robot.subsystems.Drive;
 import org.spectrum3847.robot.subsystems.GearIntake;
 import org.spectrum3847.robot.subsystems.MecanumCollector;
-import org.spectrum3847.robot.subsystems.MotorWithLimits;
 import org.spectrum3847.robot.subsystems.ShooterWheel;
-import org.spectrum3847.robot.subsystems.SolenoidSubsystem;
-import org.spectrum3847.robot.subsystems.SpeedCANSubsystem;
 import org.spectrum3847.robot.subsystems.Tower;
 
 import com.ctre.CANTalon;
-import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -89,6 +78,8 @@ public class Robot extends IterativeRobot {
 	public static SpectrumSpeedControllerCAN gearArmMotor;
 	public static DigitalInput gearInput;
 	
+	
+	
 	public static Compressor compressor;
 	
 	public static SpecAHRS navX;
@@ -96,25 +87,34 @@ public class Robot extends IterativeRobot {
     public static void setupSubsystems(){
     	compressor = new Compressor(0);
     	
-    	CameraServer.getInstance().startAutomaticCapture("Gear Cam", (int) SmartDashboard.getNumber("Gear Cam USB ID", 2));
+    	//CameraServer.getInstance().startAutomaticCapture("Gear Cam", (int) SmartDashboard.getNumber("Gear Cam USB ID", 2));
     	
     	//DRIVETRAIN
+    	double vRamp = SmartDashboard.getNumber("Drivetrain Voltage Ramp", 60);
+    	
     	CANTalon left_drive_talon_1 = new CANTalon(HW.LEFT_DRIVE_BACK_MOTOR);
     	CANTalon left_drive_talon_2 = new CANTalon(HW.LEFT_DRIVE_MIDDLE_MOTOR);
     	CANTalon left_drive_talon_3 = new CANTalon(HW.LEFT_DRIVE_FRONT_MOTOR);
+    	left_drive_talon_1.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+    	left_drive_talon_1.setVoltageRampRate(vRamp);
     	left_drive_talon_2.changeControlMode(CANTalon.TalonControlMode.Follower);
     	left_drive_talon_2.set(left_drive_talon_1.getDeviceID());
+    	left_drive_talon_2.setVoltageRampRate(vRamp);
     	left_drive_talon_3.changeControlMode(CANTalon.TalonControlMode.Follower);
     	left_drive_talon_3.set(left_drive_talon_1.getDeviceID());
+    	left_drive_talon_3.setVoltageRampRate(vRamp);
     	
     	CANTalon right_drive_talon_1 = new CANTalon(HW.RIGHT_DRIVE_BACK_MOTOR);
     	CANTalon right_drive_talon_2 = new CANTalon(HW.RIGHT_DRIVE_MIDDLE_MOTOR);
     	CANTalon right_drive_talon_3 = new CANTalon(HW.RIGHT_DRIVE_FRONT_MOTOR);
+    	right_drive_talon_1.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+    	right_drive_talon_1.setVoltageRampRate(vRamp);
     	right_drive_talon_2.changeControlMode(CANTalon.TalonControlMode.Follower);
     	right_drive_talon_2.set(right_drive_talon_1.getDeviceID());
+    	right_drive_talon_2.setVoltageRampRate(vRamp);
     	right_drive_talon_3.changeControlMode(CANTalon.TalonControlMode.Follower);
     	right_drive_talon_3.set(right_drive_talon_1.getDeviceID());
-    	
+    	right_drive_talon_3.setVoltageRampRate(vRamp);
     	
     	leftDrive = new SpectrumSpeedControllerCAN(
     				new CANTalon[] {left_drive_talon_1, left_drive_talon_2, left_drive_talon_3},
@@ -132,8 +132,9 @@ public class Robot extends IterativeRobot {
     	drive = new Drive("defaultDrive", leftDrive, rightDrive, climber, brakes);
     	
     	//COLLECTOR
+    	
     	CANTalon collector_talon = new CANTalon(HW.MECANUM_COLLECTOR_MOTOR);
-    	collector_talon.setInverted(true);
+    	collector_talon.setInverted(false);
     	
     	collectorMotor = new SpectrumSpeedControllerCAN(
     					new CANTalon[] {collector_talon},
@@ -161,24 +162,32 @@ public class Robot extends IterativeRobot {
     	CANTalon shooter_talon_front_left = new CANTalon(HW.SHOOTER_MOTOR_FRONT_LEFT);
     	shooter_talon_front_left.changeControlMode(CANTalon.TalonControlMode.Speed);
     	shooter_talon_front_left.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
-    	shooter_talon_front_left.reverseOutput(true);
+    	shooter_talon_front_left.setInverted(true);
     	shooter_talon_front_left.reverseSensor(true);
+    	shooter_talon_front_left.enableBrakeMode(false);
 
     	shooter_talon_front_right.changeControlMode(CANTalon.TalonControlMode.Follower);
     	shooter_talon_front_right.set(shooter_talon_front_left.getDeviceID());
     	shooter_talon_front_right.reverseOutput(true);
+    	shooter_talon_front_right.enableBrakeMode(false);
     	
     	
     	CANTalon shooter_talon_back_right = new CANTalon(HW.SHOOTER_MOTOR_BACK_RIGHT);
     	CANTalon shooter_talon_back_left = new CANTalon(HW.SHOOTER_MOTOR_BACK_LEFT);
-    	shooter_talon_back_right.changeControlMode(CANTalon.TalonControlMode.Speed);
+    	shooter_talon_back_right.changeControlMode(CANTalon.TalonControlMode.Follower);
+    	shooter_talon_back_right.set(shooter_talon_front_left.getDeviceID());
+    	shooter_talon_back_right.reverseOutput(false);
+    	/*
     	shooter_talon_back_right.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
-    	shooter_talon_back_right.reverseOutput(true);
+    	shooter_talon_back_right.setInverted(true);
     	shooter_talon_back_right.reverseSensor(true);
+    	*/
+    	shooter_talon_back_right.enableBrakeMode(false);
     	
     	shooter_talon_back_left.changeControlMode(CANTalon.TalonControlMode.Follower);
-    	shooter_talon_back_left.set(shooter_talon_back_left.getDeviceID());
+    	shooter_talon_back_left.set(shooter_talon_front_left.getDeviceID());
     	shooter_talon_back_left.reverseOutput(true);
+    	shooter_talon_back_left.enableBrakeMode(false);
     	
     	shooterFrontMotors = new SpectrumSpeedControllerCAN(
     						new CANTalon[] {shooter_talon_front_left, shooter_talon_front_right},
@@ -193,7 +202,7 @@ public class Robot extends IterativeRobot {
     	shooterFront = new ShooterWheel("Front Drum", shooterFrontMotors);
     	
     	
-    	shooterBack = new ShooterWheel("Back Drum", shooterBackMotors);
+    	//shooterBack = new ShooterWheel("Back Drum", shooterBackMotors);
     	
     	
     	//TOWER
@@ -253,11 +262,12 @@ public class Robot extends IterativeRobot {
     	setupSubsystems(); //This has to be before the OI is created on the next line
 		HW.oi = new OI();
         Dashboard.intializeDashboard();
-	logger = Logger.getInstance();
+		CameraServer.getInstance().startAutomaticCapture();
+		logger = Logger.getInstance();
     }
     
     private static void initDebugger(){
-    	Debugger.setLevel(Debugger.info3); //Set the initial Debugger Level
+    	Debugger.setLevel(Debugger.debug2); //Set the initial Debugger Level
     	Debugger.flagOn(general); //Set all the flags on, comment out ones you want off
     	Debugger.flagOn(controls);
     	Debugger.flagOn(input);

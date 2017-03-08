@@ -122,9 +122,9 @@ public class HW {
     public static final int DIGITAL_IO_9 = 9;  
     
     /**Pneumatics**/
-    public static final int BRAKE_SOL = 0;
-    public static final int MECANUM_EXTEND_SOL = 2;
-    public static final int MECANUM_RETRACT_SOL = 3;
+    public static final int BRAKE_SOL = 2;
+    public static final int MECANUM_EXTEND_SOL = 0;
+    public static final int MECANUM_RETRACT_SOL = 1;
     public static final int SOL_4 = 4;
     public static final int SOL_5 = 5;
     public static final int SOL_6 = 6;
