@@ -1,6 +1,6 @@
 package org.spectrum3847.robot.commands.gear;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.spectrum3847.robot.Robot;
 
 public class GearArmPIDUp extends GearArmPIDCommand {
 
@@ -9,7 +9,7 @@ public class GearArmPIDUp extends GearArmPIDCommand {
 	}
 	
 	double getSetpoint() {
-		return SmartDashboard.getNumber("Gear Arm Up Angle", .05);
+		return Robot.prefs.getNumber("G: Up Angle", .05);
 	}
 
 }

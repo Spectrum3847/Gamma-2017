@@ -1,4 +1,4 @@
-package org.spectrum3847.robot.commands;
+package org.spectrum3847.robot.commands.auto;
 
 import org.spectrum3847.robot.commands.gear.ScoreGear;
 

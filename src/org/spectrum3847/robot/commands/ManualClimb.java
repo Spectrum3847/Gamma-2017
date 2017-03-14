@@ -13,13 +13,13 @@ public class ManualClimb extends Command{
 	}
 
 	public void execute(){
-		System.out.println("Operator Trigger Right, Driver Trigger Right" + HW.Operator_Gamepad.getTriggerAxis(Hand.kRight) + ", " + HW.Driver_Gamepad.getTriggerAxis(Hand.kRight));
+		//System.out.println("Operator Trigger Right, Driver Trigger Right" + HW.Operator_Gamepad.getTriggerAxis(Hand.kRight) + ", " + HW.Driver_Gamepad.getTriggerAxis(Hand.kRight));
 		if (HW.Operator_Gamepad.getTriggerAxis(Hand.kRight) > .5)
-			Robot.mecanumCollector.set(HW.Operator_Gamepad.getTriggerAxis(Hand.kRight));
+			Robot.climber.set(HW.Operator_Gamepad.getTriggerAxis(Hand.kRight));
 		else if (HW.Driver_Gamepad.getTriggerAxis(Hand.kRight) > .5)
-			Robot.mecanumCollector.set(HW.Driver_Gamepad.getTriggerAxis(Hand.kRight));
+			Robot.climber.set(HW.Driver_Gamepad.getTriggerAxis(Hand.kRight));
 		else
-			Robot.mecanumCollector.set(0);
+			Robot.climber.set(0);
 	}
 	
 	@Override
@@ -29,7 +29,7 @@ public class ManualClimb extends Command{
 	}
 	
 	protected void end(){
-		Robot.mecanumCollector.set(0);
+		Robot.climber.set(0);
 	}
 	
 	protected void interrupted(){

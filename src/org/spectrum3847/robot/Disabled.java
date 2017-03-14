@@ -1,5 +1,8 @@
 package org.spectrum3847.robot;
 
+import org.spectrum3847.robot.commands.VibrateController;
+import org.spectrum3847.robot.commands.leds.Purple;
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,6 +19,8 @@ public class Disabled {
         Scheduler.getInstance().removeAll();
         //Init.sendCam.start();
         Robot.logger.close();
+        new VibrateController(HW.Driver_Gamepad, .5, 2);
+        new Purple().start();
     }
 
     //Periodic method called roughly once every 20ms
@@ -28,6 +33,7 @@ public class Disabled {
         }
         t++;
         Scheduler.getInstance().run();
+        
         Dashboard.updateDashboard();
         Timer.delay(0.001);
     }

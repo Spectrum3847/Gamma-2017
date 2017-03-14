@@ -13,7 +13,7 @@ public class GearArmPIDDown extends GearArmPIDCommand {
 	}
 	
 	double getSetpoint() {
-		return SmartDashboard.getNumber("Gear Arm Down Angle", .7);
+		return Robot.prefs.getNumber("G: Down Angle", .68);
 	}
 	
 /*	 // Called once after isFinished returns true

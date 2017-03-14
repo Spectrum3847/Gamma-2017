@@ -4,35 +4,33 @@ import org.spectrum3847.lib.drivers.SpectrumSpeedControllerCAN;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class BeltIntake extends Subsystem{
+public class BeltBed extends Subsystem{
 
-	private SpectrumSpeedControllerCAN beltMotor;
+	private SpectrumSpeedControllerCAN towerMotor;
 	
-	public BeltIntake(String n, SpectrumSpeedControllerCAN motor){
-		super(n);
-		beltMotor = motor;
+	public BeltBed(String name, SpectrumSpeedControllerCAN motor){
+		super(name);
+		towerMotor = motor;
 	}
 	
 	public void set(double value){
-		beltMotor.set(value);
+		towerMotor.set(value);
 	}
 	
 	public double getSpeed(){
-		return beltMotor.get();
+		return towerMotor.get();
 	}
 	
 	public double getCurrent(){
-		return beltMotor.getCurrent();
+		return towerMotor.getCurrent();
 	}
 	
 	public void disable(){
-		beltMotor.disable();
+		towerMotor.disable();
 	}
 	
 	@Override
 	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

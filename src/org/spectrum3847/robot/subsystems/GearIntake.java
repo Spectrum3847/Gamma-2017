@@ -19,14 +19,12 @@ public class GearIntake extends Subsystem {
 	private SpectrumSpeedControllerCAN intake_motor;
 	private SpectrumSpeedControllerCAN arm_motor;
 	private boolean currentLimitFlag;
-	public static DigitalInput sensor;
 	private static double upPos;
 	
 	
-	public GearIntake (SpectrumSpeedControllerCAN intake, SpectrumSpeedControllerCAN arm, DigitalInput s){
+	public GearIntake (SpectrumSpeedControllerCAN intake, SpectrumSpeedControllerCAN arm){
 		intake_motor = intake;
 		arm_motor = arm;
-		sensor = s;
 		getArmTalon().setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Absolute);
 		getArmTalon().configPeakOutputVoltage(+6f, -6f);
 		getArmTalon().setCloseLoopRampRate(10000);
@@ -40,7 +38,7 @@ public class GearIntake extends Subsystem {
 	
 
 	public void setArmMotor(double speed){
-		if(Math.abs(speed) >= SmartDashboard.getNumber("Gear Arm Deadband",.06) && !this.isCurrentLimited())
+		if(Math.abs(speed) >= Robot.prefs.getNumber("G: Arm Deadband",.06) && !this.isCurrentLimited())
 			arm_motor.set(speed);
 		else
 			arm_motor.set(0);
@@ -60,13 +58,12 @@ public class GearIntake extends Subsystem {
 		return intake_motor.getTalon();
 	}
 	
-	
-	
+	//if gear arm goes over 30 amps wait for it to be under 25 before reseting it
 	private boolean isCurrentLimited(){
-		 if(this.getArmCurrent() >= SmartDashboard.getNumber("Gear Arm Current Limit",40)){
+		 if(this.getArmCurrent() >= 30){
 			 currentLimitFlag = true;
 		 }
-		 if(this.getArmCurrent() < SmartDashboard.getNumber("Gear Arm Current Limit Low Bound",30)){
+		 if(this.getArmCurrent() < 25){
 			 currentLimitFlag = false;
 		 }
 		 return currentLimitFlag;
@@ -74,9 +71,6 @@ public class GearIntake extends Subsystem {
 	
 	public void setIntake(double speed){
 		intake_motor.set(speed);
-	}
-	public boolean getSensorOutput(){
-		return sensor.get();
 	}
 	
 	public void setUpPos(double pos){

@@ -73,7 +73,7 @@ public class Drive extends Subsystem {
     			left_encoder, right_encoder);
     }
     */
-    public Drive(String name, SpectrumSpeedControllerCAN left_drive, SpectrumSpeedControllerCAN right_drive, SpectrumSpeedControllerCAN climber, SpectrumSolenoid breakSol){
+    public Drive(String name, SpectrumSpeedControllerCAN left_drive, SpectrumSpeedControllerCAN right_drive, SpectrumSolenoid breakSol){
     	this.m_left_motor = left_drive;
     	this.m_right_motor = right_drive;
     	brakes= breakSol;
@@ -94,21 +94,30 @@ public class Drive extends Subsystem {
         
         if (Math.abs(throttle) < deadband){
       	  throttle = 0;
+        } else if (throttle < 0){
+            throttle = (throttle + deadband) / (1-deadband);
+        } else {
+        	throttle = (throttle - deadband) / (1-deadband);
         }
         
         if (Math.abs(turnPower) < deadband){
       	  turnPower = 0;
+        } else if (turnPower < 0){
+        	turnPower = (turnPower + deadband) / (1-deadband);
+        } else {
+        	turnPower = (turnPower - deadband) / (1-deadband);
         }
         
         
         if (squaredInputs) {
           // square the inputs (while preserving the sign) to increase fine control
           // while permitting full power
-          if (throttle >= 0.0) {
+          /*if (throttle >= 0.0) {
             throttle = (throttle * throttle);
           } else {
             throttle = -(throttle * throttle);
           }
+          */
           if (turnPower >= 0.0) {
             turnPower = (turnPower * turnPower);
           } else {

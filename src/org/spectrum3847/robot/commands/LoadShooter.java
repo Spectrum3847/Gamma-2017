@@ -7,15 +7,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LoadShooter extends Command{
 
-	private double beltSpeed;
 	
 	public LoadShooter(){};
 	
 	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
-		beltSpeed = SmartDashboard.getNumber("Tower Belt Speed");
-		Robot.tower.set(beltSpeed);
+		Robot.beltBed.set(SmartDashboard.getNumber("Belt Bed Speed",-1));
 	}
 
 	@Override
@@ -33,7 +30,7 @@ public class LoadShooter extends Command{
 	@Override
 	protected void end() {
 		// TODO Auto-generated method stub
-		Robot.tower.set(0);
+		Robot.beltBed.set(0);
 		
 	}
 

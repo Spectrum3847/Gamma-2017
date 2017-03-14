@@ -26,8 +26,8 @@ public class VibrateController extends CommandBase {
 	 * @param d
 	 * @param i
 	 */
-    public VibrateController(String name, XboxController g, double d, double i) {
-    	super(name);
+    public VibrateController(XboxController g, double d, double i) {
+    	super("vibrate");
     	gp = g;
     	duration = d; //In seconds
     	intensity = i;
@@ -58,8 +58,8 @@ public class VibrateController extends CommandBase {
 
     // Called once after isFinished returns true
     protected void end() {
-    	gp.setRumble(RumbleType.kRightRumble, 0);
-    	gp.setRumble(RumbleType.kLeftRumble, 0);
+    	gp.setRumble(RumbleType.kRightRumble, 0.0);
+    	gp.setRumble(RumbleType.kLeftRumble, 0.0);
     }
 
     // Called when another command which requires one or more of the same

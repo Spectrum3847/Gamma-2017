@@ -1,18 +1,11 @@
 package org.spectrum3847.robot;
 
-import org.spectrum3847.lib.drivers.SpectrumSolenoid;
 import org.spectrum3847.robot.commands.ArcadeDrive;
 //import org.spectrum3847.robot.commands.GearArmDrive;
-import org.spectrum3847.robot.commands.IntakeOn;
 import org.spectrum3847.robot.commands.ManualClimb;
-import org.spectrum3847.robot.commands.ManualGearIntake;
-import org.spectrum3847.robot.commands.gear.GearArmDrive;
-import org.spectrum3847.robot.subsystems.GearIntake;
+import org.spectrum3847.robot.commands.leds.Purple;
 
-import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -28,11 +21,10 @@ public class Teleop {
         ArcadeDrive arcadeDrive = new ArcadeDrive();
         arcadeDrive.start();
         
-        IntakeOn beltIntakeOn = new IntakeOn(false);
-        beltIntakeOn.start();
-        
         ManualClimb manualClimb = new ManualClimb();
         manualClimb.start();
+
+        new Purple().start();
         
         //ManualGearIntake manualGearIntake = new ManualGearIntake();
         //manualGearIntake.start();

@@ -108,17 +108,12 @@ public class Logger {
 	        	this.writer.write(String.format("%.3f,", ControllerPower.getEnabled5V()));
 	        	
 	        	//Shooter Stuff
-	        	this.writer.write(String.format("%.3f", Robot.shooterFront.getSpeed()));
-	        	this.writer.write(String.format("%.3f", Robot.shooterFront.getTalon().getOutputVoltage()));
-	        	this.writer.write(String.format("%.3", Robot.shooterFront.getTalon().getBusVoltage()));
-	        	this.writer.write(String.format("%.3f", HW.PDP.getCurrent(HW.SHOOTER_MOTOR_FRONT_LEFT)));
-	        	this.writer.write(String.format("%.3f", HW.PDP.getCurrent(HW.SHOOTER_MOTOR_FRONT_RIGHT)));
-	        	
-	        	this.writer.write(String.format("%.3f", Robot.shooterBack.getSpeed()));
-	        	this.writer.write(String.format("%.3f", Robot.shooterBack.getTalon().getOutputVoltage()));
-	        	this.writer.write(String.format("%.3f", Robot.shooterBack.getTalon().getBusVoltage()));
-	        	this.writer.write(String.format("%.3f", HW.PDP.getCurrent(HW.SHOOTER_MOTOR_BACK_LEFT)));
-	        	this.writer.write(String.format("%.3f", HW.PDP.getCurrent(HW.SHOOTER_MOTOR_BACK_RIGHT)));
+	        	this.writer.write(String.format("%.3f", Robot.shooterWheel.getSpeed()));
+	        	this.writer.write(String.format("%.3f", Robot.shooterWheel.getTalon().getOutputVoltage()));
+	        	this.writer.write(String.format("%.3", Robot.shooterWheel.getTalon().getBusVoltage()));
+	        	this.writer.write(String.format("%.3f", HW.PDP.getCurrent(HW.SHOOTER_WHEEL)));
+	        	this.writer.write(String.format("%.3f", HW.PDP.getCurrent(HW.BELT_BED)));
+	        	this.writer.write(String.format("%.3f", HW.PDP.getCurrent(HW.SHOOTER_TOWER)));
 	        	/*
 	            this.writer.write(String.format("%d", new java.util.Date().getTime()));
 	            this.writer.write(String.format(",%.3f", this.robotOut.getDriveLeft()));

@@ -3,6 +3,7 @@ package org.spectrum3847.robot.commands.gear;
 
 import org.spectrum3847.robot.HW;
 import org.spectrum3847.robot.Robot;
+import org.spectrum3847.robot.commands.VibrateController;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
@@ -19,7 +20,7 @@ public class IntakeGearUntilCurrent extends Command{
 	
 	@Override
 	protected void initialize() {
-		speed = SmartDashboard.getNumber("Gear Intake Speed", .75);
+		speed = Robot.prefs.getNumber("G: Intake Speed", 1);
 	}
 
 	@Override
@@ -30,12 +31,14 @@ public class IntakeGearUntilCurrent extends Command{
 	@Override
 	protected boolean isFinished() {
 		//If output current of the intake motor is higher than the dashboard value end this command
-		return Robot.gearIntake.getIntakeTalon().getOutputCurrent() > SmartDashboard.getNumber("Gear Intake Current Limit", 12);
+		return Robot.gearIntake.getIntakeTalon().getOutputCurrent() > Robot.prefs.getNumber("G: In Amps Limit", 12);
 	}
 
 	@Override
 	protected void end() {
 		Robot.gearIntake.setIntake(0);
+		new VibrateController(HW.Driver_Gamepad, 0.75, 1).start();
+		new VibrateController(HW.Operator_Gamepad, 0.75, 1).start();
     	//HW.Driver_Gamepad.setRumble(RumbleType.kRightRumble, .7);
     	//HW.Operator_Gamepad.setRumble(RumbleType.kLeftRumble, .7);
 	}
@@ -43,7 +46,7 @@ public class IntakeGearUntilCurrent extends Command{
 	@Override
 	protected void interrupted() {
 		// TODO Auto-generated method stub
-		this.end();
+		Robot.gearIntake.setIntake(0);
 	}
 
 }

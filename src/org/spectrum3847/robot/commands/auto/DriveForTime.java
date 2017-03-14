@@ -1,10 +1,10 @@
-package org.spectrum3847.robot.commands;
+package org.spectrum3847.robot.commands.auto;
 
 import org.spectrum3847.lib.drivers.DriveSignal;
+import org.spectrum3847.lib.util.Debugger;
 import org.spectrum3847.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveForTime extends Command{
 
@@ -23,17 +23,11 @@ public class DriveForTime extends Command{
 	}
 
 	public void initialize(){
-		/*
-		if ((Double)this.time != null || (Double)this.throttle != null){
-			this.setTimeout(SmartDashboard.getNumber("DriveForTime Duration",3));
-			this.throttle = SmartDashboard.getNumber("DriveForTime Throttle", 0.4);
-		}
-		*/
+		Debugger.println("DRIVE FOR TIME", Robot.auton, Debugger.info3);
 	}
 	
 	public void execute(){
-		System.out.println("DRIVE FOR TIME");
-		System.out.println("TIME : " + time +" Throttle: " + throttle);
+		Debugger.println("TIME : " + time +" Throttle: " + throttle, Robot.auton, Debugger.debug2);
 		Robot.drive.setOpenLoop(new DriveSignal(-throttle, -throttle));
 	}
 	
@@ -44,11 +38,12 @@ public class DriveForTime extends Command{
 	}
 
 	public void end(){
+		Debugger.println("DRIVE FOR TIME FINISHED", Robot.auton, Debugger.info3);
 		Robot.drive.setOpenLoop(new DriveSignal(0,0));
 	}
 	
 	public void isInterrupted(){
-		//System.out.println("DriveForTime INTERRUPTED");
+		Debugger.println("DRIVE FOR TIME INTERRUPTED", Robot.auton, Debugger.info3);
 		this.end();
 	}
 }

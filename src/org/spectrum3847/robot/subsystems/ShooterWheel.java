@@ -74,7 +74,7 @@ public class ShooterWheel extends Subsystem{
 	
 	public boolean onTarget(){
 		double percent = Math.abs(this.getTalon().getError() / this.getTalon().getSetpoint());
-		if (percent < SmartDashboard.getNumber("On Target Percentage", 10)){
+		if (percent < SmartDashboard.getNumber("On Target Percentage", 5)){
 			return true;
 		} else {
 			return false;

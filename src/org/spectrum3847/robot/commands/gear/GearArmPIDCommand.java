@@ -1,17 +1,11 @@
 package org.spectrum3847.robot.commands.gear;
 
-import org.spectrum3847.lib.util.Debugger;
-import org.spectrum3847.robot.Constants;
-import org.spectrum3847.robot.HW;
 import org.spectrum3847.robot.Robot;
-import org.spectrum3847.robot.Utilities;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;
 
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public abstract class GearArmPIDCommand extends Command{
 
@@ -34,8 +28,10 @@ public abstract class GearArmPIDCommand extends Command{
 			target = .73;
 		}
 		arm = Robot.gearIntake.getArmTalon();
-		kP = SmartDashboard.getNumber("Gear Arm kP", 1.8);
-		kD = SmartDashboard.getNumber("Gear Arm kD", 16);
+		//kP = SmartDashboard.getNumber("Gear Arm kP", 1.8);
+		//kD = SmartDashboard.getNumber("Gear Arm kD", 16);
+		kP = Robot.prefs.getNumber("G: Arm kP", 1.8);
+		kD = Robot.prefs.getNumber("G: Arm kD", 16);
 		arm.changeControlMode(TalonControlMode.Position);
 		arm.setP(kP);
 		arm.setD(kD);

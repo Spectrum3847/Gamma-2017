@@ -12,6 +12,12 @@ public class Brake extends Command {
 	
 	public void initialize(){
 		Robot.drive.extendBrakes();
+		Robot.left_drive_talon_1.enableBrakeMode(true);
+		Robot.left_drive_talon_2.enableBrakeMode(true);
+		Robot.left_drive_talon_3.enableBrakeMode(true);
+		Robot.right_drive_talon_1.enableBrakeMode(true);
+		Robot.right_drive_talon_2.enableBrakeMode(true);
+		Robot.right_drive_talon_3.enableBrakeMode(true);
 	}
 
 	@Override
@@ -22,6 +28,12 @@ public class Brake extends Command {
 
 	public void end(){
 		Robot.drive.retractBrakes();
+		Robot.left_drive_talon_1.enableBrakeMode(false);
+		Robot.left_drive_talon_2.enableBrakeMode(false);
+		Robot.left_drive_talon_3.enableBrakeMode(false);
+		Robot.right_drive_talon_1.enableBrakeMode(false);
+		Robot.right_drive_talon_2.enableBrakeMode(false);
+		Robot.right_drive_talon_3.enableBrakeMode(false);
 	}
 	
 	public void interrupted(){

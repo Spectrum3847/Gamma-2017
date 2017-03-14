@@ -24,18 +24,19 @@ public class TurnPID extends Command{
 	
 	protected void initialize()
 	{
-		Robot.navX.reset();
+		/*Robot.navX.reset();
 		lastError = ChezyMath.boundAngleNeg180to180Degrees(target - Robot.navX.getYaw());//Set OG lastError to regular error so that D at first will be 0
 		//sumError = 0;
 		System.out.println("Initializing. Yaw = " + Robot.navX.getYaw());
 		System.out.println("Angle = " + Robot.navX.getAngle());
+		*/
 	}
 	
 	
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute()
 	{		
-		
+		/*
 		kP = SmartDashboard.getNumber("TurnPID kP", 0.015);
 		kD = SmartDashboard.getNumber("TurnPID kD", 0.003);
 		
@@ -53,6 +54,7 @@ public class TurnPID extends Command{
 		
 		lastError = error;
 		//sumError += error;		
+		 */
 	}
 	
 	protected boolean isFinished()
@@ -65,9 +67,11 @@ public class TurnPID extends Command{
 	}
 	protected void end()
 	{
+		/*
 		Robot.navX.zeroYaw();
 		System.out.println(Robot.navX.getYaw());
 		Robot.drive.setOpenLoop(new DriveSignal(0,0));
+		*/
 	}
 	protected void interrupted()
 	{
