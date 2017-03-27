@@ -26,7 +26,9 @@ public class ShooterAndTowerOff extends Command{
 		Debugger.println("Turning Shooter and Tower Off", Robot.shooter, Debugger.info3);
 
 		Robot.shooterTower.disable();
+    	Robot.shooterTower.getTalon().enableBrakeMode(true);
 		Robot.shooterWheel.disable();
+    	Robot.shooterWheel.getTalon().enableBrakeMode(true);
 		
 	}
 

@@ -11,8 +11,8 @@ public class ScoreGear extends CommandGroup {
 	public ScoreGear(String name) {
 		super(name);
 		this.addParallel(new GearArmPIDScoreDown());
-		this.addSequential(new GearIntakeOn(false),1);
-		this.addSequential(new GearArmPIDUp());
+		this.addSequential(new GearIntakeOn(false));
+		//this.addSequential(new GearArmPIDUp());
 		// TODO Auto-generated constructor stub
 	}
 

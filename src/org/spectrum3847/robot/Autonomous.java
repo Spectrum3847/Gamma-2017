@@ -5,10 +5,13 @@ import org.spectrum3847.robot.commands.TurnPID;
 import org.spectrum3847.robot.commands.auto.AutonScore;
 import org.spectrum3847.robot.commands.auto.AutonomousCommand;
 import org.spectrum3847.robot.commands.auto.CurrentStopGearAuto;
+import org.spectrum3847.robot.commands.auto.DriveDistance;
 import org.spectrum3847.robot.commands.auto.DriveForTime;
 import org.spectrum3847.robot.commands.auto.Fire10Balls;
-import org.spectrum3847.robot.commands.auto.MoveFeet;
+import org.spectrum3847.robot.commands.auto.Fire10BallsAndGear;
+import org.spectrum3847.robot.commands.auto.DriveToGearLine;
 import org.spectrum3847.robot.commands.auto.MoveTurnMove;
+import org.spectrum3847.robot.commands.auto.SideGearAuto;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -22,7 +25,7 @@ public class Autonomous {
 	static Command AutonCommand;
 
     public static void init() {
-    	AutonCommand = (Command) autonChooser.getSelected();
+    	AutonCommand = new DriveDistance(10);//(Command) autonChooser.getSelected();
     	if (SmartDashboard.getBoolean("Autonomous ENABLED", true)){
     			AutonCommand.start();
     	}
@@ -43,9 +46,21 @@ public class Autonomous {
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void createChooser(){
     	autonChooser = new SendableChooser();
-    	autonChooser.addDefault("Score Gear", new CurrentStopGearAuto());
+    	
+    	
+    	autonChooser.addObject("Score Gear", new CurrentStopGearAuto());
+    	autonChooser.addDefault("Drive Distance", new DriveDistance(10));
     	autonChooser.addObject("Drive Straight", new CurrentStopGearAuto(false));
-    	autonChooser.addObject("Fire 10 First", new Fire10Balls());
-    	SmartDashboard.putData("Auton Choose", autonChooser);
+    	autonChooser.addObject("Fire 10 then Gear RED", new Fire10BallsAndGear(true));
+    	autonChooser.addObject("Fire 10 then Gear BLUE", new Fire10BallsAndGear(false));
+    	autonChooser.addObject("Fire 10 ONLY Red", new Fire10Balls(true));
+    	autonChooser.addObject("Fire 10 ONLY Blue", new Fire10Balls(false));
+    	
+    	autonChooser.addObject("Side Gear Right Far", new SideGearAuto(true, false));
+    	autonChooser.addObject("Side Gear Right Close", new SideGearAuto(true, true));
+    	autonChooser.addObject("Side Gear Left Far", new SideGearAuto(false, false));
+    	autonChooser.addObject("Side Gear Left Close", new SideGearAuto(false, true));
+    	SmartDashboard.putData("AutonChooser", new SendableChooser());
+    	SmartDashboard.putData("AutonChooser", autonChooser);
     }
 }

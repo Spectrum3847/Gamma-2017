@@ -18,12 +18,14 @@ import org.spectrum3847.robot.commands.leds.Purple;
 import org.spectrum3847.robot.subsystems.BeltBed;
 
 import com.ctre.CANTalon;
+import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.cscore.MjpegServer;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SPI;
@@ -48,6 +50,7 @@ public class Robot extends IterativeRobot {
 	public static final String general = "GENERAL";
 	public static final String auton = "AUTON";
 	public static final String commands = "COMMAND";
+	public static final String drivetrain = "DRIVETRAIN";
 	public static final String gear = "GEAR";
 	public static final String shooter = "SHOOTER";
 	public static final String climb = "CLIMB";
@@ -93,7 +96,8 @@ public class Robot extends IterativeRobot {
 	
 	public static Compressor compressor;
 	
-	//public static SpecAHRS navX;
+	public static SpecAHRS navX;
+	public static boolean navX_READY = false;
 	
 	public static SpectrumPreferences prefs;
 	
@@ -108,37 +112,54 @@ public class Robot extends IterativeRobot {
     	//CameraServer.getInstance().startAutomaticCapture("Gear Cam", (int) SmartDashboard.getNumber("Gear Cam USB ID", 2));
     	
     	//DRIVETRAIN
-    	double vRamp = Robot.prefs.getNumber("D: Voltage Ramp", 60);
+    	double vRamp = 0;//Robot.prefs.getNumber("D: Voltage Ramp", 60);
     	
     	left_drive_talon_1 = new CANTalon(HW.LEFT_DRIVE_BACK_MOTOR);
     	left_drive_talon_2 = new CANTalon(HW.LEFT_DRIVE_MIDDLE_MOTOR);
     	left_drive_talon_3 = new CANTalon(HW.LEFT_DRIVE_FRONT_MOTOR);
     	left_drive_talon_1.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
     	left_drive_talon_1.setVoltageRampRate(vRamp);
-    	left_drive_talon_1.enableBrakeMode(false);
+    	left_drive_talon_1.enableBrakeMode(true);
+    	left_drive_talon_1.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
+    	left_drive_talon_1.configEncoderCodesPerRev(120);
+    	left_drive_talon_1.reverseOutput(true);
+    	left_drive_talon_1.reverseSensor(false);
+    	left_drive_talon_1.configPeakOutputVoltage(Robot.prefs.getNumber("DA: +PeakV",+12f), Robot.prefs.getNumber("DA: -PeakV",-12f));
+    	left_drive_talon_1.configNominalOutputVoltage(Robot.prefs.getNumber("DA: +NominalV", +1f), Robot.prefs.getNumber("DA: -NominalV", -1f));
+    	left_drive_talon_1.setNominalClosedLoopVoltage(12.0);
+    	left_drive_talon_1.setAllowableClosedLoopErr(5);
+    	//left_drive_talon_1.DisableNominalClosedLoopVoltage();
+    	left_drive_talon_1.setProfile(0);
+    	left_drive_talon_1.setF(Robot.prefs.getNumber("DA: MM F",0));
+    	left_drive_talon_1.setP(Robot.prefs.getNumber("DA: MM P",0));
+    	left_drive_talon_1.setI(Robot.prefs.getNumber("DA: MM I",0));
+    	left_drive_talon_1.setD(Robot.prefs.getNumber("DA: MM D",0));
+		/* set acceleration and vcruise velocity - see documentation */
+    	left_drive_talon_1.setMotionMagicCruiseVelocity(Robot.prefs.getNumber("DA: MM CV", 0));
+    	left_drive_talon_1.setMotionMagicAcceleration(Robot.prefs.getNumber("DA: MM CA", 0));
     	left_drive_talon_2.changeControlMode(CANTalon.TalonControlMode.Follower);
     	left_drive_talon_2.set(left_drive_talon_1.getDeviceID());
     	left_drive_talon_2.setVoltageRampRate(vRamp);
-    	left_drive_talon_2.enableBrakeMode(false);
+    	left_drive_talon_2.enableBrakeMode(true);
     	left_drive_talon_3.changeControlMode(CANTalon.TalonControlMode.Follower);
     	left_drive_talon_3.set(left_drive_talon_1.getDeviceID());
     	left_drive_talon_3.setVoltageRampRate(vRamp);
-    	left_drive_talon_3.enableBrakeMode(false);
+    	left_drive_talon_3.enableBrakeMode(true);
     	
     	right_drive_talon_1 = new CANTalon(HW.RIGHT_DRIVE_BACK_MOTOR);
     	right_drive_talon_2 = new CANTalon(HW.RIGHT_DRIVE_MIDDLE_MOTOR);
     	right_drive_talon_3 = new CANTalon(HW.RIGHT_DRIVE_FRONT_MOTOR);
     	right_drive_talon_1.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
     	right_drive_talon_1.setVoltageRampRate(vRamp);
-    	right_drive_talon_1.enableBrakeMode(false);
+    	right_drive_talon_1.enableBrakeMode(true);
     	right_drive_talon_2.changeControlMode(CANTalon.TalonControlMode.Follower);
     	right_drive_talon_2.set(right_drive_talon_1.getDeviceID());
     	right_drive_talon_2.setVoltageRampRate(vRamp);
-    	right_drive_talon_2.enableBrakeMode(false);
+    	right_drive_talon_2.enableBrakeMode(true);
     	right_drive_talon_3.changeControlMode(CANTalon.TalonControlMode.Follower);
     	right_drive_talon_3.set(right_drive_talon_1.getDeviceID());
     	right_drive_talon_3.setVoltageRampRate(vRamp);
-    	right_drive_talon_3.enableBrakeMode(false);
+    	right_drive_talon_3.enableBrakeMode(true);
     	
     	leftDrive = new SpectrumSpeedControllerCAN(
     				new CANTalon[] {left_drive_talon_1, left_drive_talon_2, left_drive_talon_3},
@@ -185,7 +206,8 @@ public class Robot extends IterativeRobot {
 
     	//Shooter Tower
     	CANTalon tower_talon = new CANTalon(HW.SHOOTER_TOWER);
-    	tower_talon.changeControlMode(CANTalon.TalonControlMode.Speed);
+    	tower_talon.changeControlMode(CANTalon.TalonControlMode.Voltage);
+    	//tower_talon.changeControlMode(CANTalon.TalonControlMode.Speed);
     	tower_talon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
     	tower_talon.setInverted(false);
     	tower_talon.reverseSensor(true);
@@ -195,6 +217,7 @@ public class Robot extends IterativeRobot {
     	//Belt Bed
     	CANTalon belt_bed_talon = new CANTalon(HW.BELT_BED);
     	belt_bed_talon.changeControlMode(CANTalon.TalonControlMode.Voltage);
+    	belt_bed_talon.setInverted(true);
     	belt_bed_talon.enableBrakeMode(false);
     	
     	shooterWheelMotor = new SpectrumSpeedControllerCAN(
@@ -234,16 +257,30 @@ public class Robot extends IterativeRobot {
     	
     	gearIntake = new GearIntake(gearIntakeMotor, gearArmMotor);
     	
-    	SpectrumSolenoid gear_spear_extend_sol = new SpectrumSolenoid(HW.GEAR_SPEAR_EXTEND_SOL);
-    	SpectrumSolenoid gear_spear_retract_sol = new SpectrumSolenoid(HW.GEAR_SPEAR_RETRACT_SOL);
+    	//SpectrumSolenoid gear_spear_extend_sol = new SpectrumSolenoid(HW.GEAR_SPEAR_EXTEND_SOL);
+    	//SpectrumSolenoid gear_spear_retract_sol = new SpectrumSolenoid(HW.GEAR_SPEAR_RETRACT_SOL);
     	
-    	gearSpear = new GearSpear("Gear Spear", gear_spear_extend_sol, gear_spear_retract_sol);
-    
+    	SpectrumSolenoid gear_spear_sol = new SpectrumSolenoid(HW.GEAR_SPEAR_SOL);
+    	
+    	gearSpear = new GearSpear("Gear Spear", gear_spear_sol);
+    	
+    	//gearSpear = new GearSpear("Gear Spear", gear_spear_extend_sol, gear_spear_retract_sol);
+    	
+    	
+    	
     	leds = new LEDs();
-    	//navX = new SpecAHRS(SPI.Port.kMXP);
-
-    	
-    	
+    	try {
+			/***********************************************************************
+			 * navX-MXP:
+			 * - Communication via RoboRIO MXP (SPI, I2C, TTL UART) and USB.            
+			 * - See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface.
+			 ************************************************************************/
+    		navX = new SpecAHRS(SPI.Port.kMXP); 
+    		navX_READY = true;
+        } catch (RuntimeException ex ) {
+            DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
+    		navX_READY = false;
+        }
     }
     
     //Used to keep track of the robot current state easily
@@ -286,8 +323,8 @@ public class Robot extends IterativeRobot {
 		UsbCamera cam0 = CameraServer.getInstance().startAutomaticCapture();
         //cam0.setResolution(160, 120);
         cam0.setExposureAuto();
-        Autonomous.createChooser();
         new Purple().start();
+        Autonomous.createChooser();
 		logger = Logger.getInstance();
     }
     
@@ -305,7 +342,7 @@ public class Robot extends IterativeRobot {
     	Debugger.flagOn(commands);
     	Debugger.flagOn(intake);
     	Debugger.flagOff(shooter);
-    	Debugger.flagOn(gear);
+    	Debugger.flagOff(gear);
     }
     /**
      * Initialization code for test mode should go here.

@@ -23,9 +23,10 @@ public class TowerOn extends Command{
 	protected void initialize(){
 		Debugger.println("initializing TowerOn : Setting Tower PID", Robot.shooter, Debugger.info3);
 
+    	Robot.shooterTower.getTalon().enableBrakeMode(false);
 		Robot.shooterTower.enable();
 		
-		speed = Robot.prefs.getNumber("S: Set Tower Speed", 7000);
+		speed = Robot.prefs.getNumber("S: Set Tower Speed", 12.2);
 
 	
 		p =   Robot.prefs.getNumber("S: Tower P", 3.6);  
@@ -33,7 +34,8 @@ public class TowerOn extends Command{
 		d =   Robot.prefs.getNumber("S: Tower D", 0);  
 		f =   Robot.prefs.getNumber("S: Tower F", 10);  
 		
-		Robot.shooterTower.setPID(p, i, d, f, 0, 100, 0);
+		//Robot.shooterTower.setPID(p, i, d, f, 0, 100, 0);
+		
 		//Robot.shooterTower.getTalon().setInverted(true);
 		//Robot.shooterTower.getTalon().reverseOutput(true);
 		//Robot.shooterTower.getTalon().reverseSensor(true);

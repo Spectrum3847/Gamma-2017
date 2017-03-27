@@ -1,6 +1,9 @@
 package org.spectrum3847.robot;
 
 import edu.wpi.first.wpilibj.Timer;
+
+import com.ctre.CANTalon;
+
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -21,6 +24,8 @@ public class Dashboard {
 
     public static void intializeDashboard() {
     	if(ENABLE_DASHBOARD){
+    		
+    		SmartDashboard.putBoolean("Reset NavX", false);
     		
     		SmartDashboard.putBoolean("Autonomous ENABLED", true);
     		//SmartDashboard.putBoolean("Auto Score Gear Bool", true);
@@ -74,6 +79,7 @@ public class Dashboard {
     		//SmartDashboard.getNumber("Current gear Auto Throttle", .5);
     		
     		//SmartDashboard.putNumber("Gear Cam USB ID", 2);
+    		
     	}
     }
 
@@ -82,21 +88,42 @@ public class Dashboard {
     	//Robot.shooter.updateValuesToDashboard();
     	
     	//Drive Train
-    	/*
-    	SmartDashboard.putNumber("Drive LeftY: ", HW.Driver_Gamepad.getY(Hand.kLeft));
-    	SmartDashboard.putNumber("Drive RightX: ", HW.Driver_Gamepad.getX(Hand.kRight));
+    	
+    	//SmartDashboard.putNumber("Drive LeftY: ", HW.Driver_Gamepad.getY(Hand.kLeft));
+    	//SmartDashboard.putNumber("Drive RightX: ", HW.Driver_Gamepad.getX(Hand.kRight));
     	//SmartDashboard.putNumber("Drive Trigger Left: ", HW.Driver_Gamepad.getTriggerAxis(Hand.kLeft));
     	//SmartDashboard.putNumber("Drive Trigger Right: ", HW.Driver_Gamepad.getTriggerAxis(Hand.kRight));
     	SmartDashboard.putNumber("Drive Left:", Robot.leftDrive.get());
     	SmartDashboard.putNumber("Drive Right:", Robot.rightDrive.get());
     	SmartDashboard.putNumber("Drive Position", Robot.leftDrive.getTalon().getPosition());
-    	SmartDashboard.putNumber("Drive Error", Robot.leftDrive.getTalon().getError());
+    	SmartDashboard.putNumber("Drive Vel", Robot.leftDrive.getTalon().getSpeed());
+	    if (Robot.left_drive_talon_1.getControlMode() == CANTalon.TalonControlMode.MotionMagic){
+	    	SmartDashboard.putNumber("Drive ActTrajPos", Robot.leftDrive.getTalon().getMotionMagicActTrajPosition());
+	    	SmartDashboard.putNumber("Drive ActTrajVel", Robot.leftDrive.getTalon().getMotionMagicActTrajVelocity());
+	    }
+    	SmartDashboard.putNumber("Drive Error", Robot.leftDrive.getTalon().getClosedLoopError());
     	SmartDashboard.putNumber("Drive Get Setpoint", Robot.leftDrive.getTalon().getSetpoint());
     	SmartDashboard.putNumber("Drive Left Applied Voltage", Robot.leftDrive.getTalon().getOutputVoltage());
     	SmartDashboard.putNumber("Drive Left Get Current", Robot.leftDrive.getTalon().getOutputCurrent());
     	SmartDashboard.putNumber("Drive Right Get Current", Robot.rightDrive.getTalon().getOutputCurrent());
-    	*/
     	
+		SmartDashboard.putNumber("NavX Yaw:", Robot.navX.getYaw());
+		SmartDashboard.putNumber("NavX Rate:", Robot.navX.getRate());
+		
+		SmartDashboard.putBoolean("NavX is Zero", Math.abs(Robot.navX.getYaw()) < 1);
+    	
+
+		//shooterDashboard();
+		//gearDashboard();
+    	
+		
+		
+		//SmartDashboard.putNumber("NavX Reading", Robot.navX.getYaw());
+
+
+    }
+    
+    private static void shooterDashboard(){
     	//Shooter Wheel
     	SmartDashboard.putNumber("Shooter Wheel Speed", Robot.shooterWheel.getSpeed());
     	SmartDashboard.putNumber("Shooter wheel Setpoint", Robot.shooterWheel.getTalon().getSetpoint());
@@ -114,7 +141,9 @@ public class Dashboard {
     	SmartDashboard.putNumber("Shooter Tower  Applied Voltage", Robot.shooterTower.getTalon().getOutputVoltage());
     	SmartDashboard.putNumber("Shooter Tower  Bus Voltage", Robot.shooterTower.getTalon().getBusVoltage());
     	SmartDashboard.putNumber("Shooter Tower  Current", Robot.shooterTower.getTalon().getOutputCurrent());
-    	
+    }
+    
+    private static void gearDashboard(){
     	//Gear Arm
     	SmartDashboard.putNumber("Gear Arm Encoder Value", Robot.gearIntake.getArmTalon().getPosition());
 		SmartDashboard.putNumber("Gear Arm Motor Voltage", Robot.gearArmMotor.getTalon().getOutputVoltage());
@@ -122,12 +151,6 @@ public class Dashboard {
 		SmartDashboard.putNumber("Gear Error", Robot.gearIntake.getArmTalon().getError()/4096);
 		SmartDashboard.putNumber("Gear Arm Current",  Robot.gearIntake.getArmTalon().getOutputCurrent());
 		SmartDashboard.putNumber("Gear Intake Current",  Robot.gearIntake.getIntakeTalon().getOutputCurrent());
-		
-		SmartDashboard.putBoolean("Gear Spear", Robot.gearSpear.isExtened());
-		
-		//SmartDashboard.putNumber("NavX Reading", Robot.navX.getYaw());
-
-
     }
     
     private static void updatePutLong(){

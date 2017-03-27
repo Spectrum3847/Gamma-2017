@@ -19,7 +19,8 @@ public class ShooterOn extends Command{
 	//called before first run
 	protected void initialize(){
 		Debugger.println("initializing ShooterOn : Setting Shooter PID", Robot.shooter, Debugger.info3);
-		
+
+    	Robot.shooterWheel.getTalon().enableBrakeMode(false);
 		Robot.shooterWheel.enable();
 		//Robot.shooterBack.enable();
 		

@@ -21,8 +21,8 @@ public class DriveUntilGearArmCurrent extends Command{
 		Debugger.println("Current Gear Auto Started", Robot.auton, Debugger.info3);
 		Robot.leftDrive.getTalon().changeControlMode(TalonControlMode.PercentVbus);
 		Robot.rightDrive.getTalon().changeControlMode(TalonControlMode.PercentVbus);
-		this.currentTrigger = Robot.prefs.getNumber("A: Gear Amps Trigger", .1);
-		this.throttle = Robot.prefs.getNumber("A: Gear Throttle", .5);
+		this.currentTrigger = Robot.prefs.getNumber("A: Gear Amps Trigger", .5);
+		this.throttle = Robot.prefs.getNumber("A: Gear Throttle", .2);
 	}
 	
 	public void execute() {

@@ -40,13 +40,15 @@ public class SpectrumPreferences {
 	   * @param value the value
 	   * @throws NullPointerException if value is null
 	   */
-	  public void addString(String key, String value) {
+	  public String addString(String key, String value) {
 		if (!checkForKey(key)){
 			if (value == null) {
 				throw new NullPointerException("Value is null");
 			}
 		    prefs.putString(key, value);
 		}
+		
+		return prefs.getString(key, value);
 	  }
 	  
 	  /**
@@ -55,10 +57,12 @@ public class SpectrumPreferences {
 	   * @param key   the key
 	   * @param value the value
 	   */
-	  public void addBoolean(String key, boolean value) {
-			if (!checkForKey(key)){
-			    prefs.putBoolean(key, value);
-			}
+	  public boolean addBoolean(String key, boolean value) {
+		if (!checkForKey(key)){
+		    prefs.putBoolean(key, value);
+		}
+		
+		return prefs.getBoolean(key, value);
 	  }
 	  
 	  /**
@@ -67,10 +71,12 @@ public class SpectrumPreferences {
 	   * @param key   the key
 	   * @param value the value
 	   */
-	  public void addNumber(String key, double value) {
-			if (!checkForKey(key)){
-			    prefs.putDouble(key, value);
-			}
+	  public double addNumber(String key, double value) {
+		if (!checkForKey(key)){
+		    prefs.putDouble(key, value);
+		}
+		
+		return prefs.getDouble(key, value);
 	  }
 	  
 	  /**

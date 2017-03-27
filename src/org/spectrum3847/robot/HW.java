@@ -43,9 +43,8 @@ public class HW {
 	public static final int SHOOTER_TOWER_MOTOR_PDP = 4;
 	public static final int NA_SHOOTER_MOTOR_BACK_LEFT_PDP = 11;
 	
-	public static final int CLIMBER_RIGHT_MOTOR_PDP = 3;
-	
-	public static final int CLIMBER_LEFT_MOTOR_PDP = 12;
+	public static final int CLIMBER_RIGHT_MOTOR_PDP = 12;
+	public static final int CLIMBER_LEFT_MOTOR_PDP = 3;
 	
 	public static final int NA_FORMER_INTAKE = 6;
 	
@@ -68,11 +67,10 @@ public class HW {
     public static final int NA_SHOOTER_MOTOR_BACK_LEFT   = 23;
     public static final int SHOOTER_TOWER  = 24;
     
-    public static final int CLIMBER_RIGHT_MOTOR = 31;
+    public static final int CLIMBER_RIGHT_MOTOR = 51;
+    public static final int CLIMBER_LEFT_MOTOR = 31;
     
     public static final int BELT_INTAKE_MOTOR = 41;
-    
-    public static final int CLIMBER_LEFT_MOTOR = 51;
     
     public static final int GEAR_ARM_MOTOR = 61;
     public static final int GEAR_INTAKE_MOTOR = 62;
@@ -90,8 +88,9 @@ public class HW {
     
     /**Pneumatics**/
     public static final int BRAKE_SOL = 2;
-    public static final int GEAR_SPEAR_EXTEND_SOL = 0;
-    public static final int GEAR_SPEAR_RETRACT_SOL = 1;
+    //public static final int GEAR_SPEAR_EXTEND_SOL = 0;
+    //public static final int GEAR_SPEAR_RETRACT_SOL = 1;
+    public static final int GEAR_SPEAR_SOL = 3;
     public static final int SOL_4 = 4;
     public static final int SOL_5 = 5;
     public static final int SOL_6 = 6;

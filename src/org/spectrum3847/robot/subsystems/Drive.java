@@ -15,6 +15,7 @@ import org.spectrum3847.lib.util.Debugger;
 import org.spectrum3847.lib.util.Expression;
 import org.spectrum3847.robot.Constants;
 import org.spectrum3847.robot.Robot;
+import org.spectrum3847.robot.commands.ArcadeDrive;
 import org.spectrum3847.robot.subsystems.controllers.DriveFinishLineController;
 import org.spectrum3847.robot.subsystems.controllers.DrivePathController;
 import org.spectrum3847.robot.subsystems.controllers.DriveStraightController;
@@ -34,7 +35,6 @@ public class Drive extends Subsystem {
 
     }
     
-    public SpectrumSpeedControllerCAN climber;
     public SpectrumSpeedControllerCAN m_left_motor;
     public SpectrumSpeedControllerCAN m_right_motor;
     public Encoder m_left_encoder;
@@ -49,6 +49,18 @@ public class Drive extends Subsystem {
     protected final double m_turn_slip_factor = 1.2; // Measure empirically
     private Pose m_cached_pose = new Pose(0, 0, 0, 0, 0, 0); // Don't allocate poses at 200Hz!
 
+    double forwardThrottle = 0;
+	double kPgain = 0.04; /* percent throttle per degree of error */
+	double kDgain = 0.0004; /* percent throttle per angular velocity dps */
+	double kMaxCorrectionRatio = 0.30; /* cap corrective turning throttle to 30 percent of forward throttle */
+	/** holds the current angle to servo to */
+	double targetAngle;
+	double turnThrottle;
+	
+	double currentAngle;
+	double currentAngularRate;
+	double right;
+	double driveStraightPrintLoops = 0;
     
     //Unused methods - would need to be updated to use CANTalon, but not needed for current state of the practice robot.
     /*
@@ -102,11 +114,12 @@ public class Drive extends Subsystem {
         
         if (Math.abs(turnPower) < deadband){
       	  turnPower = 0;
-        } else if (turnPower < 0){
+        }
+        /*} else if (turnPower < 0){
         	turnPower = (turnPower + deadband) / (1-deadband);
         } else {
         	turnPower = (turnPower - deadband) / (1-deadband);
-        }
+        }*/
         
         
         if (squaredInputs) {
@@ -125,6 +138,7 @@ public class Drive extends Subsystem {
           }
         }
         
+        //Positive Turn Power turns left
         if (throttle > 0.0) {
             if (turnPower > 0.0) {
               leftMotorSpeed = throttle - turnPower;
@@ -291,10 +305,6 @@ public class Drive extends Subsystem {
     	brakes.set(false);
     }
 
-    public void setClimber(double speed){
-    	climber.set(speed);
-    }
-
     public void reloadConstants() {
         // TODO Auto-generated method stub
 
@@ -306,7 +316,109 @@ public class Drive extends Subsystem {
 
 	@Override
 	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
+		this.setDefaultCommand(new ArcadeDrive());	
+	}
+
+	public void talonBrakeMode(boolean brakeMode) {
+		if(brakeMode){
+			Robot.left_drive_talon_1.enableBrakeMode(true);
+			Robot.left_drive_talon_2.enableBrakeMode(true);
+			Robot.left_drive_talon_3.enableBrakeMode(true);
+			Robot.right_drive_talon_1.enableBrakeMode(true);
+			Robot.right_drive_talon_2.enableBrakeMode(true);
+			Robot.right_drive_talon_3.enableBrakeMode(true);
+		}
+		else{
+			Robot.left_drive_talon_1.enableBrakeMode(false);
+			Robot.left_drive_talon_2.enableBrakeMode(false);
+			Robot.left_drive_talon_3.enableBrakeMode(false);
+			Robot.right_drive_talon_1.enableBrakeMode(false);
+			Robot.right_drive_talon_2.enableBrakeMode(false);
+			Robot.right_drive_talon_3.enableBrakeMode(false);
+		}
 		
+	}
+	
+	/** @param value to cap.
+	 * @param peak positive double representing the maximum (peak) value.
+	 * @return a capped value.
+	 */
+	public double Cap(double value, double peak) {
+		if (value < -peak)
+			return -peak;
+		if (value > +peak)
+			return +peak;
+		return value;
+	}
+
+	/**
+	 * Given the robot forward throttle and ratio, return the max
+	 * corrective turning throttle to adjust for heading.  This is
+	 * a simple method of avoiding using different gains for
+	 * low speed, high speed, and no-speed (zero turns).
+	 */
+	public double MaxCorrection(double forwardThrot, double scalor) {
+		/* make it positive */
+		if(forwardThrot < 0) {forwardThrot = -forwardThrot;}
+		/* max correction is the current forward throttle scaled down */
+		forwardThrot *= scalor;
+		/* ensure caller is allowed at least 10% throttle,
+		 * regardless of forward throttle */
+		if(forwardThrot < 0.10)
+			return 0.10;
+		return forwardThrot;
+	}
+	
+	public double getRightDriveStraight(double angle, double throttle){
+		forwardThrottle = throttle;
+		kPgain = Robot.prefs.getNumber("D: Straight P", 0.04); /* percent throttle per degree of error */
+		kDgain = Robot.prefs.getNumber("D: Straight D", 0.0004); /* percent throttle per angular velocity dps */
+		kMaxCorrectionRatio = 0.30; /* cap corrective turning throttle to 30 percent of forward throttle */
+		/** holds the current angle to servo to */
+		targetAngle = angle;
+		
+		if (Robot.navX_READY){
+			currentAngle = Robot.navX.getAngle();
+	    	currentAngularRate = Robot.navX.getRate();
+	
+			turnThrottle = (targetAngle - currentAngle) * kPgain - (currentAngularRate) * kDgain;
+			
+			/* the max correction is the forward throttle times a scalar,
+			 * This can be done a number of ways but basically only apply small turning correction when we are moving slow
+			 * and larger correction the faster we move.  Otherwise you may need stiffer pgain at higher velocities. */
+			double maxThrot = MaxCorrection(forwardThrottle, kMaxCorrectionRatio);
+			turnThrottle = Cap(turnThrottle, maxThrot);
+	
+			debugDriveStraight();
+			
+			/* positive turnThrottle means turn to the left, this can be replaced with ArcadeDrive object, or teams drivetrain object */
+			right = forwardThrottle + turnThrottle;
+			right = Cap(right, 1.0);
+			return right;
+		} else {
+			//IF NAVX NOT PRESENT JUST RETURN THROTTLE
+			debug("NAV X NOT READY: NO DRIVE STRAIGHT");
+			return throttle;
+		}
+	}
+	
+	public void debug(String msg, int level){
+		Debugger.println(msg, Robot.drivetrain, level);
+	}
+	public void debug(String msg){
+		Debugger.println(msg, Robot.drivetrain, Debugger.debug2);
+	}
+	
+	public void debugDriveStraight(){
+		if (driveStraightPrintLoops > 50){
+			driveStraightPrintLoops = 0;
+			debug("------------------------------------------");
+			debug("error: " + (targetAngle - currentAngle));
+			debug("angle: "+ currentAngle);
+			debug("rate: "+ currentAngularRate);
+			debug("Right Straight Output:" + right);
+			debug("------------------------------------------");
+		}
+		driveStraightPrintLoops++;
 	}
 }

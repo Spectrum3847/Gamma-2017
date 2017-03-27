@@ -23,10 +23,10 @@ public class CurrentStopGearAuto extends CommandGroup{
 		scoreGear = score;
 		this.addSequential(new ZeroGearArmCurrent());
 		this.addParallel(new GearArmPIDPreScore());
-		this.addSequential(new DriveForTime(1,.6));
-		this.addSequential(new DriveUntilGearArmCurrent(), 4);
+		this.addSequential(new DriveForTime(.5,.2));
+		this.addSequential(new DriveUntilGearArmCurrent(), 6);
 		if(scoreGear){
-			this.addParallel(new DriveForTime(Robot.prefs.getNumber("A: Gear Reverse Time", 1), Robot.prefs.getNumber("A: Gear Reverse Throttle",-.4)));
+			this.addParallel(new DriveForTime(Robot.prefs.getNumber("A: Gear Reverse Time", 1), Robot.prefs.getNumber("A: Gear Reverse Throttle",-.3)));
 			this.addSequential(new ScoreGear());
 		}
 	}
