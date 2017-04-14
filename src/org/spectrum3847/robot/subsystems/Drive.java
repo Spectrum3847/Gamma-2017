@@ -35,6 +35,7 @@ public class Drive extends Subsystem {
 
     }
     
+    
     public SpectrumSpeedControllerCAN m_left_motor;
     public SpectrumSpeedControllerCAN m_right_motor;
     public Encoder m_left_encoder;
@@ -50,8 +51,8 @@ public class Drive extends Subsystem {
     private Pose m_cached_pose = new Pose(0, 0, 0, 0, 0, 0); // Don't allocate poses at 200Hz!
 
     double forwardThrottle = 0;
-	double kPgain = 0.04; /* percent throttle per degree of error */
-	double kDgain = 0.0004; /* percent throttle per angular velocity dps */
+	//double kPgain = 0.04; /* percent throttle per degree of error */
+	//double kDgain = 0.0004; /* percent throttle per angular velocity dps */
 	double kMaxCorrectionRatio = 0.30; /* cap corrective turning throttle to 30 percent of forward throttle */
 	/** holds the current angle to servo to */
 	double targetAngle;
@@ -59,7 +60,7 @@ public class Drive extends Subsystem {
 	
 	double currentAngle;
 	double currentAngularRate;
-	double right;
+	double sidePIDThrottle;
 	double driveStraightPrintLoops = 0;
     
     //Unused methods - would need to be updated to use CANTalon, but not needed for current state of the practice robot.
@@ -369,11 +370,11 @@ public class Drive extends Subsystem {
 		return forwardThrot;
 	}
 	
-	public double getRightDriveStraight(double angle, double throttle){
+	public double getSideThrottlePID(double angle, double throttle, double kP, double kD){
 		forwardThrottle = throttle;
-		kPgain = Robot.prefs.getNumber("D: Straight P", 0.04); /* percent throttle per degree of error */
-		kDgain = Robot.prefs.getNumber("D: Straight D", 0.0004); /* percent throttle per angular velocity dps */
-		kMaxCorrectionRatio = 0.30; /* cap corrective turning throttle to 30 percent of forward throttle */
+		double kPgain = kP;//Robot.prefs.getNumber("D: Straight P", 0.04); /* percent throttle per degree of error */
+		double kDgain = kD;//Robot.prefs.getNumber("D: Straight D", 0.0004); /* percent throttle per angular velocity dps */
+		kMaxCorrectionRatio = Robot.prefs.getNumber("D: MaxCorrectRatio",0.30 ); /* cap corrective turning throttle to 30 percent of forward throttle */
 		/** holds the current angle to servo to */
 		targetAngle = angle;
 		
@@ -392,9 +393,9 @@ public class Drive extends Subsystem {
 			debugDriveStraight();
 			
 			/* positive turnThrottle means turn to the left, this can be replaced with ArcadeDrive object, or teams drivetrain object */
-			right = forwardThrottle + turnThrottle;
-			right = Cap(right, 1.0);
-			return right;
+			sidePIDThrottle = forwardThrottle + turnThrottle;
+			sidePIDThrottle = Cap(sidePIDThrottle, 1.0);
+			return sidePIDThrottle;
 		} else {
 			//IF NAVX NOT PRESENT JUST RETURN THROTTLE
 			debug("NAV X NOT READY: NO DRIVE STRAIGHT");
@@ -416,7 +417,7 @@ public class Drive extends Subsystem {
 			debug("error: " + (targetAngle - currentAngle));
 			debug("angle: "+ currentAngle);
 			debug("rate: "+ currentAngularRate);
-			debug("Right Straight Output:" + right);
+			debug("Right Straight Output:" + sidePIDThrottle);
 			debug("------------------------------------------");
 		}
 		driveStraightPrintLoops++;

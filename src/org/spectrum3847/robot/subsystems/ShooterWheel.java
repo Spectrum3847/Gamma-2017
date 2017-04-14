@@ -25,7 +25,7 @@ public class ShooterWheel extends Subsystem{
 	public ShooterWheel(String name, SpectrumSpeedControllerCAN motor){
 		this.m_motor = motor;
 		m_name = name;
-		this.getTalon().configEncoderCodesPerRev(6);
+		this.getTalon().configEncoderCodesPerRev(3);
 	}
 	
 	@Override

@@ -22,7 +22,7 @@ public class DriveUntilGearArmCurrent extends Command{
 		Robot.leftDrive.getTalon().changeControlMode(TalonControlMode.PercentVbus);
 		Robot.rightDrive.getTalon().changeControlMode(TalonControlMode.PercentVbus);
 		this.currentTrigger = Robot.prefs.getNumber("A: Gear Amps Trigger", .5);
-		this.throttle = Robot.prefs.getNumber("A: Gear Throttle", .2);
+		this.throttle = Robot.prefs.getNumber("A: Gear Throttle", .5);
 	}
 	
 	public void execute() {

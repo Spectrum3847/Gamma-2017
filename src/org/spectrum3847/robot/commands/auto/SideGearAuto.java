@@ -44,9 +44,9 @@ public class SideGearAuto extends CommandGroup{
 		this.addParallel(new ZeroGearArmCurrent());
 		this.addParallel(new GearArmPIDPreScore());
 		this.addSequential(new DriveToGearLine(distanceFromDS), 7);//Robot.prefs.getNumber("A: Distance from DS Corner", 0)),7);
-		this.addSequential(new Brake(), .5);
+		this.addSequential(new WaitCommand(.5));
 		Robot.drive.talonBrakeMode(true);
-		this.addSequential(new InPlaceTurn(turnAngle));
+		this.addSequential(new InPlaceTurn(turnAngle, 1.5));
 		Robot.drive.talonBrakeMode(false);
 		this.addSequential(new DriveUntilGearArmCurrent(), 6);
 		this.addParallel(new DriveForTime(Robot.prefs.getNumber("A: Gear Reverse Time", 1), Robot.prefs.getNumber("A: Gear Reverse Throttle",-.3)));

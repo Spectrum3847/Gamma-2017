@@ -9,12 +9,15 @@ import org.spectrum3847.lib.util.Debugger;
 import org.spectrum3847.lib.util.Logger;
 import org.spectrum3847.lib.util.SpectrumPreferences;
 import org.spectrum3847.robot.subsystems.Drive;
+import org.spectrum3847.robot.subsystems.GearBackPack;
 import org.spectrum3847.robot.subsystems.GearIntake;
 import org.spectrum3847.robot.subsystems.GearSpear;
+import org.spectrum3847.robot.subsystems.Headlights;
 import org.spectrum3847.robot.subsystems.LEDs;
 import org.spectrum3847.robot.subsystems.Climber;
 import org.spectrum3847.robot.subsystems.ShooterWheel;
 import org.spectrum3847.robot.commands.leds.Purple;
+import org.spectrum3847.robot.subsystems.BallIntake;
 import org.spectrum3847.robot.subsystems.BeltBed;
 
 import com.ctre.CANTalon;
@@ -93,6 +96,7 @@ public class Robot extends IterativeRobot {
 	public static SpectrumSpeedControllerCAN gearIntakeMotor;
 	public static SpectrumSpeedControllerCAN gearArmMotor;
 	public static GearSpear gearSpear;
+	public static GearBackPack gearBackPack;
 	
 	public static Compressor compressor;
 	
@@ -103,6 +107,10 @@ public class Robot extends IterativeRobot {
 	
 	public static LEDs leds;
 	
+	public static Headlights headlights;
+	
+	public static BallIntake ballIntake;
+	public static SpectrumSpeedControllerCAN ballIntakeMotor;
 	
     public static void setupSubsystems(){
     	prefs = SpectrumPreferences.getInstance();
@@ -114,6 +122,7 @@ public class Robot extends IterativeRobot {
     	//DRIVETRAIN
     	double vRamp = 0;//Robot.prefs.getNumber("D: Voltage Ramp", 60);
     	
+    
     	left_drive_talon_1 = new CANTalon(HW.LEFT_DRIVE_BACK_MOTOR);
     	left_drive_talon_2 = new CANTalon(HW.LEFT_DRIVE_MIDDLE_MOTOR);
     	left_drive_talon_3 = new CANTalon(HW.LEFT_DRIVE_FRONT_MOTOR);
@@ -181,15 +190,26 @@ public class Robot extends IterativeRobot {
     	climber_left_talon.reverseOutput(false);
     	climber_left_talon.enableBrakeMode(true);
     	
+    	CANTalon climber_left_talon_two = new CANTalon(HW.CLIMBER_LEFT_MOTOR_TWO);
+    	climber_left_talon_two.changeControlMode(CANTalon.TalonControlMode.Follower);
+    	climber_left_talon_two.set(climber_left_talon.getDeviceID());
+    	climber_left_talon_two.enableBrakeMode(true);
+    	
     	CANTalon climber_right_talon = new CANTalon(HW.CLIMBER_RIGHT_MOTOR);
     	climber_right_talon.changeControlMode(CANTalon.TalonControlMode.Follower);
     	climber_right_talon.set(climber_left_talon.getDeviceID());
     	climber_right_talon.reverseOutput(true);
     	climber_right_talon.enableBrakeMode(true);
+    	
+    	CANTalon climber_right_talon_two = new CANTalon(HW.CLIMBER_RIGHT_MOTOR_TWO);
+    	climber_right_talon_two.changeControlMode(CANTalon.TalonControlMode.Follower);
+    	climber_right_talon.set(climber_right_talon.getDeviceID());
+    	climber_right_talon_two.reverseOutput(true);
+    	climber_right_talon_two.enableBrakeMode(true);
 
     	climberMotors = new SpectrumSpeedControllerCAN(
-    			new CANTalon[] {climber_left_talon, climber_right_talon},
-    			new int[] {HW.CLIMBER_LEFT_MOTOR_PDP, HW.CLIMBER_RIGHT_MOTOR_PDP}
+    			new CANTalon[] {climber_left_talon, climber_right_talon, climber_left_talon_two, climber_right_talon_two},
+    			new int[] {HW.CLIMBER_LEFT_MOTOR_PDP, HW.CLIMBER_RIGHT_MOTOR_PDP, HW.CLIMBER_LEFT_MOTOR_TWO_PDP, HW.CLIMBER_RIGHT_MOTOR_TWO_PDP}
     		);
 
     	climber = new Climber("Climber", climberMotors); 			
@@ -203,22 +223,28 @@ public class Robot extends IterativeRobot {
     	shooter_wheel_talon.reverseSensor(false);
     	shooter_wheel_talon.reverseOutput(false);
     	shooter_wheel_talon.enableBrakeMode(false);
-
+    	shooter_wheel_talon.setNominalClosedLoopVoltage(12);
+    	
     	//Shooter Tower
     	CANTalon tower_talon = new CANTalon(HW.SHOOTER_TOWER);
-    	tower_talon.changeControlMode(CANTalon.TalonControlMode.Voltage);
+    	tower_talon.changeControlMode(CANTalon.TalonControlMode.Speed);
     	//tower_talon.changeControlMode(CANTalon.TalonControlMode.Speed);
     	tower_talon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
     	tower_talon.setInverted(false);
     	tower_talon.reverseSensor(true);
     	tower_talon.reverseOutput(true);
     	tower_talon.enableBrakeMode(false);
+    	tower_talon.setNominalClosedLoopVoltage(12);
     	
     	//Belt Bed
-    	CANTalon belt_bed_talon = new CANTalon(HW.BELT_BED);
-    	belt_bed_talon.changeControlMode(CANTalon.TalonControlMode.Voltage);
-    	belt_bed_talon.setInverted(true);
-    	belt_bed_talon.enableBrakeMode(false);
+    	beltBedMotors = new SpectrumSpeedControllerCAN(
+				HW.BELT_BED, HW.BELT_BED_MOTOR_PDP);
+
+    	beltBedMotors.getTalon().changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+    	beltBedMotors.getTalon().setInverted(true);
+    	beltBedMotors.getTalon().enableBrakeMode(false);
+
+    	beltBed = new BeltBed("Belt Bed", beltBedMotors);
     	
     	shooterWheelMotor = new SpectrumSpeedControllerCAN(
     						shooter_wheel_talon,
@@ -232,11 +258,6 @@ public class Robot extends IterativeRobot {
     	
     	shooterWheel = new ShooterWheel("Shooter Wheel", shooterWheelMotor);
     	shooterTower = new ShooterWheel("Shooter Tower", shooterTowerMotor);
-    	
-    	beltBedMotors = new SpectrumSpeedControllerCAN(
-    					HW.BELT_BED, HW.BELT_BED_MOTOR_PDP);
-    	
-    	beltBed = new BeltBed("Tower", beltBedMotors);
     	
     	//Gear Intake
     	CANTalon gear_intake_talon = new CANTalon(HW.GEAR_INTAKE_MOTOR);
@@ -267,6 +288,22 @@ public class Robot extends IterativeRobot {
     	//gearSpear = new GearSpear("Gear Spear", gear_spear_extend_sol, gear_spear_retract_sol);
     	
     	
+    	SpectrumSolenoid gear_back_pack_sol = new SpectrumSolenoid(HW.GEAR_BACK_PACK_SOL);
+    	SpectrumSolenoid gear_flap_sol = new SpectrumSolenoid(HW.GEAR_FLAP_SOL);
+    	SpectrumSolenoid ball_flap_sol = new SpectrumSolenoid(HW.BALL_FLAP_SOL);
+    	
+    	gearBackPack = new GearBackPack(gear_back_pack_sol, gear_flap_sol, ball_flap_sol);
+    	
+    	SpectrumSolenoid headlight_sol = new SpectrumSolenoid(HW.HEADLIGHT_SOL);
+    	headlights = new Headlights(headlight_sol);
+    	
+    	CANTalon ball_intake_talon = new CANTalon(HW.BALL_INTAKE_MOTOR);
+    	ballIntakeMotor = new SpectrumSpeedControllerCAN(
+    			new CANTalon[] {ball_intake_talon},
+    			new int[] {HW.BALL_INTAKE_MOTOR_PDP}
+    			);
+    	
+    	ballIntake = new BallIntake(ballIntakeMotor);
     	
     	leds = new LEDs();
     	try {
@@ -321,8 +358,10 @@ public class Robot extends IterativeRobot {
 		//CameraServer.getInstance().startAutomaticCapture(cam0);
 		//CameraServer.getInstance().startAutomaticCapture();
 		UsbCamera cam0 = CameraServer.getInstance().startAutomaticCapture();
+		//UsbCamera cam1 = CameraServer.getInstance().startAutomaticCapture();
         //cam0.setResolution(160, 120);
         cam0.setExposureAuto();
+        //cam1.setExposureAuto();
         new Purple().start();
         Autonomous.createChooser();
 		logger = Logger.getInstance();
@@ -333,15 +372,15 @@ public class Robot extends IterativeRobot {
     }
     
     private static void initDebugger(){
-    	Debugger.setLevel(Debugger.debug2); //Set the initial Debugger Level
+    	Debugger.setLevel(Debugger.verbose1); //Set the initial Debugger Level
     	Debugger.flagOn(general); //Set all the flags on, comment out ones you want off
     	Debugger.flagOn(controls);
     	Debugger.flagOn(input);
     	Debugger.flagOn(output);
-    	Debugger.flagOn(auton);
+    	Debugger.flagOff(auton);
     	Debugger.flagOn(commands);
-    	Debugger.flagOn(intake);
-    	Debugger.flagOff(shooter);
+    	Debugger.flagOff(intake);
+    	Debugger.flagOn(shooter);
     	Debugger.flagOff(gear);
     }
     /**

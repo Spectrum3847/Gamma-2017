@@ -25,7 +25,7 @@ public class Autonomous {
 	static Command AutonCommand;
 
     public static void init() {
-    	AutonCommand = new DriveDistance(10);//(Command) autonChooser.getSelected();
+    	AutonCommand = new CurrentStopGearAuto();//(Command) autonChooser.getSelected();
     	if (SmartDashboard.getBoolean("Autonomous ENABLED", true)){
     			AutonCommand.start();
     	}
@@ -48,8 +48,8 @@ public class Autonomous {
     	autonChooser = new SendableChooser();
     	
     	
-    	autonChooser.addObject("Score Gear", new CurrentStopGearAuto());
-    	autonChooser.addDefault("Drive Distance", new DriveDistance(10));
+    	autonChooser.addDefault("Score Gear", new CurrentStopGearAuto());
+    	autonChooser.addObject("Drive Distance", new DriveDistance(10));
     	autonChooser.addObject("Drive Straight", new CurrentStopGearAuto(false));
     	autonChooser.addObject("Fire 10 then Gear RED", new Fire10BallsAndGear(true));
     	autonChooser.addObject("Fire 10 then Gear BLUE", new Fire10BallsAndGear(false));

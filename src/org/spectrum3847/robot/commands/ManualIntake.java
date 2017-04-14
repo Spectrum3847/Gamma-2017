@@ -10,13 +10,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class ManualIntake extends Command {
 
 	public ManualIntake() {
-		requires(Robot.climber);
+		requires(Robot.ballIntake);
 		// TODO Auto-generated constructor stub
 	}
 
 	public void execute(){
-		if(Math.abs(HW.Operator_Gamepad.getTriggerAxis(Hand.kRight)-HW.Operator_Gamepad.getTriggerAxis(Hand.kLeft)) > SmartDashboard.getNumber("Operator Intake Deadpan", 0.1))
-        	Robot.climber.set(HW.Operator_Gamepad.getTriggerAxis(Hand.kRight)-HW.Operator_Gamepad.getTriggerAxis(Hand.kLeft));
+		if(Math.abs(HW.Operator_Gamepad.getY(Hand.kRight)) > .1)
+        	Robot.ballIntake.setIntake(HW.Operator_Gamepad.getY(Hand.kRight));
+		else
+			Robot.ballIntake.setIntake(0);
 	}
 ;
 	protected boolean isFinished() {

@@ -42,6 +42,8 @@ public class ShooterOn extends Command{
 							" P: " + p + " D: " + d + " F: " + f + " \n",
 							Robot.shooter, Debugger.info3);
 		
+		
+		
 	}
 
 	@Override

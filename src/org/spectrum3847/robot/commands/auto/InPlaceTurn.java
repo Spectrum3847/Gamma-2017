@@ -1,83 +1,58 @@
 package org.spectrum3847.robot.commands.auto;
 
-import org.spectrum3847.lib.drivers.DriveSignal;
 import org.spectrum3847.robot.Robot;
+import org.spectrum3847.lib.drivers.DriveSignal;
+import org.spectrum3847.lib.util.Debugger;
 
-import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.PIDCommand;
 
-public class InPlaceTurn extends PIDCommand{
+public class InPlaceTurn extends Command{
 
-	private double targetAngle;
-	private static double pGain = Robot.prefs.getNumber("A: Turn in Place P", 0.09);
-	private static double iGain = Robot.prefs.getNumber("A: Turn in Place I", 0.00);
-	private static double dGain = Robot.prefs.getNumber("A: Turn in Place D", 0.25);
+	private double target;
+	private double timeout;
 	
-	
-	public InPlaceTurn(double targetAngle) {
-		super(pGain, iGain, dGain);
+	public InPlaceTurn(double ang, double to) {
 		requires(Robot.drive);
 		
-		this.targetAngle = targetAngle;
+		target = ang;
+		timeout = to;
 	}
 
 	public void initialize(){
+		Robot.rightDrive.getTalon().changeControlMode(TalonControlMode.PercentVbus);
+		Robot.leftDrive.getTalon().changeControlMode(TalonControlMode.PercentVbus);
 		
-		this.setTimeout(1.5);
-		
-		Robot.leftDrive.getTalon().changeControlMode(CANTalon.TalonControlMode.Voltage);
-		Robot.rightDrive.getTalon().changeControlMode(CANTalon.TalonControlMode.Voltage);
-		
-		Robot.leftDrive.getTalon().configPeakOutputVoltage(-6f, 6f);
-		Robot.rightDrive.getTalon().configPeakOutputVoltage(-6f, 6f);
-		
-		super.getPIDController().enable();
-		this.setSetpoint(this.targetAngle);
-		
+		this.setTimeout(timeout);
+		Debugger.println(("Initializing inPlaceTurn, setPoint: " + target), Robot.auton, Debugger.debug2);
 	}
 	
 	public void execute(){
-		//System.out.println("[InPlaceTurn] Setpoint: " + this.getSetpoint() + " Position: " + this.getPosition()  + " Error: " + (this.getSetpoint() - this.getPosition()));
+		double throttle = Robot.drive.getSideThrottlePID(target, 0, Robot.prefs.getNumber("IPT: Turn P", .04), Robot.prefs.getNumber("IPT: Turn D", .0004));
+		DriveSignal signal = new DriveSignal(throttle, -throttle);
+		Robot.drive.setOpenLoop(signal);
 	}
 	
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
-		if(isTimedOut()){//Math.abs(Robot.navX.getAngle() - this.targetAngle) < 1 || isTimedOut()){
-			System.out.print("Done Turning in Auto");
+		if(isTimedOut()){//this.getError() <= .1 || isTimedOut()){
 			return true;
 		}
-		return false;
+		else return false;
 	}
-
+	
 	public void end(){
-		Robot.leftDrive.getTalon().changeControlMode(CANTalon.TalonControlMode.PercentVbus);
-		Robot.rightDrive.getTalon().changeControlMode(CANTalon.TalonControlMode.PercentVbus);
-		Robot.drive.setOpenLoop(new DriveSignal(0,0));
-		Robot.leftDrive.getTalon().configPeakOutputVoltage(+12f, -12f);
+		Debugger.println("inPlaceTurn finished, Error: " + getError() + " Timed Out? " + isTimedOut(), Robot.auton, Debugger.debug2);
+		Robot.drive.setOpenLoop(new DriveSignal(0,0));	
 	}
 	
 	public void interrupted(){
-		this.end();
+		end();
 	}
 	
-	@Override
-	protected double returnPIDInput() {
-		// TODO Auto-generated method stub
-		return Robot.navX.getAngle();
-	}
-
-	@Override
-	protected void usePIDOutput(double output) {
-		// TODO Auto-generated method stub
-		
-		
-		Robot.leftDrive.getTalon().set(output * -6);
-		Robot.rightDrive.getTalon().set(output * 6);
-		System.out.println("TurnInPlace Right Setpoint" + Robot.rightDrive.getTalon().get());
+	public double getError(){
+		return target - Robot.navX.getYaw();
 	}
 
 }

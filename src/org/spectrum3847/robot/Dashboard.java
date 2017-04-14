@@ -113,7 +113,7 @@ public class Dashboard {
 		SmartDashboard.putBoolean("NavX is Zero", Math.abs(Robot.navX.getYaw()) < 1);
     	
 
-		//shooterDashboard();
+		shooterDashboard();
 		//gearDashboard();
     	
 		

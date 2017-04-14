@@ -2,8 +2,11 @@ package org.spectrum3847.robot;
 
 import org.spectrum3847.robot.commands.ArcTurn;
 import org.spectrum3847.robot.commands.ArcadeDrive;
+import org.spectrum3847.robot.commands.HeadlightsOn;
 //import org.spectrum3847.robot.commands.GearArmDrive;
 import org.spectrum3847.robot.commands.ManualClimb;
+import org.spectrum3847.robot.commands.ManualIntake;
+import org.spectrum3847.robot.commands.gear.FlapControl;
 import org.spectrum3847.robot.commands.leds.Purple;
 
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -24,6 +27,15 @@ public class Teleop {
         
         ManualClimb manualClimb = new ManualClimb();
         manualClimb.start();
+        
+        FlapControl flapControl = new FlapControl();
+        flapControl.start();
+        
+        HeadlightsOn headlightsOn = new HeadlightsOn();
+        headlightsOn.start();
+        
+        ManualIntake manualIntake = new ManualIntake();
+        manualIntake.start();
         
         new Purple().start();
         

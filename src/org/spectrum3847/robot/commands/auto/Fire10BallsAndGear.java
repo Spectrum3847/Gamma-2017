@@ -19,7 +19,7 @@ public class Fire10BallsAndGear extends CommandGroup {
 		
 		this.addParallel(new ShooterOn());
 		this.addParallel(new TowerOn());
-		this.addSequential(new WaitCommand(1.5));
+		this.addSequential(new WaitCommand(2));
 		this.addSequential(new LoadShooter(), 2);
 		this.addParallel(new ShooterAndTowerOff(),.1);
 		if(isRed)

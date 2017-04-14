@@ -2,31 +2,37 @@ package org.spectrum3847.robot.subsystems;
 
 import org.spectrum3847.lib.drivers.SpectrumSpeedControllerCAN;
 
+import com.ctre.CANTalon;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class BeltBed extends Subsystem{
 
-	private SpectrumSpeedControllerCAN towerMotor;
+	private SpectrumSpeedControllerCAN beltBedMotor;
 	
 	public BeltBed(String name, SpectrumSpeedControllerCAN motor){
 		super(name);
-		towerMotor = motor;
+		beltBedMotor = motor;
 	}
 	
 	public void set(double value){
-		towerMotor.set(value);
+		beltBedMotor.set(value);
 	}
 	
 	public double getSpeed(){
-		return towerMotor.get();
+		return beltBedMotor.get();
 	}
 	
 	public double getCurrent(){
-		return towerMotor.getCurrent();
+		return beltBedMotor.getCurrent();
 	}
 	
 	public void disable(){
-		towerMotor.disable();
+		beltBedMotor.disable();
+	}
+	
+	public CANTalon getTalon(){
+		return beltBedMotor.getTalon();	
 	}
 	
 	@Override

@@ -54,7 +54,7 @@ public class DriveDistance extends Command {
 	public void execute()
 	{
 		debugMotionMagic();
-		double rightDrive = -1* Robot.drive.getRightDriveStraight(yaw, leftTalon.get());
+		double rightDrive = -1* Robot.drive.getSideThrottlePID(yaw, leftTalon.get(), Robot.prefs.getNumber("D: Straight P", 0.04), Robot.prefs.getNumber("D: Straight D", 0.0004));
 		rightTalon.set(rightDrive);
 	}
 	

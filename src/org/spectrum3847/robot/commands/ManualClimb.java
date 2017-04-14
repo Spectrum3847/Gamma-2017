@@ -14,12 +14,26 @@ public class ManualClimb extends Command{
 
 	public void execute(){
 		//System.out.println("Operator Trigger Right, Driver Trigger Right" + HW.Operator_Gamepad.getTriggerAxis(Hand.kRight) + ", " + HW.Driver_Gamepad.getTriggerAxis(Hand.kRight));
-		if (HW.Operator_Gamepad.getTriggerAxis(Hand.kRight) > .5)
-			Robot.climber.set(HW.Operator_Gamepad.getTriggerAxis(Hand.kRight));
-		else if (HW.Driver_Gamepad.getTriggerAxis(Hand.kRight) > .5)
-			Robot.climber.set(HW.Driver_Gamepad.getTriggerAxis(Hand.kRight));
-		else
+		if (HW.Operator_Gamepad.getTriggerAxis(Hand.kRight) > .5){
+			Robot.climber.set(Math.pow((HW.Operator_Gamepad.getTriggerAxis(Hand.kRight)),2));
+			if(Robot.compressor.enabled())
+				Robot.compressor.stop();
+		}
+		else if (HW.Driver_Gamepad.getTriggerAxis(Hand.kRight) > .5){
+			Robot.climber.set(Math.pow(HW.Driver_Gamepad.getTriggerAxis(Hand.kRight),2));
+			if(Robot.compressor.enabled())
+				Robot.compressor.stop();
+		}
+		else if (HW.Operator_Gamepad.getTriggerAxis(Hand.kRight) > .2){
+			Robot.climber.set(Robot.prefs.getNumber("C: Climber Creep Throttle", .1));
+			if(Robot.compressor.enabled())
+				Robot.compressor.stop();
+		}
+		else{
 			Robot.climber.set(0);
+			if(!Robot.compressor.enabled())
+				Robot.compressor.start();
+		}
 	}
 	
 	@Override

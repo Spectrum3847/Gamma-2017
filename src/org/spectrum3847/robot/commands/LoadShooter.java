@@ -1,6 +1,9 @@
 package org.spectrum3847.robot.commands;
 
+import org.spectrum3847.lib.util.Debugger;
 import org.spectrum3847.robot.Robot;
+
+import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,7 +15,9 @@ public class LoadShooter extends Command{
 	
 	@Override
 	protected void initialize() {
-		Robot.beltBed.set(SmartDashboard.getNumber("Belt Bed Speed",-1));
+		Robot.beltBed.getTalon().changeControlMode(TalonControlMode.PercentVbus);
+		Robot.beltBed.set(Robot.prefs.getNumber("S: Belt Bed Speed",-1));
+		Debugger.println("Load Shooter Started", Robot.shooter, Debugger.verbose1);
 	}
 
 	@Override
@@ -31,6 +36,7 @@ public class LoadShooter extends Command{
 	protected void end() {
 		// TODO Auto-generated method stub
 		Robot.beltBed.set(0);
+		Debugger.println("Load Shooter Stopped", Robot.shooter, Debugger.verbose1);
 		
 	}
 
