@@ -1,4 +1,4 @@
-package org.spectrum3847.robot.commands;
+package org.spectrum3847.robot.commands.shooter;
 
 import org.spectrum3847.lib.util.Debugger;
 import org.spectrum3847.robot.Robot;
@@ -8,16 +8,16 @@ import com.ctre.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class LoadShooter extends Command{
+public class ReverseBeltBed extends Command{
 
 	
-	public LoadShooter(){};
+	public ReverseBeltBed(){};
 	
 	@Override
 	protected void initialize() {
 		Robot.beltBed.getTalon().changeControlMode(TalonControlMode.PercentVbus);
-		Robot.beltBed.set(Robot.prefs.getNumber("S: Belt Bed Speed",-1));
-		Debugger.println("Load Shooter Started", Robot.shooter, Debugger.verbose1);
+		Robot.beltBed.set(1);
+		Debugger.println("Reverse Shooter Started", Robot.shooter, Debugger.verbose1);
 	}
 
 	@Override

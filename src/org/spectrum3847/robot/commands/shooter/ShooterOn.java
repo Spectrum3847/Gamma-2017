@@ -1,7 +1,8 @@
-package org.spectrum3847.robot.commands;
+package org.spectrum3847.robot.commands.shooter;
 
 import org.spectrum3847.lib.util.Debugger;
 import org.spectrum3847.robot.Robot;
+import org.spectrum3847.robot.commands.AimingLightOn;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -11,6 +12,7 @@ public class ShooterOn extends Command{
 	private double d = 0;
 	private double f = 0;
 	private double speed;
+	private Command aimlight;
 	
 	public ShooterOn(){
 	
@@ -18,7 +20,6 @@ public class ShooterOn extends Command{
 	
 	//called before first run
 	protected void initialize(){
-		Debugger.println("initializing ShooterOn : Setting Shooter PID", Robot.shooter, Debugger.info3);
 
     	Robot.shooterWheel.getTalon().enableBrakeMode(false);
 		Robot.shooterWheel.enable();
@@ -37,12 +38,14 @@ public class ShooterOn extends Command{
 		//Robot.shooterBack.getTalon().reverseOutput(true);
 		//Robot.shooterback.getTalon().reverseSensor(true);
 		Robot.shooterWheel.set(speed);
-		
+
 		Debugger.println("Wheel PID Setpoint: " +Robot.shooterWheel.getTalon().get() +
 							" P: " + p + " D: " + d + " F: " + f + " \n",
 							Robot.shooter, Debugger.info3);
 		
-		
+		Robot.compressor.stop();
+		aimlight = new AimingLightOn();
+		aimlight.start();
 		
 	}
 
@@ -63,7 +66,10 @@ public class ShooterOn extends Command{
 	protected void end() {
 		// TODO Auto-generated method stub
 		Debugger.println("DISABLING SHOOTER WHEEL", Robot.shooter, Debugger.info3);
+		Robot.shooterWheel.enableBrakeMode(true);
 		Robot.shooterWheel.disable();
+		Robot.compressor.start();
+		aimlight.cancel();
 	}
 
 	@Override

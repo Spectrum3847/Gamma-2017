@@ -4,17 +4,16 @@ import org.spectrum3847.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class Purple extends Command {
+public class Red extends Command {
 
-	public Purple() {
+	public Red() {
 		// TODO Auto-generated constructor stub
-
 		requires(Robot.leds);
 	}
 
 	// Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.leds.purple();
+    	Robot.leds.red();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -28,7 +27,7 @@ public class Purple extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.leds.off();
+    	Robot.leds.purple();
     }
 
     // Called when another command which requires one or more of the same

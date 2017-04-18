@@ -1,20 +1,26 @@
-package org.spectrum3847.robot.commands.leds;
+
+package org.spectrum3847.robot.commands;
 
 import org.spectrum3847.robot.Robot;
+import org.spectrum3847.robot.subsystems.Cameras;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class Purple extends Command {
+/*
+ *
+ */
+public class SwitchCamera extends Command {
 
-	public Purple() {
-		// TODO Auto-generated constructor stub
+	Cameras c ;
+    public SwitchCamera(Cameras cam) {
+        // Use requires() here to declare subsystem dependencies
+    	c = cam;
+    }
 
-		requires(Robot.leds);
-	}
-
-	// Called just before this Command runs the first time
+    // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.leds.purple();
+    	c.intailizeCamera1();
+    	Robot.leds.blue();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -28,7 +34,8 @@ public class Purple extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.leds.off();
+    	c.intailizeCamera0();
+    	Robot.leds.purple();
     }
 
     // Called when another command which requires one or more of the same

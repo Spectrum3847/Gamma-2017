@@ -2,10 +2,10 @@ package org.spectrum3847.robot.commands.auto;
 
 import org.spectrum3847.lib.util.Debugger;
 import org.spectrum3847.robot.Robot;
-import org.spectrum3847.robot.commands.LoadShooter;
-import org.spectrum3847.robot.commands.ShooterAndTowerOff;
-import org.spectrum3847.robot.commands.ShooterOn;
-import org.spectrum3847.robot.commands.TowerOn;
+import org.spectrum3847.robot.commands.shooter.LoadShooter;
+import org.spectrum3847.robot.commands.shooter.ShooterAndTowerOff;
+import org.spectrum3847.robot.commands.shooter.ShooterOn;
+import org.spectrum3847.robot.commands.shooter.TowerOn;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;

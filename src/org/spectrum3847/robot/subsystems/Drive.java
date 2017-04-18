@@ -233,7 +233,7 @@ public class Drive extends Subsystem {
     }
 
     private void setDriveOutputs(DriveSignal signal) {
-    	
+    	/*
     	boolean leftNegativeFlag;
         boolean rightNegativeFlag;
         
@@ -247,6 +247,7 @@ public class Drive extends Subsystem {
         else
         	rightNegativeFlag = false;
         
+        
         signal.leftMotor =  ( new Expression(SmartDashboard.getString("Drive Equation", "x")).with("x",new BigDecimal(signal.leftMotor)).eval() ).doubleValue();
         signal.rightMotor = ( new Expression(SmartDashboard.getString("Drive Equation", "x")).with("x",new BigDecimal(signal.rightMotor)).eval() ).doubleValue();
         
@@ -255,10 +256,10 @@ public class Drive extends Subsystem {
         
         if(! (rightNegativeFlag ^ (signal.rightMotor < 0)))
         	signal.rightMotor *= -1;
-        
+        */
     	
-    	m_left_motor.set(-signal.leftMotor);
-        m_right_motor.set(signal.rightMotor);
+    	m_left_motor.set(signal.leftMotor);
+        m_right_motor.set(-signal.rightMotor);
     }
 
     private Pose getPoseToContinueFrom(boolean for_turn_controller) {
@@ -377,12 +378,14 @@ public class Drive extends Subsystem {
 		kMaxCorrectionRatio = Robot.prefs.getNumber("D: MaxCorrectRatio",0.30 ); /* cap corrective turning throttle to 30 percent of forward throttle */
 		/** holds the current angle to servo to */
 		targetAngle = angle;
-		
+
 		if (Robot.navX_READY){
+			
 			currentAngle = Robot.navX.getAngle();
 	    	currentAngularRate = Robot.navX.getRate();
 	
 			turnThrottle = (targetAngle - currentAngle) * kPgain - (currentAngularRate) * kDgain;
+			//Debugger.println("Turn Throttle: " + turnThrottle, Robot.drivetrain, Debugger.debug2);
 			
 			/* the max correction is the forward throttle times a scalar,
 			 * This can be done a number of ways but basically only apply small turning correction when we are moving slow
@@ -390,7 +393,7 @@ public class Drive extends Subsystem {
 			double maxThrot = MaxCorrection(forwardThrottle, kMaxCorrectionRatio);
 			turnThrottle = Cap(turnThrottle, maxThrot);
 	
-			debugDriveStraight();
+			//debugDriveStraight();
 			
 			/* positive turnThrottle means turn to the left, this can be replaced with ArcadeDrive object, or teams drivetrain object */
 			sidePIDThrottle = forwardThrottle + turnThrottle;
@@ -398,11 +401,43 @@ public class Drive extends Subsystem {
 			return sidePIDThrottle;
 		} else {
 			//IF NAVX NOT PRESENT JUST RETURN THROTTLE
+			Debugger.println("NO NAV-X", Robot.drivetrain, Debugger.debug2);
 			debug("NAV X NOT READY: NO DRIVE STRAIGHT");
 			return throttle;
 		}
 	}
 	
+	public double getTurnThrottlePID(double angle, double kP, double kD){
+		forwardThrottle = 0;
+		double kPgain = kP;//Robot.prefs.getNumber("D: Straight P", 0.04); /* percent throttle per degree of error */
+		double kDgain = kD;//Robot.prefs.getNumber("D: Straight D", 0.0004); /* percent throttle per angular velocity dps */
+		kMaxCorrectionRatio = Robot.prefs.getNumber("D: MaxCorrectRatio",0.30 ); /* cap corrective turning throttle to 30 percent of forward throttle */
+		/** holds the current angle to servo to */
+		targetAngle = angle;
+
+		//Debugger.println("Turning", Robot.drivetrain, Debugger.debug2);
+		
+		if (Robot.navX_READY){
+			
+			currentAngle = -1*Robot.navX.getYaw();
+	    	currentAngularRate = Robot.navX.getRate();
+	
+			turnThrottle = (targetAngle - currentAngle) * kPgain - (currentAngularRate) * kDgain;
+			//Debugger.println("Turn Throttle: " + turnThrottle, Robot.drivetrain, Debugger.debug2);
+	
+			debugDriveStraight();
+			
+			/* positive turnThrottle means turn to the left, this can be replaced with ArcadeDrive object, or teams drivetrain object */
+			sidePIDThrottle = turnThrottle;
+			sidePIDThrottle = Cap(sidePIDThrottle, 1.0);
+			return sidePIDThrottle;
+		} else {
+			//IF NAVX NOT PRESENT JUST RETURN THROTTLE
+			Debugger.println("NO NAV-X", Robot.drivetrain, Debugger.debug2);
+			debug("NAV X NOT READY: NO DRIVE STRAIGHT");
+			return 0;
+		}
+	}	
 	public void debug(String msg, int level){
 		Debugger.println(msg, Robot.drivetrain, level);
 	}

@@ -1,7 +1,9 @@
-package org.spectrum3847.robot.commands;
+package org.spectrum3847.robot.commands.shooter;
 
 import org.spectrum3847.lib.util.Debugger;
 import org.spectrum3847.robot.Robot;
+import org.spectrum3847.robot.commands.leds.Green;
+import org.spectrum3847.robot.commands.leds.Purple;
 
 import com.ctre.CANTalon.TalonControlMode;
 
@@ -42,12 +44,14 @@ public class TowerOn extends Command{
 		Debugger.println("Tower PID Setpoint: " +Robot.shooterTower.getTalon().get() +
 							" P: " + p + " D_front: " + d + " F_front: " + f + " \n",
 							Robot.shooter, Debugger.info3);
+
 		
 	}
 
 	@Override
 	protected void execute() {
-		Debugger.println("Tower Speed: " + Robot.shooterTower.getTalon().get(), Robot.shooter, Debugger.debug2);
+		Debugger.println("Tower Speed: " + Robot.shooterTower.getTalon().get(), Robot.shooter, Debugger.debug2);		
+		new Green().start();
 		
 	}
 
@@ -61,6 +65,8 @@ public class TowerOn extends Command{
 	protected void end() {
 		// TODO Auto-generated method stub
 		Debugger.println("DISABLING SHOOTER TOWER", Robot.shooter, Debugger.info3);
+		Robot.shooterTower.enableBrakeMode(true);
+		new Purple().start();
 		Robot.shooterTower.disable();
 	}
 

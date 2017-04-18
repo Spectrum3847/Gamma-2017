@@ -1,4 +1,4 @@
-package org.spectrum3847.robot.commands;
+package org.spectrum3847.robot.commands.shooter;
 
 import org.spectrum3847.lib.util.Debugger;
 import org.spectrum3847.robot.Robot;
@@ -26,9 +26,9 @@ public class ShooterAndTowerOff extends Command{
 		Debugger.println("Turning Shooter and Tower Off", Robot.shooter, Debugger.info3);
 
 		Robot.shooterTower.disable();
-    	Robot.shooterTower.getTalon().enableBrakeMode(true);
+    	Robot.shooterTower.enableBrakeMode(true);
 		Robot.shooterWheel.disable();
-    	Robot.shooterWheel.getTalon().enableBrakeMode(true);
+    	Robot.shooterWheel.enableBrakeMode(true);
 		
 	}
 

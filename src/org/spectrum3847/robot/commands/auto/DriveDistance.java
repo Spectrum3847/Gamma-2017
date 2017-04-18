@@ -21,49 +21,50 @@ public class DriveDistance extends Command {
 	private double wheelDiameter = 4.2;
 	private double yaw = 0;
 	
-	public DriveDistance(double to)
+	public DriveDistance(double target, double to)
 	{
 		requires(Robot.drive);
 		timeout = to;
 		leftTalon = Robot.leftDrive.getTalon();
 		rightTalon = Robot.rightDrive.getTalon();
+		this.target = target / (Math.PI * Robot.prefs.getNumber("Wheel Diameter", 4));
 	}
 	
 	public void initialize()
 	{
-		target = Robot.prefs.addNumber("A: MMDistance", 3);// / (wheelDiameter*Math.PI);
+		//target = Robot.prefs.addNumber("A: MMDistance", 3);// / (wheelDiameter*Math.PI);
 		rightTalon.changeControlMode(TalonControlMode.PercentVbus);
 		
 		//17.5 is the distance from the back of the robot to the turning circle's center
 		leftTalon.changeControlMode(TalonControlMode.MotionMagic);
-		leftTalon.setF(Robot.prefs.getNumber("DA: MM F",0));
-		leftTalon.setP(Robot.prefs.getNumber("DA: MM P",0));
+		leftTalon.setF(Robot.prefs.getNumber("DA: MM F",0.4));
+		leftTalon.setP(Robot.prefs.getNumber("DA: MM P",2));
 		leftTalon.setI(Robot.prefs.getNumber("DA: MM I",0));
-		leftTalon.setD(Robot.prefs.getNumber("DA: MM D",0));
-		leftTalon.setMotionMagicCruiseVelocity(Robot.prefs.getNumber("DA: MM CV", 0));
-		leftTalon.setMotionMagicAcceleration(Robot.prefs.getNumber("DA: MM CA", 0));
+		leftTalon.setD(Robot.prefs.getNumber("DA: MM D",0.5));
+		leftTalon.setMotionMagicCruiseVelocity(Robot.prefs.getNumber("DA: MM CV", 3));
+		leftTalon.setMotionMagicAcceleration(Robot.prefs.getNumber("DA: MM CA", 10));
 		leftTalon.setPosition(0);
 		leftTalon.enable();
 		leftTalon.set(target);
 
 		this.setTimeout(timeout);
-		debug("Initializing MoveDistance, Setpoint: " + Robot.leftDrive.getTalon().getSetpoint());
+		debug("Initializing MoveDistance, Setpoint: " + Robot.leftDrive.getTalon().getSetpoint() + "Current position: " + Robot.leftDrive.getTalon().get());
 		yaw = Robot.navX.getYaw();
 	}
 	
 	public void execute()
 	{
-		debugMotionMagic();
-		double rightDrive = -1* Robot.drive.getSideThrottlePID(yaw, leftTalon.get(), Robot.prefs.getNumber("D: Straight P", 0.04), Robot.prefs.getNumber("D: Straight D", 0.0004));
+		//debugMotionMagic();
+		double rightDrive = -1* leftTalon.get(); //Robot.drive.getSideThrottlePID(yaw, leftTalon.get(), Robot.prefs.getNumber("D: Straight P", 0.04), Robot.prefs.getNumber("D: Straight D", 0.0004));
 		rightTalon.set(rightDrive);
 	}
 	
 	public boolean isFinished()
 	{
-		if(this.getInError() <= .1 || isTimedOut())
+		if(Math.abs(this.getInError()) <= .1 || isTimedOut())
 		{
 			Debugger.println("Finished Drive Distance", Robot.commands,Debugger.debug2);
-			return false;
+			return true;
 		} else return false;
 	}
 	

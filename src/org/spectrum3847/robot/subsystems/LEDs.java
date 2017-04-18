@@ -2,6 +2,8 @@ package org.spectrum3847.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+import org.spectrum3847.robot.commands.leds.Purple;
+
 import edu.wpi.first.wpilibj.I2C;
 
 public class LEDs extends Subsystem {
@@ -15,7 +17,7 @@ public class LEDs extends Subsystem {
 	}
 
 	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
+		this.setDefaultCommand(new Purple());
 
 	}
 	public void yellow(){

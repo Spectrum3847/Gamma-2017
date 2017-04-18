@@ -27,9 +27,9 @@ public class ArcadeDrive extends Command{
 		if(isNotDeadband(HW.Driver_Gamepad.getY(Hand.kLeft)) || isNotDeadband(HW.Driver_Gamepad.getX(Hand.kRight))){
 			Robot.drive.arcadeDrive(HW.Driver_Gamepad.getY(Hand.kLeft), HW.Driver_Gamepad.getX(Hand.kRight), Robot.prefs.getNumber("D: Deadband", .15), Robot.prefs.getBoolean("D: Squared Inputs", true));
 		}
-		else if(isNotDeadband(HW.Driver_Gamepad.getTriggerAxis(Hand.kLeft)) || isNotDeadband(HW.Driver_Gamepad.getTriggerAxis(Hand.kRight))){
-			Robot.drive.setOpenLoop(new DriveSignal(-HW.Driver_Gamepad.getTriggerAxis(Hand.kRight), -HW.Driver_Gamepad.getTriggerAxis(Hand.kLeft)));
-		}
+		//else if(isNotDeadband(HW.Driver_Gamepad.getTriggerAxis(Hand.kLeft)) || isNotDeadband(HW.Driver_Gamepad.getTriggerAxis(Hand.kRight))){
+		//	Robot.drive.setOpenLoop(new DriveSignal(-HW.Driver_Gamepad.getTriggerAxis(Hand.kRight), -HW.Driver_Gamepad.getTriggerAxis(Hand.kLeft)));
+		//}
 		else {
 			Robot.drive.setOpenLoop(new DriveSignal(0,0));
 		}

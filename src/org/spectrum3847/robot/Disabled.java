@@ -1,9 +1,9 @@
 package org.spectrum3847.robot;
 
-import org.spectrum3847.robot.commands.VibrateController;
-import org.spectrum3847.robot.commands.leds.Purple;
+import org.spectrum3847.robot.commands.AimingLightOn;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -15,22 +15,23 @@ public class Disabled {
     static int t = 0;
     static boolean b = true;
     static boolean navxIsCalibrating = false;
+    static Command aimingLight = new AimingLightOn();
     
     public static void init() {
+    	Robot.aimingLight.turnOff(); //Turn the aming light off at the start
         Scheduler.getInstance().removeAll();
         //Init.sendCam.start();
         Robot.logger.close();
-        new VibrateController(HW.Driver_Gamepad, .5, 2);
-        new Purple().start();
         //Robot.navX.reset();
         Robot.navX.zeroYaw();
-
+        Robot.cams.intailizeCamera0();
     }
 
     //Periodic method called roughly once every 20ms
     public static void periodic() {
     	disabledFlash();
-        
+    	flashPurpleLEDS();
+
         if(SmartDashboard.getBoolean("Reset NavX", false)){
         	navxIsCalibrating = true;
         	Robot.navX.reset();
@@ -41,9 +42,16 @@ public class Disabled {
 	        	Robot.navX.zeroYaw();
 	        }
         }
-        Scheduler.getInstance().run();
+        //Scheduler.getInstance().run();
+        
+        if (Robot.gearBackPack.getSoringSensor() || HW.Driver_Gamepad.getBackButton()){//DriverStation.getInstance().isFMSAttached()){
+        	Robot.aimingLight.turnOn();
+        } else{
+        	Robot.aimingLight.turnOff();
+        }
         
         Dashboard.updateDashboard();
+        Autonomous.selectAuto();
         Timer.delay(0.001);
     }
     
@@ -55,5 +63,15 @@ public class Disabled {
             SmartDashboard.putBoolean("Disabled Toggle", b);
         }
         t++;
+    }
+    
+    public static void flashPurpleLEDS(){
+    	double time = Timer.getFPGATimestamp();
+    	boolean blink = (time % (1 * 2)) < 1;
+    	if (blink){
+    		Robot.leds.purple();
+    	} else{
+    		Robot.leds.off();
+    	}
     }
 }

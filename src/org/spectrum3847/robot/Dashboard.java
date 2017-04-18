@@ -84,7 +84,6 @@ public class Dashboard {
     }
 
     private static void updatePutShort() {
-    	//SmartDashboard.putNumber("Motor 1", Motor_1.get());
     	//Robot.shooter.updateValuesToDashboard();
     	
     	//Drive Train
@@ -97,10 +96,10 @@ public class Dashboard {
     	SmartDashboard.putNumber("Drive Right:", Robot.rightDrive.get());
     	SmartDashboard.putNumber("Drive Position", Robot.leftDrive.getTalon().getPosition());
     	SmartDashboard.putNumber("Drive Vel", Robot.leftDrive.getTalon().getSpeed());
-	    if (Robot.left_drive_talon_1.getControlMode() == CANTalon.TalonControlMode.MotionMagic){
-	    	SmartDashboard.putNumber("Drive ActTrajPos", Robot.leftDrive.getTalon().getMotionMagicActTrajPosition());
-	    	SmartDashboard.putNumber("Drive ActTrajVel", Robot.leftDrive.getTalon().getMotionMagicActTrajVelocity());
-	    }
+	    //if (Robot.left_drive_talon_1.getControlMode() == CANTalon.TalonControlMode.MotionMagic){
+	    	//SmartDashboard.putNumber("Drive ActTrajPos", Robot.leftDrive.getTalon().getMotionMagicActTrajPosition());
+	    	//SmartDashboard.putNumber("Drive ActTrajVel", Robot.leftDrive.getTalon().getMotionMagicActTrajVelocity());
+	    //}
     	SmartDashboard.putNumber("Drive Error", Robot.leftDrive.getTalon().getClosedLoopError());
     	SmartDashboard.putNumber("Drive Get Setpoint", Robot.leftDrive.getTalon().getSetpoint());
     	SmartDashboard.putNumber("Drive Left Applied Voltage", Robot.leftDrive.getTalon().getOutputVoltage());
@@ -155,7 +154,9 @@ public class Dashboard {
     
     private static void updatePutLong(){
     	SmartDashboard.putBoolean("Compressor", Robot.compressor.enabled());
-    	SmartDashboard.putData(Robot.gearIntake);
+    	//SmartDashboard.putData(Robot.gearIntake);
+		SmartDashboard.putString("*Auto Command*", Autonomous.AutoName); // Displays which auto should run
+		SmartDashboard.putBoolean("Auton on Right?", Autonomous.isRight);
     }
 
     

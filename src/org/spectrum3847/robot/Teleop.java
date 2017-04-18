@@ -1,5 +1,6 @@
 package org.spectrum3847.robot;
 
+import org.spectrum3847.lib.util.Debugger;
 import org.spectrum3847.robot.commands.ArcTurn;
 import org.spectrum3847.robot.commands.ArcadeDrive;
 import org.spectrum3847.robot.commands.HeadlightsOn;
@@ -7,8 +8,11 @@ import org.spectrum3847.robot.commands.HeadlightsOn;
 import org.spectrum3847.robot.commands.ManualClimb;
 import org.spectrum3847.robot.commands.ManualIntake;
 import org.spectrum3847.robot.commands.gear.FlapControl;
+import org.spectrum3847.robot.commands.gear.GearArmPIDUp;
+import org.spectrum3847.robot.commands.gear.ZeroGearArmCurrent;
 import org.spectrum3847.robot.commands.leds.Purple;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
 
@@ -39,6 +43,10 @@ public class Teleop {
         
         new Purple().start();
         
+        if (DriverStation.getInstance().isFMSAttached()){
+        	new ZeroGearArmCurrent().start();
+        }
+        
         //ManualGearIntake manualGearIntake = new ManualGearIntake();
         //manualGearIntake.start();
         
@@ -57,9 +65,7 @@ public class Teleop {
     	Dashboard.updateDashboard();
         Scheduler.getInstance().run();
         
-        
-        
-        
+    	
         //Tank Drive
         //Robot.drive.setOpenLoop(new DriveSignal(HW.Driver_Gamepad.getLeftY(), HW.Driver_Gamepad.getRightY()));
         

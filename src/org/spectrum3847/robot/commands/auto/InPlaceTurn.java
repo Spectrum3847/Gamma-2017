@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class InPlaceTurn extends Command{
 
+	//Positive turn is left
 	private double target;
 	private double timeout;
 	
@@ -21,28 +22,37 @@ public class InPlaceTurn extends Command{
 	}
 
 	public void initialize(){
-		Robot.rightDrive.getTalon().changeControlMode(TalonControlMode.PercentVbus);
-		Robot.leftDrive.getTalon().changeControlMode(TalonControlMode.PercentVbus);
+		Robot.navX.zeroYaw();
+		Robot.rightDrive.getTalon().changeControlMode(TalonControlMode.Voltage);
+		Robot.leftDrive.getTalon().changeControlMode(TalonControlMode.Voltage);
 		
 		this.setTimeout(timeout);
 		Debugger.println(("Initializing inPlaceTurn, setPoint: " + target), Robot.auton, Debugger.debug2);
 	}
 	
 	public void execute(){
-		double throttle = Robot.drive.getSideThrottlePID(target, 0, Robot.prefs.getNumber("IPT: Turn P", .04), Robot.prefs.getNumber("IPT: Turn D", .0004));
+		double throttle = 6*Robot.drive.getTurnThrottlePID(target, Robot.prefs.getNumber("IPT: Turn P", .04), Robot.prefs.getNumber("IPT: Turn D", .0004));
+		double minThrottle = Robot.prefs.getNumber("IPT: Min Throttle", 1.3);
+		if (Math.abs(throttle) < minThrottle){
+			throttle = minThrottle * Math.signum(throttle);
+		}
+
+		//Debugger.println(("inPlaceTurn, throttle: " + throttle), Robot.auton, Debugger.debug2);
 		DriveSignal signal = new DriveSignal(throttle, -throttle);
 		Robot.drive.setOpenLoop(signal);
 	}
 	
 	@Override
 	protected boolean isFinished() {
-		if(isTimedOut()){//this.getError() <= .1 || isTimedOut()){
+		if(Math.abs(this.getError()) <= 2 || isTimedOut()){
 			return true;
 		}
 		else return false;
 	}
 	
 	public void end(){
+		Robot.rightDrive.getTalon().changeControlMode(TalonControlMode.PercentVbus);
+		Robot.leftDrive.getTalon().changeControlMode(TalonControlMode.PercentVbus);
 		Debugger.println("inPlaceTurn finished, Error: " + getError() + " Timed Out? " + isTimedOut(), Robot.auton, Debugger.debug2);
 		Robot.drive.setOpenLoop(new DriveSignal(0,0));	
 	}
@@ -52,7 +62,7 @@ public class InPlaceTurn extends Command{
 	}
 	
 	public double getError(){
-		return target - Robot.navX.getYaw();
+		return target + Robot.navX.getYaw();
 	}
 
 }

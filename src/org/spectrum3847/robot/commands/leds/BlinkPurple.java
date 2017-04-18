@@ -2,13 +2,16 @@ package org.spectrum3847.robot.commands.leds;
 
 import org.spectrum3847.robot.Robot;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class Purple extends Command {
+public class BlinkPurple extends Command {
 
-	public Purple() {
+	double time = 0;
+	double spd = 0;
+	public BlinkPurple(double speed) {
 		// TODO Auto-generated constructor stub
-
+		spd = speed;
 		requires(Robot.leds);
 	}
 
@@ -19,6 +22,14 @@ public class Purple extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	time = Timer.getFPGATimestamp();
+    	boolean blink = (time % (spd * 2)) < spd;
+    	if (blink){
+    		Robot.leds.purple();
+    	} else{
+    		Robot.leds.off();
+    	}
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()

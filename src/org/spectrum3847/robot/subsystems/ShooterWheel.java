@@ -21,6 +21,9 @@ public class ShooterWheel extends Subsystem{
 	
 	public SpectrumSpeedControllerCAN m_motor;
 	
+	private double speedAdjustment = 0;
+	private double speed = 0;
+	
 
 	public ShooterWheel(String name, SpectrumSpeedControllerCAN motor){
 		this.m_motor = motor;
@@ -40,16 +43,33 @@ public class ShooterWheel extends Subsystem{
 	}
 	
 	public void set(double speed){
-		System.out.println("Setting " + m_name + " to " + speed + " RPM");
-		m_motor.getTalon().set(speed);
+		this.speed = speed;
+		Debugger.println(m_name + " ShooteWheel Setpoint: " + speed + " with Adjustment of: " + this.speedAdjustment, Robot.shooter, Debugger.debug2);
+		m_motor.getTalon().set(speed + this.speedAdjustment);
+	}
+	
+	public void updateSpeed(){
+		set(this.speed);
+	}
+	
+	public void adjustSpeed(double adjustment){
+		this.speedAdjustment += adjustment;
+	}
+	
+	public void clearAdjustment(){
+		this.speedAdjustment = 0;
 	}
 	
 	public double getSpeed(){
-		return m_motor.get();
+		return getTalon().getSpeed();
+	}
+	
+	public double getSetpoint(){
+		return this.getTalon().getSetpoint();
 	}
 	
 	public double getError(){
-		return m_motor.getTalon().getError();
+		return getSetpoint() - getSpeed();
 	}
 	
 	public CANTalon getTalon(){
@@ -72,11 +92,26 @@ public class ShooterWheel extends Subsystem{
 		m_motor.disable();
 	}
 	
+	public boolean isEnabled(){
+		return getTalon().get() != 0 && getTalon().isEnabled();
+	}
+	
+	public void enableBrakeMode(boolean brake){
+		getTalon().enableBrakeMode(brake);
+	}
+	
+
 	public boolean onTarget(){
-		double percent = Math.abs(this.getTalon().getError() / this.getTalon().getSetpoint());
-		if (percent < SmartDashboard.getNumber("On Target Percentage", 5)){
-			return true;
-		} else {
+		if(getSpeed() != 0){
+			double percent = Math.abs(getError() / getSetpoint()) *100;
+			Debugger.println("Shooter Error Percent: " + percent, Robot.shooter, Debugger.info3);
+			if (!Double.isNaN(percent) && percent < Robot.prefs.getNumber("S: OnTarget Percent", 10)){
+				return true;
+			} else {
+				return false;
+			}
+		}
+		else{
 			return false;
 		}
 	}

@@ -49,7 +49,7 @@ public class VibrateController extends CommandBase {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         double elapsed = Util.getTime() - startTime;
-        if (duration <= elapsed){
+        if (duration != 0 && duration <= elapsed){
         	return true;
         } else {
         	return false;

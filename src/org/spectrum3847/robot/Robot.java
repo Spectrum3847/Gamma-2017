@@ -2,7 +2,11 @@
 package org.spectrum3847.robot;
 
 
+import org.opencv.core.Mat;
+import org.spectrum3847.lib.drivers.DualCameras;
 import org.spectrum3847.lib.drivers.SpecAHRS;
+import org.spectrum3847.lib.drivers.SpectrumDigitalInput;
+import org.spectrum3847.lib.drivers.SpectrumDigitalRelay;
 import org.spectrum3847.lib.drivers.SpectrumSolenoid;
 import org.spectrum3847.lib.drivers.SpectrumSpeedControllerCAN;
 import org.spectrum3847.lib.util.Debugger;
@@ -19,10 +23,13 @@ import org.spectrum3847.robot.subsystems.ShooterWheel;
 import org.spectrum3847.robot.commands.leds.Purple;
 import org.spectrum3847.robot.subsystems.BallIntake;
 import org.spectrum3847.robot.subsystems.BeltBed;
+import org.spectrum3847.robot.subsystems.Cameras;
 
 import com.ctre.CANTalon;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.MjpegServer;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoMode.PixelFormat;
@@ -78,7 +85,6 @@ public class Robot extends IterativeRobot {
 	public static CANTalon right_drive_talon_2;
 	public static CANTalon right_drive_talon_3;
 	
-	
 	public static SpectrumSolenoid brakes;
 	
 	public static ShooterWheel shooterWheel;
@@ -108,9 +114,11 @@ public class Robot extends IterativeRobot {
 	public static LEDs leds;
 	
 	public static Headlights headlights;
+	public static SpectrumDigitalRelay aimingLight;
 	
 	public static BallIntake ballIntake;
 	public static SpectrumSpeedControllerCAN ballIntakeMotor;
+	public static Cameras cams;
 	
     public static void setupSubsystems(){
     	prefs = SpectrumPreferences.getInstance();
@@ -121,7 +129,7 @@ public class Robot extends IterativeRobot {
     	
     	//DRIVETRAIN
     	double vRamp = 0;//Robot.prefs.getNumber("D: Voltage Ramp", 60);
-    	
+    	int currentLimit = 60;
     
     	left_drive_talon_1 = new CANTalon(HW.LEFT_DRIVE_BACK_MOTOR);
     	left_drive_talon_2 = new CANTalon(HW.LEFT_DRIVE_MIDDLE_MOTOR);
@@ -154,6 +162,9 @@ public class Robot extends IterativeRobot {
     	left_drive_talon_3.set(left_drive_talon_1.getDeviceID());
     	left_drive_talon_3.setVoltageRampRate(vRamp);
     	left_drive_talon_3.enableBrakeMode(true);
+    	left_drive_talon_1.setCurrentLimit(currentLimit);
+    	left_drive_talon_2.setCurrentLimit(currentLimit);
+    	left_drive_talon_3.setCurrentLimit(currentLimit);
     	
     	right_drive_talon_1 = new CANTalon(HW.RIGHT_DRIVE_BACK_MOTOR);
     	right_drive_talon_2 = new CANTalon(HW.RIGHT_DRIVE_MIDDLE_MOTOR);
@@ -169,6 +180,9 @@ public class Robot extends IterativeRobot {
     	right_drive_talon_3.set(right_drive_talon_1.getDeviceID());
     	right_drive_talon_3.setVoltageRampRate(vRamp);
     	right_drive_talon_3.enableBrakeMode(true);
+    	right_drive_talon_1.setCurrentLimit(currentLimit);
+    	right_drive_talon_2.setCurrentLimit(currentLimit);
+    	right_drive_talon_3.setCurrentLimit(currentLimit);
     	
     	leftDrive = new SpectrumSpeedControllerCAN(
     				new CANTalon[] {left_drive_talon_1, left_drive_talon_2, left_drive_talon_3},
@@ -281,9 +295,9 @@ public class Robot extends IterativeRobot {
     	//SpectrumSolenoid gear_spear_extend_sol = new SpectrumSolenoid(HW.GEAR_SPEAR_EXTEND_SOL);
     	//SpectrumSolenoid gear_spear_retract_sol = new SpectrumSolenoid(HW.GEAR_SPEAR_RETRACT_SOL);
     	
-    	SpectrumSolenoid gear_spear_sol = new SpectrumSolenoid(HW.GEAR_SPEAR_SOL);
+    	//SpectrumSolenoid gear_spear_sol = new SpectrumSolenoid(HW.GEAR_SPEAR_SOL);
     	
-    	gearSpear = new GearSpear("Gear Spear", gear_spear_sol);
+    	//gearSpear = new GearSpear("Gear Spear", gear_spear_sol);
     	
     	//gearSpear = new GearSpear("Gear Spear", gear_spear_extend_sol, gear_spear_retract_sol);
     	
@@ -291,8 +305,9 @@ public class Robot extends IterativeRobot {
     	SpectrumSolenoid gear_back_pack_sol = new SpectrumSolenoid(HW.GEAR_BACK_PACK_SOL);
     	SpectrumSolenoid gear_flap_sol = new SpectrumSolenoid(HW.GEAR_FLAP_SOL);
     	SpectrumSolenoid ball_flap_sol = new SpectrumSolenoid(HW.BALL_FLAP_SOL);
+    	SpectrumDigitalInput backpackSpringSensor = new SpectrumDigitalInput(HW.GEAR_SPRING_SENSOR);
     	
-    	gearBackPack = new GearBackPack(gear_back_pack_sol, gear_flap_sol, ball_flap_sol);
+    	gearBackPack = new GearBackPack(gear_back_pack_sol, gear_flap_sol, ball_flap_sol, backpackSpringSensor);
     	
     	SpectrumSolenoid headlight_sol = new SpectrumSolenoid(HW.HEADLIGHT_SOL);
     	headlights = new Headlights(headlight_sol);
@@ -306,6 +321,10 @@ public class Robot extends IterativeRobot {
     	ballIntake = new BallIntake(ballIntakeMotor);
     	
     	leds = new LEDs();
+    	
+    	aimingLight = new SpectrumDigitalRelay(9);
+    	cams = new Cameras();
+    	
     	try {
 			/***********************************************************************
 			 * navX-MXP:
@@ -357,14 +376,14 @@ public class Robot extends IterativeRobot {
         //cam0.setExposureAuto();
 		//CameraServer.getInstance().startAutomaticCapture(cam0);
 		//CameraServer.getInstance().startAutomaticCapture();
-		UsbCamera cam0 = CameraServer.getInstance().startAutomaticCapture();
 		//UsbCamera cam1 = CameraServer.getInstance().startAutomaticCapture();
         //cam0.setResolution(160, 120);
-        cam0.setExposureAuto();
         //cam1.setExposureAuto();
         new Purple().start();
-        Autonomous.createChooser();
 		logger = Logger.getInstance();
+    	Robot.aimingLight.turnOff();
+		
+		//DualCameras.cameraInit();
     }
     
     public void robotPeriodic(){
@@ -372,13 +391,14 @@ public class Robot extends IterativeRobot {
     }
     
     private static void initDebugger(){
-    	Debugger.setLevel(Debugger.verbose1); //Set the initial Debugger Level
+    	Debugger.setLevel(Debugger.info3); //Set the initial Debugger Level
     	Debugger.flagOn(general); //Set all the flags on, comment out ones you want off
     	Debugger.flagOn(controls);
     	Debugger.flagOn(input);
     	Debugger.flagOn(output);
-    	Debugger.flagOff(auton);
+    	Debugger.flagOn(auton);
     	Debugger.flagOn(commands);
+    	Debugger.flagOn(drivetrain);
     	Debugger.flagOff(intake);
     	Debugger.flagOn(shooter);
     	Debugger.flagOff(gear);
