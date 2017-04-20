@@ -42,12 +42,13 @@ public class ZeroGearArmCurrent extends Command{
 		Robot.gearIntake.getArmTalon().setPosition(-0.08);
 		//Robot.gearIntake.getArmTalon().changeControlMode(TalonControlMode.PercentVbus);
 		Robot.gearIntake.setArmMotor(-.08);
-		new GearArmPIDUp().start();
+		//new GearArmPIDUp().start();
 	}
 
 	@Override
 	protected void interrupted() {
-		Robot.gearIntake.setArmMotor(0);
+		end();
+		//Robot.gearIntake.setArmMotor(0);
 	}
 
 }

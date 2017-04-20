@@ -30,16 +30,17 @@ public class CenterBackpackGearAutoPID extends CommandGroup{
 		
 		//Robot.navX.reset();
 		
-		this.addParallel(new ZeroGearArmCurrent());
+		//this.addParallel(new ZeroGearArmCurrent());
 		this.addSequential(new DriveUntilSpringSensor(), 4);
-		this.addParallel(new ScoreGearBackPack());
-		this.addSequential(new WaitCommand(.25));
-		this.addSequential(new DriveDistance(Robot.prefs.getNumber("A: BP Gear Backup Distance", 36),3));
-		if (finishDrive){
+		//this.addParallel(new ScoreGearBackPack());
+		//this.addSequential(new WaitCommand(.15));
+		//this.addSequential(new DriveDistance(Robot.prefs.getNumber("A: BP Gear Backup Distance", 36),3));
+		//this.addSequential(new DriveForTime(2, .4));
+		/*if (finishDrive){
 			this.addSequential(new InPlaceTurn(-1*turnAngle + Robot.prefs.getNumber("A: BP Turn away addition", 5) * Math.signum(turnAngle), 5));
-			this.addSequential(new WaitCommand(Robot.prefs.getNumber("A: BP Wait for Drive", .25)));
-			this.addSequential(new DriveDistance(Robot.prefs.getNumber("A: BP Gear End Drive Distance", -48),10));
-		}
+			this.addSequential(new WaitCommand(Robot.prefs.getNumber("A: BP Wait for Drive", .05)));
+			this.addSequential(new DriveDistance(Robot.prefs.getNumber("A: BP Gear End Drive Distance",											 -48),10));
+		}*/
 	}
 	
 	public void initialize(){

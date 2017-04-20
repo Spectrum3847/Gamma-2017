@@ -391,7 +391,7 @@ public class Robot extends IterativeRobot {
     }
     
     private static void initDebugger(){
-    	Debugger.setLevel(Debugger.info3); //Set the initial Debugger Level
+    	Debugger.setLevel(Debugger.verbose1); //Set the initial Debugger Level
     	Debugger.flagOn(general); //Set all the flags on, comment out ones you want off
     	Debugger.flagOn(controls);
     	Debugger.flagOn(input);
@@ -400,8 +400,8 @@ public class Robot extends IterativeRobot {
     	Debugger.flagOn(commands);
     	Debugger.flagOn(drivetrain);
     	Debugger.flagOff(intake);
-    	Debugger.flagOn(shooter);
-    	Debugger.flagOff(gear);
+    	Debugger.flagOff(shooter);
+    	Debugger.flagOn(gear);
     }
     /**
      * Initialization code for test mode should go here.

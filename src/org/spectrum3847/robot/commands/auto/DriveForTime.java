@@ -5,6 +5,8 @@ import org.spectrum3847.lib.drivers.DriveSignal;
 import org.spectrum3847.lib.util.Debugger;
 import org.spectrum3847.robot.Robot;
 
+import com.ctre.CANTalon.TalonControlMode;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveForTime extends Command{
@@ -25,6 +27,8 @@ public class DriveForTime extends Command{
 
 	public void initialize(){
 		Debugger.println("DRIVE FOR TIME", Robot.auton, Debugger.info3);
+		Robot.leftDrive.getTalon().changeControlMode(TalonControlMode.PercentVbus);
+		Robot.rightDrive.getTalon().changeControlMode(TalonControlMode.PercentVbus);
 	}
 	
 	public void execute(){

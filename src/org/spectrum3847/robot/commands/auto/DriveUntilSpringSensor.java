@@ -26,6 +26,7 @@ public class DriveUntilSpringSensor extends Command{
 	
 	public void execute() {
 		Robot.drive.arcadeDrive(-throttle, 0, 0, false);
+		System.out.println("Drive until spring: " + this.throttle);
 	}
 	
 	@Override

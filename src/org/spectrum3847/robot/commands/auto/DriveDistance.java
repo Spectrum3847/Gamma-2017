@@ -48,8 +48,11 @@ public class DriveDistance extends Command {
 		leftTalon.set(target);
 
 		this.setTimeout(timeout);
-		debug("Initializing MoveDistance, Setpoint: " + Robot.leftDrive.getTalon().getSetpoint() + "Current position: " + Robot.leftDrive.getTalon().get());
+		debug("Initializing MoveDistance, Setpoint: " + Robot.leftDrive.getTalon().getSetpoint() + "Current position: " + Robot.leftDrive.getTalon().get() + " target: " + target);
 		yaw = Robot.navX.getYaw();
+		
+		//leftTalon.configPeakOutputVoltage(+8f, -8f);
+		//rightTalon.configPeakOutputVoltage(+8f,  -8f);
 	}
 	
 	public void execute()
@@ -57,6 +60,7 @@ public class DriveDistance extends Command {
 		//debugMotionMagic();
 		double rightDrive = -1* leftTalon.get(); //Robot.drive.getSideThrottlePID(yaw, leftTalon.get(), Robot.prefs.getNumber("D: Straight P", 0.04), Robot.prefs.getNumber("D: Straight D", 0.0004));
 		rightTalon.set(rightDrive);
+		debug("Running MoveDistance, Setting talons to: " + leftTalon.get() + " Setpoint: " + Robot.leftDrive.getTalon().getSetpoint());
 	}
 	
 	public boolean isFinished()

@@ -17,17 +17,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Autonomous {
 	@SuppressWarnings("rawtypes")
-	public static SendableChooser autonChooser;
-	static Command AutonCommand;
+	//public static SendableChooser autonChooser;
 	public static String AutoName = "Center: Backpack";
 	public static int AutoNumber = 1;
 	public static boolean isRight = false;
+	static Command AutonCommand = new CenterBackpackGearAutoPID(isRight, Robot.prefs.getBoolean("1A: Finish Drive?", false));
 
     public static void init() {
     	selectAuto();
-    	if (SmartDashboard.getBoolean("Autonomous ENABLED", true)){
+    	Debugger.println("Select Auto is Finsihed", Robot.auton, Debugger.info3);
+    	//if (SmartDashboard.getBoolean("Autonomous ENABLED", true)){
     			AutonCommand.start();
-    	}
+    	//}
     	Debugger.println("Auto Init is working", Robot.auton, Debugger.info3);
     }
 
