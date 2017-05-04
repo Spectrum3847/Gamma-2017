@@ -21,6 +21,7 @@ public class AutoScoreGearBackPack extends Command{
 	
 	protected void end(){
 		Debugger.println("End: Gearbackpack Auto Score", Robot.commands, Debugger.debug2);
+		//new LEDScoreGearBackPack().start();
 		new ScoreGearBackPack().start();
 	}
 	

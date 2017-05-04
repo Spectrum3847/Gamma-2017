@@ -16,6 +16,7 @@ public class TowerOn extends Command{
 	private double d = 0;
 	private double f = 0;
 	private double speed;
+	private double ratio;
 	
 	public TowerOn(){
 	
@@ -29,8 +30,8 @@ public class TowerOn extends Command{
     	Robot.shooterTower.getTalon().changeControlMode(TalonControlMode.Speed);
 		Robot.shooterTower.enable();
 		
-		speed = Robot.prefs.getNumber("S: Set Tower Speed", 12.2);
-
+		ratio = Robot.prefs.getNumber("S: Set Tower Ratio", .4138);
+		speed = ratio * (Robot.prefs.getNumber("S: Set Wheel Speed", 145000) + Robot.shooterWheel.getAdjustment());
 	
 		p =   Robot.prefs.getNumber("S: Tower P", 3.6);  
 		i =   Robot.prefs.getNumber("S: Tower I", 0);  

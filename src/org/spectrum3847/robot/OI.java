@@ -11,6 +11,7 @@ import org.spectrum3847.robot.commands.Brake;
 import org.spectrum3847.robot.commands.SwitchCamera;
 import org.spectrum3847.robot.commands.DriveAtVoltage;
 import org.spectrum3847.robot.commands.IntakeOn;
+import org.spectrum3847.robot.commands.SetClimber;
 import org.spectrum3847.robot.commands.VibrateController;
 import org.spectrum3847.robot.commands.auto.DriveDistance;
 import org.spectrum3847.robot.commands.auto.InPlaceTurn;
@@ -19,6 +20,7 @@ import org.spectrum3847.robot.commands.gear.GearArmPIDPreScore;
 import org.spectrum3847.robot.commands.gear.GearArmPIDUp;
 import org.spectrum3847.robot.commands.gear.GearSpearToggle;
 import org.spectrum3847.robot.commands.gear.IntakeGear;
+import org.spectrum3847.robot.commands.gear.LEDScoreGearBackPack;
 import org.spectrum3847.robot.commands.gear.ScoreGear;
 import org.spectrum3847.robot.commands.gear.ScoreGearBackPack;
 import org.spectrum3847.robot.commands.gear.ZeroGearArmCurrent;
@@ -96,17 +98,20 @@ public class OI {
     	new SpectrumAxisButton(HW.Operator_Gamepad, XboxAxis.LeftTrigger, .07, true).whileHeld(new TowerOn());
     	new SpectrumAxisButton(HW.Operator_Gamepad, XboxAxis.LeftTrigger, .07, true).whileHeld(new IntakeOn());
     	new SpectrumAxisButton(HW.Operator_Gamepad, XboxAxis.LeftTrigger, .95, true).whileHeld(new FireBalls());
+    	new SpectrumAxisButton(HW.Operator_Gamepad, XboxAxis.RightTrigger, .07, .94, true).whileHeld(new SetClimber(Robot.prefs.getNumber("C: Creep Speed", .2)));
+    	new SpectrumAxisButton(HW.Operator_Gamepad, XboxAxis.RightTrigger, .95, true).whileHeld(new SetClimber(Robot.prefs.getNumber("C: Climb Speed", 1)));
+    	
     	new SpectrumButton(HW.Operator_Gamepad, XboxButton.Start).toggleWhenPressed(new ReverseBeltBed());
     	new SpectrumButton(HW.Operator_Gamepad, XboxButton.Back).whenPressed(new LoadShooter());
     	new SpectrumPOVButton(HW.Operator_Gamepad, XboxPOV.Right).toggleWhenPressed(aimingLight);
     	new SpectrumPOVButton(HW.Operator_Gamepad, XboxPOV.Left).toggleWhenPressed(aimingLight);
-    	new SpectrumPOVButton(HW.Operator_Gamepad, XboxPOV.Up).whileHeld(new AimingLightOn());
-    	new SpectrumPOVButton(HW.Operator_Gamepad, XboxPOV.Down).toggleWhenPressed(new BlinkPurple(.5));
+    	new SpectrumPOVButton(HW.Operator_Gamepad, XboxPOV.Up).whileHeld(new IncreaseShooterSpeed());//AimingLightOn());
+    	new SpectrumPOVButton(HW.Operator_Gamepad, XboxPOV.Down).toggleWhenPressed(new DecreaseShooterSpeed());//BlinkPurple(.5));
     
     	//Driver
     	//new SpectrumButton(HW.Driver_Gamepad, XboxButton.BumperLeft).whileHeld(new Brake());
     	new SpectrumButton(HW.Driver_Gamepad, XboxButton.BumperRight).whenPressed(new ScoreGear());
-    	new SpectrumButton(HW.Driver_Gamepad, XboxButton.BumperLeft).toggleWhenPressed(new ScoreGearBackPack());
+    	new SpectrumButton(HW.Driver_Gamepad, XboxButton.BumperLeft).toggleWhenPressed(new LEDScoreGearBackPack());
     	new SpectrumAxisButton(HW.Driver_Gamepad, XboxAxis.LeftTrigger, .5, true).whileHeld(new AutoScoreGearBackPack());
     	new SpectrumButton(HW.Driver_Gamepad, XboxButton.A).whenPressed(new IntakeGear());
     	new SpectrumButton(HW.Driver_Gamepad, XboxButton.Y).whenPressed(new GearArmPIDUp());

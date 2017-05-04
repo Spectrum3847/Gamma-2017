@@ -18,10 +18,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Autonomous {
 	@SuppressWarnings("rawtypes")
 	public static SendableChooser autonChooser;
-	static Command AutonCommand;
 	public static String AutoName = "Center: Backpack";
 	public static int AutoNumber = 1;
 	public static boolean isRight = false;
+	static Command AutonCommand =  new CenterBackpackGearAutoPID(isRight, Robot.prefs.getBoolean("1A: Finish Drive?", false));
+	
 
     public static void init() {
     	selectAuto();
@@ -70,7 +71,12 @@ public class Autonomous {
 	    		}
 	    		case(5):{
 	    			AutoName = "Drive Straight";
-	    			AutonCommand = new DriveDistance(Robot.prefs.getNumber("A5: Drive Only Distance", -42), 7);
+	    			AutonCommand = new DriveDistance(Robot.prefs.getNumber("A5: Drive Only Distance", -42), 2);
+	    			break;
+	    		}
+	    		default:{
+	    			AutoName = "Center: Backpack";
+	    			AutonCommand = new CenterBackpackGearAutoPID(isRight, Robot.prefs.getBoolean("1A: Finish Drive?", false));
 	    			break;
 	    		}
 	    	}
