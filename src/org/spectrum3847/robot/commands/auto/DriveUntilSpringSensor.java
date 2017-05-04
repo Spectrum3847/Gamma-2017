@@ -6,12 +6,14 @@ import org.spectrum3847.robot.Robot;
 
 import com.ctre.CANTalon.TalonControlMode;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveUntilSpringSensor extends Command{
 
 	private double currentTrigger;
 	private double throttle;
+	private double initTime;
 	
 	public DriveUntilSpringSensor() {
 		// TODO Auto-generated constructor stub
@@ -21,7 +23,8 @@ public class DriveUntilSpringSensor extends Command{
 		Debugger.println("Backpack Gear Auto Started", Robot.auton, Debugger.info3);
 		Robot.leftDrive.getTalon().changeControlMode(TalonControlMode.PercentVbus);
 		Robot.rightDrive.getTalon().changeControlMode(TalonControlMode.PercentVbus);
-		this.throttle = Robot.prefs.getNumber("A: BP Gear Throttle", .4);
+		this.throttle = Robot.prefs.getNumber("A: BP Gear Throttle", -.4);
+		this.initTime = Timer.getFPGATimestamp();
 	}
 	
 	public void execute() {
@@ -30,11 +33,14 @@ public class DriveUntilSpringSensor extends Command{
 	}
 	
 	@Override
-	protected boolean isFinished() {
-		// TODO Auto-generated method stub
-		return Robot.gearBackPack.getSoringSensor();
+	protected boolean isFinished(){
+		return Robot.gearBackPack.getSoringSensor() && getElapsed() > Robot.prefs.getNumber("A: Backpack Trigger Buffer" , .5);
 	}
 	
+	private double getElapsed() {
+		return Timer.getFPGATimestamp() - this.initTime;
+	}
+
 	public void end(){
 		Debugger.println("Spring Auto Trigger Reached", Robot.auton, Debugger.info3);
 		Robot.drive.setOpenLoop(new DriveSignal(0,0));

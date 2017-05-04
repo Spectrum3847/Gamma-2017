@@ -120,6 +120,8 @@ public class Robot extends IterativeRobot {
 	public static SpectrumSpeedControllerCAN ballIntakeMotor;
 	public static Cameras cams;
 	
+	public static int currentLimit;
+	
     public static void setupSubsystems(){
     	prefs = SpectrumPreferences.getInstance();
     	
@@ -129,7 +131,7 @@ public class Robot extends IterativeRobot {
     	
     	//DRIVETRAIN
     	double vRamp = 0;//Robot.prefs.getNumber("D: Voltage Ramp", 60);
-    	int currentLimit = 60;
+    	currentLimit = 50;
     
     	left_drive_talon_1 = new CANTalon(HW.LEFT_DRIVE_BACK_MOTOR);
     	left_drive_talon_2 = new CANTalon(HW.LEFT_DRIVE_MIDDLE_MOTOR);
@@ -143,17 +145,17 @@ public class Robot extends IterativeRobot {
     	left_drive_talon_1.reverseSensor(false);
     	left_drive_talon_1.configPeakOutputVoltage(Robot.prefs.getNumber("DA: +PeakV",+12f), Robot.prefs.getNumber("DA: -PeakV",-12f));
     	left_drive_talon_1.configNominalOutputVoltage(Robot.prefs.getNumber("DA: +NominalV", +1f), Robot.prefs.getNumber("DA: -NominalV", -1f));
-    	left_drive_talon_1.setNominalClosedLoopVoltage(12.0);
+    	left_drive_talon_1.setNominalClosedLoopVoltage(7.0);
     	left_drive_talon_1.setAllowableClosedLoopErr(5);
     	//left_drive_talon_1.DisableNominalClosedLoopVoltage();
     	left_drive_talon_1.setProfile(0);
-    	left_drive_talon_1.setF(Robot.prefs.getNumber("DA: MM F",0));
-    	left_drive_talon_1.setP(Robot.prefs.getNumber("DA: MM P",0));
+    	left_drive_talon_1.setF(Robot.prefs.getNumber("DA: MM F",3.1));
+    	left_drive_talon_1.setP(Robot.prefs.getNumber("DA: MM P",1.8));
     	left_drive_talon_1.setI(Robot.prefs.getNumber("DA: MM I",0));
-    	left_drive_talon_1.setD(Robot.prefs.getNumber("DA: MM D",0));
+    	left_drive_talon_1.setD(Robot.prefs.getNumber("DA: MM D",130));
 		/* set acceleration and vcruise velocity - see documentation */
-    	left_drive_talon_1.setMotionMagicCruiseVelocity(Robot.prefs.getNumber("DA: MM CV", 0));
-    	left_drive_talon_1.setMotionMagicAcceleration(Robot.prefs.getNumber("DA: MM CA", 0));
+    	left_drive_talon_1.setMotionMagicCruiseVelocity(Robot.prefs.getNumber("DA: MM CV", 200));
+    	left_drive_talon_1.setMotionMagicAcceleration(Robot.prefs.getNumber("DA: MM CA", 200));
     	left_drive_talon_2.changeControlMode(CANTalon.TalonControlMode.Follower);
     	left_drive_talon_2.set(left_drive_talon_1.getDeviceID());
     	left_drive_talon_2.setVoltageRampRate(vRamp);
@@ -202,6 +204,7 @@ public class Robot extends IterativeRobot {
     	climber_left_talon.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
     	climber_left_talon.setInverted(true);
     	climber_left_talon.reverseOutput(false);
+    	climber_left_talon.setVoltageRampRate(12);
     	climber_left_talon.enableBrakeMode(true);
     	
     	CANTalon climber_left_talon_two = new CANTalon(HW.CLIMBER_LEFT_MOTOR_TWO);
@@ -392,16 +395,16 @@ public class Robot extends IterativeRobot {
     
     private static void initDebugger(){
     	Debugger.setLevel(Debugger.verbose1); //Set the initial Debugger Level
-    	Debugger.flagOn(general); //Set all the flags on, comment out ones you want off
-    	Debugger.flagOn(controls);
-    	Debugger.flagOn(input);
-    	Debugger.flagOn(output);
+    	Debugger.flagOff(general); //Set all the flags on, comment out ones you want off
+    	Debugger.flagOff(controls);
+    	Debugger.flagOff(input);
+    	Debugger.flagOff(output);
     	Debugger.flagOn(auton);
-    	Debugger.flagOn(commands);
+    	Debugger.flagOff(commands);
     	Debugger.flagOn(drivetrain);
     	Debugger.flagOff(intake);
     	Debugger.flagOff(shooter);
-    	Debugger.flagOn(gear);
+    	Debugger.flagOff(gear);
     }
     /**
      * Initialization code for test mode should go here.

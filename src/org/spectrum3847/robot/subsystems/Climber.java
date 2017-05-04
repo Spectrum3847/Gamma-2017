@@ -1,6 +1,7 @@
 package org.spectrum3847.robot.subsystems;
 
 import org.spectrum3847.lib.drivers.SpectrumSpeedControllerCAN;
+import org.spectrum3847.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -14,6 +15,11 @@ public class Climber extends Subsystem{
 	}
 	
 	public void set(double value){
+		if(value != 0){
+			climber_Motors.getTalon().setVoltageRampRate(Robot.currentLimit);
+		}
+		else
+			climber_Motors.getTalon().setVoltageRampRate(0);
 		climber_Motors.set(value);
 	}
 	

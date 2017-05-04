@@ -26,7 +26,7 @@ public class SideBackpackGearAutoPID extends CommandGroup{
 		isClose = close;
 		
 		if(isRight){
-			turnAngle = 60;
+			turnAngle = 55;
 		}
 		else{
 			turnAngle = -60;
@@ -43,7 +43,7 @@ public class SideBackpackGearAutoPID extends CommandGroup{
 		Robot.drive.talonBrakeMode(true);
 		
 		this.addParallel(new ZeroGearArmCurrent());
-		this.addSequential(new DriveDistance(Robot.prefs.getNumber("A: Side Drive Distance", -68), 6.0));//Robot.prefs.getNumber("A: Distance from DS Corner", 0)),7);
+		this.addSequential(new DriveDistance(Robot.prefs.getNumber("A: Side Drive Distance", -77), 4.0));//Robot.prefs.getNumber("A: Distance from DS Corner", 0)),7);
 		this.addSequential(new WaitCommand(.5));
 		this.addSequential(new InPlaceTurn(turnAngle, 5));
 		this.addSequential(new DriveUntilSpringSensor(), 2);

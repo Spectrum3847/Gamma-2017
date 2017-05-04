@@ -2,6 +2,7 @@ package org.spectrum3847.robot.commands.gear;
 
 import org.spectrum3847.lib.util.Debugger;
 import org.spectrum3847.robot.Robot;
+import org.spectrum3847.robot.commands.leds.Purple;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -26,6 +27,7 @@ public class ScoreGearBackPack extends Command{
 	protected void end(){
 		Robot.gearBackPack.gearSolRetract();
 		Debugger.println("End: Gearbackpack Score", Robot.commands, Debugger.debug2);
+		//new Purple().start();
 	}
 	
 	protected void interrupted(){

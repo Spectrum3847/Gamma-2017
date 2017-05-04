@@ -29,8 +29,8 @@ public class Teleop {
         ArcadeDrive arcadeDrive = new ArcadeDrive();
         arcadeDrive.start();
         
-        ManualClimb manualClimb = new ManualClimb();
-        manualClimb.start();
+        /*ManualClimb manualClimb = new ManualClimb();
+        manualClimb.start();*/
         
         FlapControl flapControl = new FlapControl();
         flapControl.start();

@@ -56,6 +56,10 @@ public class ShooterWheel extends Subsystem{
 		this.speedAdjustment += adjustment;
 	}
 	
+	public double getAdjustment(){
+		return this.speedAdjustment;
+	}
+	
 	public void clearAdjustment(){
 		this.speedAdjustment = 0;
 	}

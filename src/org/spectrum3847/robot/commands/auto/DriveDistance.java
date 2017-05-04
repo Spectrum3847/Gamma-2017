@@ -36,16 +36,17 @@ public class DriveDistance extends Command {
 		rightTalon.changeControlMode(TalonControlMode.PercentVbus);
 		
 		//17.5 is the distance from the back of the robot to the turning circle's center
-		leftTalon.changeControlMode(TalonControlMode.MotionMagic);
-		leftTalon.setF(Robot.prefs.getNumber("DA: MM F",0.4));
-		leftTalon.setP(Robot.prefs.getNumber("DA: MM P",2));
-		leftTalon.setI(Robot.prefs.getNumber("DA: MM I",0));
-		leftTalon.setD(Robot.prefs.getNumber("DA: MM D",0.5));
-		leftTalon.setMotionMagicCruiseVelocity(Robot.prefs.getNumber("DA: MM CV", 3));
-		leftTalon.setMotionMagicAcceleration(Robot.prefs.getNumber("DA: MM CA", 10));
 		leftTalon.setPosition(0);
+		leftTalon.setF(Robot.prefs.getNumber("DA: MM F",3.1));//3.1);//
+		leftTalon.setP(Robot.prefs.getNumber("DA: MM P",1.9));//1.9);//
+		leftTalon.setI(Robot.prefs.getNumber("DA: MM I",0));//0);//
+		leftTalon.setD(Robot.prefs.getNumber("DA: MM D",130));//130);//
+		leftTalon.setMotionMagicCruiseVelocity(Robot.prefs.getNumber("DA: MM CV", 250));//250);//
+		leftTalon.setMotionMagicAcceleration(Robot.prefs.getNumber("DA: MM CA", 250));//250);//
 		leftTalon.enable();
+		leftTalon.changeControlMode(TalonControlMode.MotionMagic);
 		leftTalon.set(target);
+		System.out.print("Distance Target: " + target);
 
 		this.setTimeout(timeout);
 		debug("Initializing MoveDistance, Setpoint: " + Robot.leftDrive.getTalon().getSetpoint() + "Current position: " + Robot.leftDrive.getTalon().get() + " target: " + target);

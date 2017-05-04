@@ -100,11 +100,11 @@ public class Dashboard {
 	    	//SmartDashboard.putNumber("Drive ActTrajPos", Robot.leftDrive.getTalon().getMotionMagicActTrajPosition());
 	    	//SmartDashboard.putNumber("Drive ActTrajVel", Robot.leftDrive.getTalon().getMotionMagicActTrajVelocity());
 	    //}
-    	SmartDashboard.putNumber("Drive Error", Robot.leftDrive.getTalon().getClosedLoopError());
-    	SmartDashboard.putNumber("Drive Get Setpoint", Robot.leftDrive.getTalon().getSetpoint());
-    	SmartDashboard.putNumber("Drive Left Applied Voltage", Robot.leftDrive.getTalon().getOutputVoltage());
-    	SmartDashboard.putNumber("Drive Left Get Current", Robot.leftDrive.getTalon().getOutputCurrent());
-    	SmartDashboard.putNumber("Drive Right Get Current", Robot.rightDrive.getTalon().getOutputCurrent());
+    	//SmartDashboard.putNumber("Drive Error", Robot.leftDrive.getTalon().getClosedLoopError());
+    	//SmartDashboard.putNumber("Drive Get Setpoint", Robot.leftDrive.getTalon().getSetpoint());
+    	//SmartDashboard.putNumber("Drive Left Applied Voltage", Robot.leftDrive.getTalon().getOutputVoltage());
+    	//SmartDashboard.putNumber("Drive Left Get Current", Robot.leftDrive.getTalon().getOutputCurrent());
+    	//SmartDashboard.putNumber("Drive Right Get Current", Robot.rightDrive.getTalon().getOutputCurrent());
     	
 		SmartDashboard.putNumber("NavX Yaw:", Robot.navX.getYaw());
 		SmartDashboard.putNumber("NavX Rate:", Robot.navX.getRate());
@@ -112,10 +112,10 @@ public class Dashboard {
 		SmartDashboard.putBoolean("NavX is Zero", Math.abs(Robot.navX.getYaw()) < 1);
     	
 
-		shooterDashboard();
+		//shooterDashboard();
 		//gearDashboard();
     	
-		
+		SmartDashboard.putBoolean("Backpack Score Sensor", Robot.gearBackPack.getSoringSensor());
 		
 		//SmartDashboard.putNumber("NavX Reading", Robot.navX.getYaw());
 
@@ -124,6 +124,7 @@ public class Dashboard {
     
     private static void shooterDashboard(){
     	//Shooter Wheel
+    	
     	SmartDashboard.putNumber("Shooter Wheel Speed", Robot.shooterWheel.getSpeed());
     	SmartDashboard.putNumber("Shooter wheel Setpoint", Robot.shooterWheel.getTalon().getSetpoint());
         SmartDashboard.putNumber("Shooter Wheel Error", Robot.shooterWheel.getTalon().getError());
@@ -140,6 +141,7 @@ public class Dashboard {
     	SmartDashboard.putNumber("Shooter Tower  Applied Voltage", Robot.shooterTower.getTalon().getOutputVoltage());
     	SmartDashboard.putNumber("Shooter Tower  Bus Voltage", Robot.shooterTower.getTalon().getBusVoltage());
     	SmartDashboard.putNumber("Shooter Tower  Current", Robot.shooterTower.getTalon().getOutputCurrent());
+    	
     }
     
     private static void gearDashboard(){
@@ -150,6 +152,7 @@ public class Dashboard {
 		SmartDashboard.putNumber("Gear Error", Robot.gearIntake.getArmTalon().getError()/4096);
 		SmartDashboard.putNumber("Gear Arm Current",  Robot.gearIntake.getArmTalon().getOutputCurrent());
 		SmartDashboard.putNumber("Gear Intake Current",  Robot.gearIntake.getIntakeTalon().getOutputCurrent());
+		
     }
     
     private static void updatePutLong(){
