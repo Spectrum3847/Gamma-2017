@@ -13,6 +13,7 @@ public class DriveUntilSpringSensor extends Command{
 
 	private double currentTrigger;
 	private double throttle;
+	private double turnAdjustment;
 	private double initTime;
 	
 	public DriveUntilSpringSensor() {
@@ -24,11 +25,12 @@ public class DriveUntilSpringSensor extends Command{
 		Robot.leftDrive.getTalon().changeControlMode(TalonControlMode.PercentVbus);
 		Robot.rightDrive.getTalon().changeControlMode(TalonControlMode.PercentVbus);
 		this.throttle = Robot.prefs.getNumber("A: BP Gear Throttle", -.4);
+		this.turnAdjustment = Robot.prefs.getNumber("A: BP Gear Drive Straight Adjust", -.2);
 		this.initTime = Timer.getFPGATimestamp();
 	}
 	
 	public void execute() {
-		Robot.drive.arcadeDrive(-throttle, 0, 0, false);
+		Robot.drive.arcadeDrive(-throttle, this.turnAdjustment, 0, false);
 		System.out.println("Drive until spring: " + this.throttle);
 	}
 	

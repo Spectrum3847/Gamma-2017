@@ -238,9 +238,10 @@ public class Robot extends IterativeRobot {
     	shooter_wheel_talon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
     	shooter_wheel_talon.setInverted(false);
     	shooter_wheel_talon.reverseSensor(false);
-    	shooter_wheel_talon.reverseOutput(false);
+    	shooter_wheel_talon.reverseOutput(true);
     	shooter_wheel_talon.enableBrakeMode(false);
     	shooter_wheel_talon.setNominalClosedLoopVoltage(12);
+    	shooter_wheel_talon.configEncoderCodesPerRev(3);
     	
     	//Shooter Tower
     	CANTalon tower_talon = new CANTalon(HW.SHOOTER_TOWER);
@@ -249,9 +250,10 @@ public class Robot extends IterativeRobot {
     	tower_talon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
     	tower_talon.setInverted(false);
     	tower_talon.reverseSensor(true);
-    	tower_talon.reverseOutput(true);
+    	tower_talon.reverseOutput(false);
     	tower_talon.enableBrakeMode(false);
     	tower_talon.setNominalClosedLoopVoltage(12);
+    	tower_talon.configEncoderCodesPerRev(3);
     	
     	//Belt Bed
     	beltBedMotors = new SpectrumSpeedControllerCAN(
@@ -401,9 +403,9 @@ public class Robot extends IterativeRobot {
     	Debugger.flagOff(output);
     	Debugger.flagOn(auton);
     	Debugger.flagOff(commands);
-    	Debugger.flagOn(drivetrain);
+    	Debugger.flagOff(drivetrain);
     	Debugger.flagOff(intake);
-    	Debugger.flagOff(shooter);
+    	Debugger.flagOn(shooter);
     	Debugger.flagOff(gear);
     }
     /**

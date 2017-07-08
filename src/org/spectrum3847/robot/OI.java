@@ -95,7 +95,7 @@ public class OI {
     	new SpectrumButton(HW.Operator_Gamepad, XboxButton.X).toggleWhenPressed(switchCamsCommand);
     	new SpectrumButton(HW.Operator_Gamepad, XboxButton.Y).whenPressed(new GearArmPIDUp());
     	new SpectrumAxisButton(HW.Operator_Gamepad, XboxAxis.LeftTrigger, .07, true).whileHeld(new ShooterOn());
-    	new SpectrumAxisButton(HW.Operator_Gamepad, XboxAxis.LeftTrigger, .07, true).whileHeld(new TowerOn());
+    	new SpectrumAxisButton(HW.Operator_Gamepad, XboxAxis.LeftTrigger, .5, true).whileHeld(new TowerOn());
     	new SpectrumAxisButton(HW.Operator_Gamepad, XboxAxis.LeftTrigger, .07, true).whileHeld(new IntakeOn());
     	new SpectrumAxisButton(HW.Operator_Gamepad, XboxAxis.LeftTrigger, .95, true).whileHeld(new FireBalls());
     	new SpectrumAxisButton(HW.Operator_Gamepad, XboxAxis.RightTrigger, .07, .94, true).whileHeld(new SetClimber(Robot.prefs.getNumber("C: Creep Speed", .2)));

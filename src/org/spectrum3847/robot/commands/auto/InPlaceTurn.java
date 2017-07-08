@@ -13,6 +13,14 @@ public class InPlaceTurn extends Command{
 	//Positive turn is left
 	private double target;
 	private double timeout;
+	private boolean reset = true;
+	
+	public InPlaceTurn(double ang, boolean r, double to) {
+		requires(Robot.drive);
+		reset = r;
+		target = ang;
+		timeout = to;
+	}
 	
 	public InPlaceTurn(double ang, double to) {
 		requires(Robot.drive);
@@ -22,7 +30,9 @@ public class InPlaceTurn extends Command{
 	}
 
 	public void initialize(){
-		Robot.navX.zeroYaw();
+		if (reset){
+			Robot.navX.zeroYaw();
+		}
 		Robot.rightDrive.getTalon().changeControlMode(TalonControlMode.Voltage);
 		Robot.leftDrive.getTalon().changeControlMode(TalonControlMode.Voltage);
 		

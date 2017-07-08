@@ -12,6 +12,8 @@ import org.spectrum3847.robot.commands.gear.GearArmPIDUp;
 import org.spectrum3847.robot.commands.gear.ZeroGearArmCurrent;
 import org.spectrum3847.robot.commands.leds.Purple;
 
+import com.ctre.CANTalon.TalonControlMode;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
@@ -22,6 +24,9 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 public class Teleop {
 	
     public static void init() {
+		Robot.leftDrive.getTalon().changeControlMode(TalonControlMode.PercentVbus);
+		Robot.rightDrive.getTalon().changeControlMode(TalonControlMode.PercentVbus);
+		
         Scheduler.getInstance().removeAll();
         Robot.compressor.start();
         Robot.compressor.setClosedLoopControl(true);

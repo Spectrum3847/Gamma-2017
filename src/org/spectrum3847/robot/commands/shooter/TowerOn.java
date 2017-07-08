@@ -31,8 +31,7 @@ public class TowerOn extends Command{
 		Robot.shooterTower.enable();
 		
 		ratio = Robot.prefs.getNumber("S: Set Tower Ratio", .4138);
-		speed = ratio * (Robot.prefs.getNumber("S: Set Wheel Speed", 145000) + Robot.shooterWheel.getAdjustment());
-	
+		speed = ratio * (Robot.prefs.getNumber("S: Set Wheel Speed", 14500) + Robot.shooterWheel.getAdjustment());
 		p =   Robot.prefs.getNumber("S: Tower P", 3.6);  
 		i =   Robot.prefs.getNumber("S: Tower I", 0);  
 		d =   Robot.prefs.getNumber("S: Tower D", 0);  
@@ -51,7 +50,7 @@ public class TowerOn extends Command{
 
 	@Override
 	protected void execute() {
-		Debugger.println("Tower Speed: " + Robot.shooterTower.getTalon().get(), Robot.shooter, Debugger.debug2);		
+		Debugger.println("Tower Speed: " + Robot.shooterTower.getTalon().getSpeed() + "\nTower Setpoint: " + Robot.shooterTower.getTalon().getSetpoint(), Robot.shooter, Debugger.debug2);		
 		new Green().start();
 		
 	}

@@ -19,6 +19,7 @@ public class DriveDistance extends Command {
 	private CANTalon leftTalon;
 	private CANTalon rightTalon;
 	private double wheelDiameter = 4.2;
+	private double turnAdjustment = 0;
 	private double yaw = 0;
 	
 	public DriveDistance(double target, double to)
@@ -34,6 +35,7 @@ public class DriveDistance extends Command {
 	{
 		//target = Robot.prefs.addNumber("A: MMDistance", 3);// / (wheelDiameter*Math.PI);
 		rightTalon.changeControlMode(TalonControlMode.PercentVbus);
+		this.turnAdjustment = Robot.prefs.getNumber("A: DriveDistance Straight Adjust", -.05);
 		
 		//17.5 is the distance from the back of the robot to the turning circle's center
 		leftTalon.setPosition(0);
@@ -59,7 +61,7 @@ public class DriveDistance extends Command {
 	public void execute()
 	{
 		//debugMotionMagic();
-		double rightDrive = -1* leftTalon.get(); //Robot.drive.getSideThrottlePID(yaw, leftTalon.get(), Robot.prefs.getNumber("D: Straight P", 0.04), Robot.prefs.getNumber("D: Straight D", 0.0004));
+		double rightDrive = -1* leftTalon.get() + this.turnAdjustment; //Robot.drive.getSideThrottlePID(yaw, leftTalon.get(), Robot.prefs.getNumber("D: Straight P", 0.04), Robot.prefs.getNumber("D: Straight D", 0.0004));
 		rightTalon.set(rightDrive);
 		debug("Running MoveDistance, Setting talons to: " + leftTalon.get() + " Setpoint: " + Robot.leftDrive.getTalon().getSetpoint());
 	}

@@ -110,7 +110,9 @@ public class Dashboard {
 		SmartDashboard.putNumber("NavX Rate:", Robot.navX.getRate());
 		
 		SmartDashboard.putBoolean("NavX is Zero", Math.abs(Robot.navX.getYaw()) < 1);
-    	
+
+		SmartDashboard.putNumber("Shooter Wheel Speed", Robot.shooterWheel.getSpeed());
+		SmartDashboard.putNumber("Shooter Tower Speed", Robot.shooterTower.getSpeed());
 
 		//shooterDashboard();
 		//gearDashboard();

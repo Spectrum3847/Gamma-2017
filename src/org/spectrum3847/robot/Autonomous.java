@@ -6,6 +6,7 @@ import org.spectrum3847.robot.commands.auto.CurrentStopGearAuto;
 import org.spectrum3847.robot.commands.auto.DriveDistance;
 import org.spectrum3847.robot.commands.auto.Fire10Balls;
 import org.spectrum3847.robot.commands.auto.Fire10BallsAndGear;
+import org.spectrum3847.robot.commands.auto.HopperAuto;
 import org.spectrum3847.robot.commands.auto.SideBackpackGearAutoPID;
 import org.spectrum3847.robot.commands.auto.SideGearAuto;
 
@@ -30,6 +31,7 @@ public class Autonomous {
     			AutonCommand.start();
     	}
     	Debugger.println("Auto Init is working", Robot.auton, Debugger.info3);
+    	Robot.compressor.stop();
     }
 
     //Periodic method called roughly once every 20ms
@@ -41,6 +43,8 @@ public class Autonomous {
 
     public static void cancel() {
         Scheduler.getInstance().removeAll();
+
+    	Robot.compressor.start();
     }
     
     public static void selectAuto(){
@@ -71,9 +75,15 @@ public class Autonomous {
 	    		}
 	    		case(5):{
 	    			AutoName = "Drive Straight";
-	    			AutonCommand = new DriveDistance(Robot.prefs.getNumber("A5: Drive Only Distance", -42), 2);
+	    			AutonCommand = new DriveDistance(Robot.prefs.getNumber("A5: Drive Only Distance", -100), 2);
 	    			break;
 	    		}
+	    		case(6):{
+	    			AutoName = "Left Hopper";
+	    			AutonCommand = new HopperAuto(false);
+	    			break;
+	    		}
+	    		
 	    		default:{
 	    			AutoName = "Center: Backpack";
 	    			AutonCommand = new CenterBackpackGearAutoPID(isRight, Robot.prefs.getBoolean("1A: Finish Drive?", false));

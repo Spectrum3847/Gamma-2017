@@ -15,7 +15,7 @@ public class ManualIntake extends Command {
 	}
 
 	public void execute(){
-		if(Math.abs(HW.Operator_Gamepad.getY(Hand.kRight)) > .1)
+		if(Math.abs(HW.Operator_Gamepad.getY(Hand.kRight)) > .3)
         	Robot.ballIntake.setIntake(HW.Operator_Gamepad.getY(Hand.kRight));
 		else
 			Robot.ballIntake.setIntake(0);

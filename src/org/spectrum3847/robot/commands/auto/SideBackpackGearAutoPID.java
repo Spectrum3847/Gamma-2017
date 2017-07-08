@@ -29,7 +29,7 @@ public class SideBackpackGearAutoPID extends CommandGroup{
 			turnAngle = 55;
 		}
 		else{
-			turnAngle = -60;
+			turnAngle = -57.5;
 		}
 		
 		if(this.isClose)
