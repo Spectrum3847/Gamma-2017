@@ -14,6 +14,12 @@ public class InPlaceTurn extends Command{
 	private double target;
 	private double timeout;
 	private boolean reset = true;
+	private boolean isRight = true;
+	private double throttlePref = 7;
+	private double minThrottlePref = 4;
+	private double kp = 0;
+	private double kd = 0;
+			
 	
 	public InPlaceTurn(double ang, boolean r, double to) {
 		requires(Robot.drive);
@@ -38,18 +44,33 @@ public class InPlaceTurn extends Command{
 		
 		this.setTimeout(timeout);
 		Debugger.println(("Initializing inPlaceTurn, setPoint: " + target), Robot.auton, Debugger.debug2);
+		if (target >= 0) {
+			throttlePref = Robot.prefs.getNumber("IPTR: Turn Throttle", 8);
+			kp = Robot.prefs.getNumber("IPTR: Turn P", .0225);
+			kd = Robot.prefs.getNumber("IPTR: Turn D", .09);
+			minThrottlePref = Robot.prefs.getNumber("IPTR: Min Throttle", 4);
+		} else{
+			throttlePref = Robot.prefs.getNumber("IPTL: Turn Throttle", 8);
+			kp = Robot.prefs.getNumber("IPTL: Turn P", .04);
+			kd = Robot.prefs.getNumber("IPTL: Turn D", .0004);
+			minThrottlePref = Robot.prefs.getNumber("IPTL: Min Throttle", 4);
+		}
+		Robot.prefs.remove("IPT: Turn Throttle");
+		Robot.prefs.remove("IPT: Turn P");
+		Robot.prefs.remove("IPT: Turn D");
+		Robot.prefs.remove("IPT: Min Throttle");
+		Robot.prefs.remove("IPRT: Turn P");
 	}
 	
 	public void execute(){
-		double throttle = 6*Robot.drive.getTurnThrottlePID(target, Robot.prefs.getNumber("IPT: Turn P", .04), Robot.prefs.getNumber("IPT: Turn D", .0004));
-		double minThrottle = Robot.prefs.getNumber("IPT: Min Throttle", 1.3);
+		double throttle = throttlePref * Robot.drive.getTurnThrottlePID(target, kp, kd);
+		double minThrottle = minThrottlePref;
 		if (Math.abs(throttle) < minThrottle){
-			throttle = minThrottle * Math.signum(throttle);
+			throttle = minThrottle * Math.signum(throttle +.000001);
 		}
-
-		//Debugger.println(("inPlaceTurn, throttle: " + throttle), Robot.auton, Debugger.debug2);
-		DriveSignal signal = new DriveSignal(throttle, -throttle);
+		DriveSignal signal = new DriveSignal(-throttle, throttle);
 		Robot.drive.setOpenLoop(signal);
+		debug("Running IPT, Setting talons to: " + Robot.leftDrive.getTalon().get() + " Error: " + this.getError());
 	}
 	
 	@Override
@@ -72,7 +93,13 @@ public class InPlaceTurn extends Command{
 	}
 	
 	public double getError(){
-		return target + Robot.navX.getYaw();
+		return target - Robot.navX.getYaw();
 	}
 
+	public void debug(String msg, int level){
+		Debugger.println(msg, Robot.auton, level);
+	}
+	public void debug(String msg){
+		Debugger.println(msg, Robot.auton, Debugger.debug2);
+	}
 }

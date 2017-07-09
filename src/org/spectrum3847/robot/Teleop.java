@@ -30,6 +30,7 @@ public class Teleop {
         Scheduler.getInstance().removeAll();
         Robot.compressor.start();
         Robot.compressor.setClosedLoopControl(true);
+        Robot.headlights.headlightsOn();
 	
         ArcadeDrive arcadeDrive = new ArcadeDrive();
         arcadeDrive.start();

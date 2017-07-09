@@ -28,7 +28,7 @@ public class DriveDistance extends Command {
 		timeout = to;
 		leftTalon = Robot.leftDrive.getTalon();
 		rightTalon = Robot.rightDrive.getTalon();
-		this.target = target / (Math.PI * Robot.prefs.getNumber("Wheel Diameter", 4));
+		this.target = target / (Math.PI * Robot.prefs.getNumber("Wheel Diameter", 4.0625));
 	}
 	
 	public void initialize()
@@ -39,6 +39,14 @@ public class DriveDistance extends Command {
 		
 		//17.5 is the distance from the back of the robot to the turning circle's center
 		leftTalon.setPosition(0);
+		if (target >0){
+	    	leftTalon.configPeakOutputVoltage(0, Robot.prefs.getNumber("DA: -PeakV",-12f));
+	    	leftTalon.configNominalOutputVoltage(0, Robot.prefs.getNumber("DA: -NominalV", -1f));
+		} else {
+	    	leftTalon.configPeakOutputVoltage(Robot.prefs.getNumber("DA: +PeakV",+12f), 0);
+	    	leftTalon.configNominalOutputVoltage(Robot.prefs.getNumber("DA: +NominalV", +1f),0);
+		}
+		
 		leftTalon.setF(Robot.prefs.getNumber("DA: MM F",3.1));//3.1);//
 		leftTalon.setP(Robot.prefs.getNumber("DA: MM P",1.9));//1.9);//
 		leftTalon.setI(Robot.prefs.getNumber("DA: MM I",0));//0);//
@@ -68,7 +76,7 @@ public class DriveDistance extends Command {
 	
 	public boolean isFinished()
 	{
-		if(Math.abs(this.getInError()) <= .1 || isTimedOut())
+		if((this.getInError() >= -.75 && target <0) || (this.getInError() <= .75 && target >0) || isTimedOut())
 		{
 			Debugger.println("Finished Drive Distance", Robot.commands,Debugger.debug2);
 			return true;

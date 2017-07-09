@@ -408,10 +408,10 @@ public class Drive extends Subsystem {
 	}
 	
 	public double getTurnThrottlePID(double angle, double kP, double kD){
-		forwardThrottle = 0;
+		//forwardThrottle = 0;
 		double kPgain = kP;//Robot.prefs.getNumber("D: Straight P", 0.04); /* percent throttle per degree of error */
 		double kDgain = kD;//Robot.prefs.getNumber("D: Straight D", 0.0004); /* percent throttle per angular velocity dps */
-		kMaxCorrectionRatio = Robot.prefs.getNumber("D: MaxCorrectRatio",0.30 ); /* cap corrective turning throttle to 30 percent of forward throttle */
+		//kMaxCorrectionRatio = Robot.prefs.getNumber("D: MaxCorrectRatio",0.30 ); /* cap corrective turning throttle to 30 percent of forward throttle */
 		/** holds the current angle to servo to */
 		targetAngle = angle;
 
@@ -419,7 +419,7 @@ public class Drive extends Subsystem {
 		
 		if (Robot.navX_READY){
 			
-			currentAngle = -1*Robot.navX.getYaw();
+			currentAngle = Robot.navX.getYaw();
 	    	currentAngularRate = Robot.navX.getRate();
 	
 			turnThrottle = (targetAngle - currentAngle) * kPgain - (currentAngularRate) * kDgain;
@@ -428,13 +428,12 @@ public class Drive extends Subsystem {
 			debugDriveStraight();
 			
 			/* positive turnThrottle means turn to the left, this can be replaced with ArcadeDrive object, or teams drivetrain object */
-			sidePIDThrottle = turnThrottle;
-			sidePIDThrottle = Cap(sidePIDThrottle, 1.0);
-			return sidePIDThrottle;
+			turnThrottle = Cap(turnThrottle, 1.0);
+			return turnThrottle;
 		} else {
 			//IF NAVX NOT PRESENT JUST RETURN THROTTLE
 			Debugger.println("NO NAV-X", Robot.drivetrain, Debugger.debug2);
-			debug("NAV X NOT READY: NO DRIVE STRAIGHT");
+			debug("NAV X NOT READY: NO turning");
 			return 0;
 		}
 	}	

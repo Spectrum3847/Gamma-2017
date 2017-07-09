@@ -42,8 +42,8 @@ public class DriveUntilWall extends Command {
 			}
 		}
 		
-		Debugger.println("Drive to wall cruiseCurrent:" + cruiseCurrent, Robot.auton, Debugger.info3);
-		Debugger.println("Drive to wall throttle:" + throttle, Robot.auton, Debugger.info3);
+		Debugger.println("Drive to wall cruiseCurrent:" + cruiseCurrent, Robot.auton, Debugger.verbose1);
+		Debugger.println("Drive to wall throttle:" + throttle, Robot.auton, Debugger.verbose1);
 			
 	}
 	

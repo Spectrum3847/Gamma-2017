@@ -396,7 +396,7 @@ public class Robot extends IterativeRobot {
     }
     
     private static void initDebugger(){
-    	Debugger.setLevel(Debugger.verbose1); //Set the initial Debugger Level
+    	Debugger.setLevel(Debugger.debug2); //Set the initial Debugger Level
     	Debugger.flagOff(general); //Set all the flags on, comment out ones you want off
     	Debugger.flagOff(controls);
     	Debugger.flagOff(input);

@@ -32,6 +32,7 @@ public class Autonomous {
     	}
     	Debugger.println("Auto Init is working", Robot.auton, Debugger.info3);
     	Robot.compressor.stop();
+    	Robot.headlights.headlightsOff();
     }
 
     //Periodic method called roughly once every 20ms
@@ -79,8 +80,8 @@ public class Autonomous {
 	    			break;
 	    		}
 	    		case(6):{
-	    			AutoName = "Left Hopper";
-	    			AutonCommand = new HopperAuto(false);
+	    			AutoName = "Hopper";
+	    			AutonCommand = new HopperAuto(isRight);
 	    			break;
 	    		}
 	    		
